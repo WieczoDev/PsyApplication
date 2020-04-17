@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.Psy_Frame">
+    <BorderPane fx:id="home" prefHeight="400.0" prefWidth="783.0">
+        <top>
+            <fx:include source="menu.fxml" />
+        </top>
+        <center>
+            <Pane prefHeight="270.0" prefWidth="686.0" style="-fx-background-color: #F0F3F4;" BorderPane.alignment="CENTER">
+            <children>
+               <ListView layoutX="378.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" />
+               <Button fx:id="createButton" layoutX="84.0" layoutY="78.0" mnemonicParsing="false" onAction="#createConsul" text="Creer une&#10;Consultation" textAlignment="CENTER" />
+            </children>
+            </Pane>
+        </center>
+    </BorderPane>
+</AnchorPane>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="448.0" prefWidth="405.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.login">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <SplitPane dividerPositions="0.20919540229885059" orientation="VERTICAL" prefHeight="442.0" prefWidth="390.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="88.0" prefWidth="236.0">
+               <children>
+                   <Label alignment="CENTER" layoutX="29.0" layoutY="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="88.0" prefWidth="331.0" text="Login Page" textAlignment="JUSTIFY" textFill="#3fb50e">
+                     <font>
+                        <Font size="36.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="383.0">
+               <children>
+                  <Label layoutX="73.0" layoutY="86.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="63.0" text="Login">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="login_field" layoutX="178.0" layoutY="93.0" text="admin" />
+                  <Label layoutX="73.0" layoutY="124.0" prefHeight="38.0" prefWidth="63.0" text="Password">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="pass_field" layoutX="178.0" layoutY="131.0" text="admin" />
+                  <Button fx:id="loginButton" layoutX="218.0" layoutY="203.0" mnemonicParsing="false" onAction="#connection" text="Connection" />
+                  <Button fx:id="closeButton" layoutX="94.0" layoutY="203.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="25.0" prefWidth="77.0" text="Exit" />
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+
+   </children>
+</GridPane>

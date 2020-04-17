@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane  prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.Psy_Frame">
+   <BorderPane fx:id="home" prefHeight="400.0" prefWidth="783.0">
+      <top>
+         <fx:include source="menu.fxml" />
+      </top>
+      <center>
+         <Pane prefHeight="270.0" prefWidth="686.0" style="-fx-background-color: #000000;" BorderPane.alignment="CENTER">
+            <children>
+               <Label fx:id="homepageLabel" layoutX="178.0" layoutY="105.0" text="Je suis sur l'home page" textFill="WHITE">
+                  <font>
+                     <Font size="42.0" />
+                  </font>
+               </Label>
+            </children>
+         </Pane>
+      </center>
+   </BorderPane>
+</AnchorPane>
