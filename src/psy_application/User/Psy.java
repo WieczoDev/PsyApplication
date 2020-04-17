@@ -6,8 +6,8 @@ import psy_application.Consultation;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Psy extends User{
-    public Psy(String user_login, String user_password ){
+public class Psy extends User {
+    public Psy(String user_login, String user_password) {
         this.user_login = user_login;
         this.user_password = user_password;
         isFilled = false;

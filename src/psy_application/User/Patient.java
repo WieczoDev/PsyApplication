@@ -1,4 +1,5 @@
 package psy_application.User;
+
 import psy_application.Consultation;
 import psy_application.User.User;
 
@@ -7,9 +8,9 @@ import java.util.Date;
 
 public class Patient extends User {
     String patient_surname;
-    String patient_name ;
-    String patient_DOB ;
-    String patient_mailing ;
+    String patient_name;
+    String patient_DOB;
+    String patient_mailing;
     int patient_how;
     int patient_profession;
 
@@ -29,9 +30,13 @@ public class Patient extends User {
         this.patient_name = patient_name;
     }
 
-    public String getPatient_DOB() {return patient_DOB;}
+    public String getPatient_DOB() {
+        return patient_DOB;
+    }
 
-    public void setPatient_DOB(String patient_DOB) {this.patient_DOB = patient_DOB;}
+    public void setPatient_DOB(String patient_DOB) {
+        this.patient_DOB = patient_DOB;
+    }
 
     public String getPatient_mailing() {
         return patient_mailing;
@@ -57,18 +62,18 @@ public class Patient extends User {
         this.patient_profession = patient_profession;
     }
 
-    public Patient(String user_login, String user_password ){
+    public Patient(String user_login, String user_password) {
         this.user_login = user_login;
         this.user_password = user_password;
         isFilled = false;
         this.user_ID = count.incrementAndGet();
     }
 
-    public Patient(int user_ID , String user_login, String user_password ,String patient_surname, String patient_name, String patient_DOB, String patient_mailing, int patient_how, int patient_profession) {
+    public Patient(int user_ID, String user_login, String user_password, String patient_surname, String patient_name, String patient_DOB, String patient_mailing, int patient_how, int patient_profession) {
         this.user_login = user_login;
         this.user_password = user_password;
         isFilled = false;
-        this.user_ID =user_ID;
+        this.user_ID = user_ID;
         this.patient_surname = patient_surname;
         this.patient_name = patient_name;
         this.patient_DOB = patient_DOB;

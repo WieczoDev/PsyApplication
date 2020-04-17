@@ -5,66 +5,89 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.NewConsul">
-   <children>
-      <BorderPane prefHeight="439.0" prefWidth="600.0">
-         <top>
-            <Label alignment="CENTER" prefHeight="84.0" prefWidth="605.0" style="-fx-background-color: #000000;" text="Ajout d'une nouvelle consultation" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Italic" size="36.0" />
-               </font></Label>
-         </top>
-         <left>
-            <Pane prefHeight="286.0" prefWidth="287.0" style="-fx-border-color: #000000;" BorderPane.alignment="CENTER">
-               <children>
-                  <Label fx:id="Step1Label" contentDisplay="CENTER" layoutX="44.0" layoutY="14.0" text="ETAPE 1 : X" textAlignment="CENTER" underline="true">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-                  <ChoiceBox fx:id="heure_Box" layoutX="25.0" layoutY="133.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
-                  <DatePicker fx:id="date_field" layoutX="13.0" layoutY="86.0" />
-                  <TextField fx:id="reason_field" layoutX="26.0" layoutY="202.0" />
-                  <Label fx:id="datelabel" layoutX="36.0" layoutY="63.0" text="Date de la consultation :" />
-                  <Label layoutX="82.0" layoutY="111.0" text="Heure " />
-                  <Label layoutX="52.0" layoutY="172.0" text="Pour quelle raison" />
-                  <Button fx:id="Step1Button" layoutX="68.0" layoutY="239.0" mnemonicParsing="false" onAction="#Step1ButtonAction" prefHeight="40.0" prefWidth="63.0" text="Valider &#10;Etape 1" />
-                  <Button fx:id="CheckDateButton" layoutX="202.0" layoutY="86.0" mnemonicParsing="false" onAction="#CheckDateButtonAction" text="CheckDate" />
-               </children>
-               <opaqueInsets>
-                  <Insets right="5.0" />
-               </opaqueInsets>
-            </Pane>
-         </left>
-         <center>
-            <Pane prefHeight="286.0" prefWidth="351.0" style="-fx-border-color: #000000;" BorderPane.alignment="CENTER">
-               <children>
-                  <Label fx:id="Step2Label" layoutX="110.0" layoutY="14.0" text="ETAPE 2 : X" underline="true">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="patient1field" layoutX="92.0" layoutY="96.0" />
-                  <TextField fx:id="patient2field" layoutX="92.0" layoutY="138.0" />
-                  <TextField fx:id="patient3field" layoutX="92.0" layoutY="196.0" />
-                  <Label fx:id="patient1label" alignment="CENTER" layoutX="95.0" layoutY="79.0" prefHeight="17.0" prefWidth="144.0" text="Patient n°1 *:" />
-                  <Label fx:id="patient2label" alignment="CENTER" layoutX="92.0" layoutY="121.0" prefHeight="17.0" prefWidth="148.0" text="Patient n°2 ( optionnel ): " />
-                  <Label fx:id="patient3label" alignment="CENTER" layoutX="93.0" layoutY="179.0" prefHeight="17.0" prefWidth="149.0" text="Patient n°3 ( optionnel ): " />
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="48.0" prefHeight="31.0" prefWidth="292.0" text="Vous devez saisir les ID ou les adresses mails &#10;des patients" textAlignment="CENTER">
-                     <font>
-                        <Font size="10.0" />
-                     </font></Label>
-                  <Button fx:id="Step2Button1" layoutX="134.0" layoutY="232.0" mnemonicParsing="false" onAction="#Step2ButtonAction" prefHeight="40.0" prefWidth="63.0" text="Valider &#10;Etape 2" />
-               </children>
-            </Pane>
-         </center>
-         <bottom>
-            <Pane prefHeight="69.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="closeButton" layoutX="190.0" layoutY="15.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="39.0" prefWidth="74.0" text="Annuler" />
-                  <Button fx:id="addConsulButton" layoutX="300.0" layoutY="15.0" mnemonicParsing="false" onAction="#AddConsulButtonAction" prefHeight="40.0" prefWidth="76.0" text="Ajouter" />
-               </children>
-            </Pane>
-         </bottom></BorderPane>
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.NewConsul">
+    <children>
+        <BorderPane prefHeight="439.0" prefWidth="600.0">
+            <top>
+                <Label alignment="CENTER" prefHeight="84.0" prefWidth="605.0" style="-fx-background-color: #000000;"
+                       text="Ajout d'une nouvelle consultation" textAlignment="CENTER" textFill="WHITE"
+                       BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="System Italic" size="36.0"/>
+                    </font>
+                </Label>
+            </top>
+            <left>
+                <Pane prefHeight="286.0" prefWidth="287.0" style="-fx-border-color: #000000;"
+                      BorderPane.alignment="CENTER">
+                    <children>
+                        <Label fx:id="Step1Label" contentDisplay="CENTER" layoutX="44.0" layoutY="14.0"
+                               text="ETAPE 1 : X" textAlignment="CENTER" underline="true">
+                            <font>
+                                <Font size="23.0"/>
+                            </font>
+                        </Label>
+                        <ChoiceBox fx:id="heure_Box" layoutX="25.0" layoutY="133.0" nodeOrientation="LEFT_TO_RIGHT"
+                                   prefWidth="150.0"/>
+                        <DatePicker fx:id="date_field" layoutX="13.0" layoutY="86.0"/>
+                        <TextField fx:id="reason_field" layoutX="26.0" layoutY="202.0"/>
+                        <Label fx:id="datelabel" layoutX="36.0" layoutY="63.0" text="Date de la consultation :"/>
+                        <Label layoutX="82.0" layoutY="111.0" text="Heure "/>
+                        <Label layoutX="52.0" layoutY="172.0" text="Pour quelle raison"/>
+                        <Button fx:id="Step1Button" layoutX="68.0" layoutY="239.0" mnemonicParsing="false"
+                                onAction="#Step1ButtonAction" prefHeight="40.0" prefWidth="63.0"
+                                text="Valider &#10;Etape 1"/>
+                        <Button fx:id="CheckDateButton" layoutX="202.0" layoutY="86.0" mnemonicParsing="false"
+                                onAction="#CheckDateButtonAction" text="CheckDate"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets right="5.0"/>
+                    </opaqueInsets>
+                </Pane>
+            </left>
+            <center>
+                <Pane prefHeight="286.0" prefWidth="351.0" style="-fx-border-color: #000000;"
+                      BorderPane.alignment="CENTER">
+                    <children>
+                        <Label fx:id="Step2Label" layoutX="110.0" layoutY="14.0" text="ETAPE 2 : X" underline="true">
+                            <font>
+                                <Font size="23.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="patient1field" layoutX="92.0" layoutY="96.0"/>
+                        <TextField fx:id="patient2field" layoutX="92.0" layoutY="138.0"/>
+                        <TextField fx:id="patient3field" layoutX="92.0" layoutY="196.0"/>
+                        <Label fx:id="patient1label" alignment="CENTER" layoutX="95.0" layoutY="79.0" prefHeight="17.0"
+                               prefWidth="144.0" text="Patient n°1 *:"/>
+                        <Label fx:id="patient2label" alignment="CENTER" layoutX="92.0" layoutY="121.0" prefHeight="17.0"
+                               prefWidth="148.0" text="Patient n°2 ( optionnel ): "/>
+                        <Label fx:id="patient3label" alignment="CENTER" layoutX="93.0" layoutY="179.0" prefHeight="17.0"
+                               prefWidth="149.0" text="Patient n°3 ( optionnel ): "/>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="48.0"
+                               prefHeight="31.0" prefWidth="292.0"
+                               text="Vous devez saisir les ID ou les adresses mails &#10;des patients"
+                               textAlignment="CENTER">
+                            <font>
+                                <Font size="10.0"/>
+                            </font>
+                        </Label>
+                        <Button fx:id="Step2Button1" layoutX="134.0" layoutY="232.0" mnemonicParsing="false"
+                                onAction="#Step2ButtonAction" prefHeight="40.0" prefWidth="63.0"
+                                text="Valider &#10;Etape 2"/>
+                    </children>
+                </Pane>
+            </center>
+            <bottom>
+                <Pane prefHeight="69.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="closeButton" layoutX="190.0" layoutY="15.0" mnemonicParsing="false"
+                                onAction="#closeButtonAction" prefHeight="39.0" prefWidth="74.0" text="Annuler"/>
+                        <Button fx:id="addConsulButton" layoutX="300.0" layoutY="15.0" mnemonicParsing="false"
+                                onAction="#AddConsulButtonAction" prefHeight="40.0" prefWidth="76.0" text="Ajouter"/>
+                    </children>
+                </Pane>
+            </bottom>
+        </BorderPane>
+    </children>
 </AnchorPane>

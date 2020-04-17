@@ -4,85 +4,101 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="586.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.AddPatient">
-   <children>
-      <BorderPane prefHeight="586.0" prefWidth="503.0">
-         <top>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="93.0" prefWidth="610.0" style="-fx-background-color: #000000;" text="Ajout d'un nouveau Patient" textFill="WHITE" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Italic" size="36.0" />
-               </font>
-            </Label>
-         </top>
-         <left>
-            <Pane prefHeight="493.0" prefWidth="247.0" style="-fx-background-color: #D0D3D4;" BorderPane.alignment="CENTER">
-               <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="129.0" prefHeight="21.0" prefWidth="201.0" text="Nom* :">
-                     <font>
-                        <Font size="15.0" />
-                     </font></Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="163.0" prefHeight="21.0" prefWidth="200.0" text="Prénom* :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="200.0" prefHeight="21.0" prefWidth="201.0" text="Date de Naissance* :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="236.0" prefHeight="21.0" prefWidth="201.0" text="Comment il me connait  :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="270.0" prefHeight="21.0" prefWidth="201.0" text="Profession :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="8.0" layoutY="55.0" prefHeight="21.0" prefWidth="201.0" text="Adresse mail* :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="93.0" prefHeight="21.0" prefWidth="200.0" text="Mot de passe* ( temporaire ) :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="closeButton" layoutX="84.0" layoutY="356.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="51.0" prefWidth="99.0" text="Annuler">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Button>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="306.0" prefHeight="21.0" prefWidth="201.0" text="Adresse :">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-         </left>
-         <center>
-            <Pane prefHeight="493.0" prefWidth="311.0" BorderPane.alignment="CENTER">
-               <children>
-                  <DatePicker fx:id="dob_field" layoutX="20.0" layoutY="200.0" />
-                  <TextField fx:id="mail_field" layoutX="20.0" layoutY="54.0" />
-                  <TextField fx:id="pass_field" layoutX="20.0" layoutY="93.0" />
-                  <TextField fx:id="surname_field" layoutX="20.0" layoutY="129.0" />
-                  <TextField fx:id="name_field" layoutX="20.0" layoutY="161.0" />
-                  <TextField fx:id="how_field" layoutX="20.0" layoutY="234.0" />
-                  <TextField fx:id="prof_field" layoutX="20.0" layoutY="270.0" />
-                  <TextField fx:id="mailing_field" layoutX="20.0" layoutY="304.0" />
-                  <Button fx:id="addButton" layoutX="57.0" layoutY="356.0" mnemonicParsing="false" onAction="#addButtonAction" prefHeight="50.0" prefWidth="99.0" text="Ajouter">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
+<AnchorPane prefHeight="586.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.AddPatient">
+    <children>
+        <BorderPane prefHeight="586.0" prefWidth="503.0">
+            <top>
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="93.0" prefWidth="610.0"
+                       style="-fx-background-color: #000000;" text="Ajout d'un nouveau Patient" textFill="WHITE"
+                       BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="System Italic" size="36.0"/>
+                    </font>
+                </Label>
+            </top>
+            <left>
+                <Pane prefHeight="493.0" prefWidth="247.0" style="-fx-background-color: #D0D3D4;"
+                      BorderPane.alignment="CENTER">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="129.0"
+                               prefHeight="21.0" prefWidth="201.0" text="Nom* :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="163.0"
+                               prefHeight="21.0" prefWidth="200.0" text="Prénom* :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="200.0"
+                               prefHeight="21.0" prefWidth="201.0" text="Date de Naissance* :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="236.0"
+                               prefHeight="21.0" prefWidth="201.0" text="Comment il me connait  :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="270.0"
+                               prefHeight="21.0" prefWidth="201.0" text="Profession :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="8.0" layoutY="55.0"
+                               prefHeight="21.0" prefWidth="201.0" text="Adresse mail* :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="93.0"
+                               prefHeight="21.0" prefWidth="200.0" text="Mot de passe* ( temporaire ) :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Button fx:id="closeButton" layoutX="84.0" layoutY="356.0" mnemonicParsing="false"
+                                onAction="#closeButtonAction" prefHeight="51.0" prefWidth="99.0" text="Annuler">
+                            <font>
+                                <Font size="19.0"/>
+                            </font>
+                        </Button>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="9.0" layoutY="306.0"
+                               prefHeight="21.0" prefWidth="201.0" text="Adresse :">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            </left>
+            <center>
+                <Pane prefHeight="493.0" prefWidth="311.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <DatePicker fx:id="dob_field" layoutX="20.0" layoutY="200.0"/>
+                        <TextField fx:id="mail_field" layoutX="20.0" layoutY="54.0"/>
+                        <TextField fx:id="pass_field" layoutX="20.0" layoutY="93.0"/>
+                        <TextField fx:id="surname_field" layoutX="20.0" layoutY="129.0"/>
+                        <TextField fx:id="name_field" layoutX="20.0" layoutY="161.0"/>
+                        <TextField fx:id="how_field" layoutX="20.0" layoutY="234.0"/>
+                        <TextField fx:id="prof_field" layoutX="20.0" layoutY="270.0"/>
+                        <TextField fx:id="mailing_field" layoutX="20.0" layoutY="304.0"/>
+                        <Button fx:id="addButton" layoutX="57.0" layoutY="356.0" mnemonicParsing="false"
+                                onAction="#addButtonAction" prefHeight="50.0" prefWidth="99.0" text="Ajouter">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Button>
 
-               </children></Pane>
-         </center>
-      </BorderPane>
-   </children>
+                    </children>
+                </Pane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>

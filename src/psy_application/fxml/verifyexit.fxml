@@ -4,14 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="206.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.verifyexit">
-   <children>
-      <Label alignment="CENTER" prefHeight="206.0" prefWidth="353.0" style="-fx-background-color: #000000;" text="Attention vous êtes sur le &#10;point de fermer l'application&#10; ( Continuer )&#10;&#10; " textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Button fx:id="yesButton" layoutX="84.0" layoutY="148.0" mnemonicParsing="false" onAction="#yesButtonAction" text="Oui, quitter" />
-      <Button fx:id="noButton" layoutX="201.0" layoutY="148.0" mnemonicParsing="false" onAction="#noButtonAction" text="Non, revenir" />
-   </children>
+<AnchorPane prefHeight="206.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.verifyexit">
+    <children>
+        <Label alignment="CENTER" prefHeight="206.0" prefWidth="353.0" style="-fx-background-color: #000000;"
+               text="Attention vous êtes sur le &#10;point de fermer l'application&#10; ( Continuer )&#10;&#10; "
+               textAlignment="CENTER" textFill="WHITE">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+        <Button fx:id="yesButton" layoutX="84.0" layoutY="148.0" mnemonicParsing="false" onAction="#yesButtonAction"
+                text="Oui, quitter"/>
+        <Button fx:id="noButton" layoutX="201.0" layoutY="148.0" mnemonicParsing="false" onAction="#noButtonAction"
+                text="Non, revenir"/>
+    </children>
 </AnchorPane>

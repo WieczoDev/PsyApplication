@@ -7,7 +7,7 @@ public class Consultation {
     int consul_ID;
     int patient_ID1;
     int patient_ID2;
-    int patient_ID3 ;
+    int patient_ID3;
     Date consul_date;
     Time consul_hour;
     int consul_reason;
