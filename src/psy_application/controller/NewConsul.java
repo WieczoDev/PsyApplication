@@ -69,8 +69,6 @@ public class NewConsul implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Collections.addAll(ListofHour, List);
-        heure_Box.setItems(FXCollections.observableArrayList(ListofHour));
     }
 
     private boolean isSunday(Date Date) {
@@ -79,12 +77,6 @@ public class NewConsul implements Initializable {
         if (c.get(c.DAY_OF_WEEK) == 1) {
             return true;
         } else return false;
-    }
-
-    private String convertJDatetoString(DatePicker date_field) {
-        Date Ddate = Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        return dateFormat.format(Ddate);
     }
 
     private int getMaxID(String table) throws SQLException {
@@ -104,22 +96,28 @@ public class NewConsul implements Initializable {
         }
     }
 
-
     @FXML
     private void CheckDateButtonAction() throws SQLException {
         try{
-            date = convertJDatetoString(date_field);
+            ListofHour.clear();
+            Collections.addAll(ListofHour, List);
+            date = Psy_Frame.convertJDatetoString(date_field);
             verifyDate = false;
             String myQuery = "SELECT consul_hour FROM Consultations WHERE consul_date = TO_DATE('" + date + "', 'dd-mm-yyyy')";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             while (rset.next()) {
                 String str = rset.getString(1);
-                if (str.substring(str.length() - 1, str.length()).equals("5")) {  // ON CONVERTIT TOUTES LES VALEURS DE FLOAT EN .5 EN H30
-                    if (str.length() == 3) {
+                switch (str.length()){   //8 , 10 , 8.5 , 10.5
+                    case 1:
+                    case 2:
+                        str += "h";
+                        break;
+                    case 3:
                         str = str.substring(0, 1) + "h30";
-                    } else {
+                        break;
+                    case 4 :
                         str = str.substring(0, 2) + "h30";
-                    }
+                        break;
                 }
                 ListofHour.remove(str);
             }
@@ -164,7 +162,7 @@ public class NewConsul implements Initializable {
         // Trouvons dans la base de donnée la raison de la consultation et Testons la date
 
         try {
-            date = convertJDatetoString(date_field);
+            date = Psy_Frame.convertJDatetoString(date_field);
             String myQuery = "SELECT Reason_ID FROM Reasons WHERE reason ='" + reason_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {
