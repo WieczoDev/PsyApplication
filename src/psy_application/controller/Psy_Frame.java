@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +25,20 @@ public class Psy_Frame {
     @FXML
     public Button createButton;
 
+    public static void showAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Attention !");
+        alert.setHeaderText("ERROR");
+        alert.setContentText(text);
+        alert.showAndWait();
+    }
+
+    public static void showInfo(String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Félicitation");
+        alert.setHeaderText(text);
+        alert.showAndWait();
+    }
 
     @FXML
     public static void openHomeScene() throws IOException {

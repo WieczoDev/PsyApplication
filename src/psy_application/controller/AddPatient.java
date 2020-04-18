@@ -14,9 +14,11 @@ import javafx.stage.Stage;
 import psy_application.Consultation;
 import psy_application.Main;
 import psy_application.User.Patient;
+import psy_application.User.Psy;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -47,6 +49,44 @@ public class AddPatient {
     private javafx.scene.control.Button closeButton;
     private Patient A;
 
+    private int getMaxID(String table) throws SQLException {
+        switch (table) {
+            case "USERS":
+                String myQuery = "SELECT MAX(User_ID) FROM USERS";
+                ResultSet rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            case "CONSULTATIONS":
+                myQuery = "SELECT MAX(Consul_ID) FROM Consultations";
+                rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            case "PATIENTS":
+                myQuery = "SELECT MAX(Patient_ID) FROM Patients";
+                rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            case "PROFESSIONS":
+                myQuery = "SELECT MAX(prof_ID) FROM PROFESSIONS";
+                rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            case "HOW":
+                myQuery = "SELECT MAX(HOW_ID) FROM HOW";
+                rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            default:
+                return 0;
+        }
+    }
+
+    private String convertJDatetoString(DatePicker date_field) {
+        Date Ddate = Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(Ddate);
+    }
+
     @FXML
     private void addButtonAction() throws IOException {
         int how = 0, prof = 0;
@@ -54,19 +94,14 @@ public class AddPatient {
             // Trouvons dans la base de donnée la professions et compment il connait la PSY
             String myQuery = "SELECT Prof_ID FROM Professions WHERE profession ='" + prof_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-            System.out.println("Je suis ici " + rset);
             if (rset.next()) {
                 System.out.println(" J'ai trouvé une proffesion avec un int de  = " + rset.getInt(1));
                 prof = rset.getInt(1);
             } else if (prof_field.getText().equals("")) {
-                System.out.println("Je suis ici");
                 prof = 0;
             } else {
                 // CREATION D'UNE PROFESSION ET AJOUT DANS LA DB
-                myQuery = "SELECT MAX(prof_ID) FROM PROFESSIONS";
-                rset = Main.database.stmt.executeQuery(myQuery);
-                rset.next();
-                prof = rset.getInt(1) + 1;
+                prof = getMaxID("PROFESSIONS");
                 myQuery = "INSERT INTO PROFESSIONS VALUES ( " + prof + ", '" + prof_field.getText() + "')";
                 rset = Main.database.stmt.executeQuery(myQuery);
             }
@@ -77,45 +112,28 @@ public class AddPatient {
                 System.out.println(" J'ai trouvé un how avec un int de  = " + rset.getInt(1));
                 how = rset.getInt(1);
             } else if (how_field.getText().equals("")) {
-                System.out.println("Je suis la");
                 how = 0;
             } else {
                 // CREATION D'UN HOW ET AJOUT DANS LA DB
-                myQuery = "SELECT MAX(HOW_ID) FROM HOW";
-                rset = Main.database.stmt.executeQuery(myQuery);
-                rset.next();
-                how = rset.getInt(1) + 1;
+                how = getMaxID("HOW");
                 myQuery = "INSERT INTO HOW VALUES ( " + how + ", '" + how_field.getText() + "')";
                 rset = Main.database.stmt.executeQuery(myQuery);
             }
         } catch (Exception e) {
             System.out.println();
         }
-        ;
         try {
             System.out.println(" How = " + how + ", Prof = " + prof);
-            Date date = java.util.Date.from(dob_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            String strDate = dateFormat.format(date);
-            String myQuery = "SELECT MAX(User_ID) FROM USERS";
-            ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-            rset.next();
-            System.out.println("Nombre de User =" + rset.getInt(1));
-            int user_id = rset.getInt(1) + 1;
-            // TO_DATE('17-06-1987', 'dd-mm-yyyy')
+            String strDate = convertJDatetoString(dob_field);
+            int user_id = getMaxID("USERS");
             A = new Patient(user_id, mail_field.getText(), pass_field.getText(), surname_field.getText(), name_field.getText(), strDate, mailing_field.getText(), how, prof);
-
-            System.out.println(date + "\n" + strDate + "\n");
 
             //VERIFICATION QUE TOUTES LES SAISIES OBLIGATOIRES SONT REMPLIES
 
             if ((A.getUser_login().equals("")) || (A.getUser_password().equals("")) || (A.getPatient_name().equals("")) || (A.getPatient_surname().equals(""))) {
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                 primaryStage.close();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("ERROR");
-                alert.setContentText("L'une des informations obligatoire à été oubliées veuillez recommencer");
-                alert.showAndWait();
+                Psy_Frame.showAlert("L'une des informations obligatoire à été oubliée veuillez recommencer");
                 Parent root = FXMLLoader.load(getClass().getResource("../fxml/AddPatient.fxml"));
                 Stage AddPatient = new Stage();
                 AddPatient.setScene(new Scene(root));
@@ -124,8 +142,8 @@ public class AddPatient {
             } else {
 
                 // AJOUT DE L'USER DANS LES DIFFERENTE DATABASE
-                myQuery = "SELECT * FROM PATIENTS";
-                rset = Main.database.stmt.executeQuery(myQuery);
+                String myQuery = "SELECT * FROM PATIENTS";
+                ResultSet rset = Main.database.stmt.executeQuery(myQuery);
 
                 myQuery = "INSERT INTO USERS VALUES ( " + user_id + ",'" + A.getUser_login() + "', '" + A.getUser_password() + "')";
                 rset = Main.database.stmt.executeQuery(myQuery);
@@ -140,17 +158,14 @@ public class AddPatient {
                 rset = Main.database.stmt.executeQuery(myQuery);
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                 primaryStage.close();
+                Psy_Frame.showInfo("Ajout du patien avec succès !");
             }
             System.out.println(A);
         } catch (Exception e) {
             e.printStackTrace();
             Stage primaryStage = (Stage) closeButton.getScene().getWindow();
             primaryStage.close();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR");
-            alert.setContentText("La date de naissance n'est pas bonne");
-            alert.showAndWait();
+            Psy_Frame.showAlert("La date de naissance n'est pas bonne");
             System.out.println("Erreur dans la création du patient ");
             Parent root = FXMLLoader.load(getClass().getResource("../fxml/AddPatient.fxml"));
             Stage AddPatient = new Stage();

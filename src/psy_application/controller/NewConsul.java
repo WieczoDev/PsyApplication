@@ -1,16 +1,13 @@
 package psy_application.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import psy_application.Main;
 
 import java.net.URL;
-import java.rmi.server.ExportException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -84,36 +81,60 @@ public class NewConsul implements Initializable {
         } else return false;
     }
 
-
-    @FXML
-    private void CheckDateButtonAction() throws SQLException {
-        verifyDate = false;
+    private String convertJDatetoString(DatePicker date_field) {
         Date Ddate = Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        date = dateFormat.format(Ddate);
-        String myQuery = "SELECT consul_hour FROM Consultations WHERE consul_date = TO_DATE('" + date + "', 'dd-mm-yyyy')";
-        ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-        while (rset.next()) {
-            String str = rset.getString(1);
-            if (str.substring(str.length() - 1, str.length()).equals("5")) {  // ON CONVERTIT TOUTES LES VALEURS DE FLOAT EN .5 EN H30
-                if (str.length() == 3) {
-                    str = str.substring(0, 1) + "h30";
-                } else {
-                    str = str.substring(0, 2) + "h30";
-                }
-            }
-            ListofHour.remove(str);
-        }
-        if ((ListofHour.size() < 5) || (isSunday(Ddate))) {
-            datelabel.setText("Cette journée est indisponible");
-            verifyDate = false;
-        } else {
-            heure_Box.setItems(FXCollections.observableArrayList(ListofHour));
-            datelabel.setText("Date de la consultation : √");
-            verifyDate = true;
+        return dateFormat.format(Ddate);
+    }
+
+    private int getMaxID(String table) throws SQLException {
+        switch (table) {
+            case "CONSULTATIONS":
+                String myQuery = "SELECT MAX(Consul_ID) FROM Consultations";
+                ResultSet rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            case "PATIENTS":
+                myQuery = "SELECT MAX(Patient_ID) FROM Patients";
+                rset = Main.database.stmt.executeQuery(myQuery);
+                rset.next();
+                return rset.getInt(1) + 1;
+            default:
+                return 0;
         }
     }
 
+
+    @FXML
+    private void CheckDateButtonAction() throws SQLException {
+        try{
+            date = convertJDatetoString(date_field);
+            verifyDate = false;
+            String myQuery = "SELECT consul_hour FROM Consultations WHERE consul_date = TO_DATE('" + date + "', 'dd-mm-yyyy')";
+            ResultSet rset = Main.database.stmt.executeQuery(myQuery);
+            while (rset.next()) {
+                String str = rset.getString(1);
+                if (str.substring(str.length() - 1, str.length()).equals("5")) {  // ON CONVERTIT TOUTES LES VALEURS DE FLOAT EN .5 EN H30
+                    if (str.length() == 3) {
+                        str = str.substring(0, 1) + "h30";
+                    } else {
+                        str = str.substring(0, 2) + "h30";
+                    }
+                }
+                ListofHour.remove(str);
+            }
+            if ((ListofHour.size() < 5) || (isSunday(Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())))) {
+                datelabel.setText("Cette journée est indisponible");
+                verifyDate = false;
+            } else {
+                heure_Box.setItems(FXCollections.observableArrayList(ListofHour));
+                datelabel.setText("Date de la consultation : √");
+                verifyDate = true;
+            }
+        }catch(NullPointerException e){
+            Psy_Frame.showAlert("Vous devez selectionner une date avant !");
+        }
+    }
 
     @FXML
     private void Step1ButtonAction() {
@@ -123,17 +144,27 @@ public class NewConsul implements Initializable {
         verifyStep1 = false;
 
         heure = (String) heure_Box.getSelectionModel().getSelectedItem();
-        if (heure.length() > 2) {
-            heure = (String) heure.substring(0, 1) + ".5";
+        System.out.println(heure.length());
+        switch (heure.length()){
+            case 2:
+                heure = (String) heure.substring(0, 1);
+                break;
+            case 3:
+                heure = (String) heure.substring(0, 2);
+                break;
+            case 4:
+                heure = (String) heure.substring(0, 1) + ".5";
+                break;
+            case 5 :
+                heure = (String) heure.substring(0, 2) + ".5";
+                break;
         }
+        System.out.println(heure);
 
         // Trouvons dans la base de donnée la raison de la consultation et Testons la date
 
         try {
-            Date Ddate = Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            date = dateFormat.format(Ddate);
-
+            date = convertJDatetoString(date_field);
             String myQuery = "SELECT Reason_ID FROM Reasons WHERE reason ='" + reason_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {
@@ -171,7 +202,7 @@ public class NewConsul implements Initializable {
 
         // On vérifie l'existence des Patients
         try {
-            Integer.parseInt(patient1field.getText());
+            Integer.parseInt(patient1field.getText()); //On regarde si c'est l'ID du patient qui est donné ou pas
             System.out.println(patient1field.getText());
             String myQuery = "SELECT Patient_ID FROM Patients WHERE patient_id ='" + patient1field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
@@ -183,11 +214,9 @@ public class NewConsul implements Initializable {
                 patient1label.setText("Patient n°1 *: Pas trouvé");
             }
         } catch (NumberFormatException e) { //Si l'input n'est pas un int alors on va chercher via email
-            System.out.println("Je vais chercher via l'émail le patient 1");
             String myQuery = "SELECT User_ID FROM USERS WHERE user_login ='" + patient1field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {
-
                 System.out.println(" J'ai trouvé un patient via email avec un int de  = " + rset.getInt(1));
                 Patient1 = rset.getInt(1);
                 patient1label.setText("Patient n°1 *: Trouvé");
@@ -198,7 +227,6 @@ public class NewConsul implements Initializable {
         if (!(patient2field.getText().equals(""))) {
             try {
                 Integer.parseInt(patient2field.getText());
-                System.out.println(patient2field.getText());
                 String myQuery = "SELECT Patient_ID FROM Patients WHERE patient_id ='" + patient2field.getText() + "'";
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery);
                 if (rset.next()) {
@@ -225,7 +253,6 @@ public class NewConsul implements Initializable {
         if (!(patient3field.getText().equals(""))) {
             try {
                 Integer.parseInt(patient3field.getText());
-                System.out.println(patient3field.getText());
                 String myQuery = "SELECT Patient_ID FROM Patients WHERE patient_id ='" + patient3field.getText() + "'";
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery);
                 if (rset.next()) {
@@ -260,12 +287,9 @@ public class NewConsul implements Initializable {
     private void AddConsulButtonAction() {
         if (verifyStep1 && verifyStep2) {
             try {
-                String myQuery = "SELECT MAX(Consul_ID) FROM Consultations";
-                ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-                rset.next();
-                int Consul_id = rset.getInt(1) + 1; //On créer l'ID de la consultation
-                myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','dd-mm-yyyy')," + heure + ", " + reason + ", " + null + ")";
-                rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée
+                int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
+                String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','dd-mm-yyyy')," + heure + ", " + reason + ", " + null + ")";
+                ResultSet rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée
                 myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient1 + "," + Consul_id + ")";
                 rset = Main.database.stmt.executeQuery(myQuery);
                 if (Patient2 != 0) {
@@ -277,23 +301,15 @@ public class NewConsul implements Initializable {
                 }
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                 primaryStage.close();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Félicitation");
-                alert.setHeaderText("Ajout de la consultation avec succès");
-                alert.showAndWait();
+                Psy_Frame.showInfo("Ajout de la consultation avec succès");
             } catch (Exception e) {
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
                 e.printStackTrace();
             }
         } else if (!verifyStep1 || !verifyStep2) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Attention !");
-            alert.setHeaderText("ERROR");
-            alert.setContentText("Vous n'avez pas validée une ( ou les deux ) étapes !");
-            alert.showAndWait();
+            Psy_Frame.showAlert("Vous n'avez pas validée une ( ou les deux ) étapes !");
         }
     }
-
 
     @FXML
     private void closeButtonAction() {
