@@ -81,12 +81,6 @@ public class AddPatient {
         }
     }
 
-    private String convertJDatetoString(DatePicker date_field) {
-        Date Ddate = Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        return dateFormat.format(Ddate);
-    }
-
     @FXML
     private void addButtonAction() throws IOException {
         int how = 0, prof = 0;
@@ -124,7 +118,7 @@ public class AddPatient {
         }
         try {
             System.out.println(" How = " + how + ", Prof = " + prof);
-            String strDate = convertJDatetoString(dob_field);
+            String strDate = Psy_Frame.convertJDatetoString(dob_field);
             int user_id = getMaxID("USERS");
             A = new Patient(user_id, mail_field.getText(), pass_field.getText(), surname_field.getText(), name_field.getText(), strDate, mailing_field.getText(), how, prof);
 
