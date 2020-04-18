@@ -106,8 +106,19 @@ public class CancelConsul implements Initializable {
         int selectedIndex = tableview.getSelectionModel().getSelectedIndex();
         Object item = tableview.getItems().get(selectedIndex);
         // this gives the value in the selected cell:
-        int data =  (int ) idCol.getCellObservableValue(item).getValue();
-        System.out.println(data);
+        int consul_id =  (int ) idCol.getCellObservableValue(item).getValue();
+        System.out.println(consul_id);
+        try{
+            String myQuery = "DELETE FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_id ;
+            ResultSet rset = Main.database.stmt.executeQuery(myQuery);
+            System.out.println("J'ai pu l'effacer dans la première table");
+            myQuery = "DELETE FROM CONSULTATIONS WHERE CONSUL_ID = " + consul_id ;
+            rset = Main.database.stmt.executeQuery(myQuery);
+            System.out.println("J'ai pu l'effacer dans la seconde table");
+            tableview.getItems().remove(selectedIndex);
+        }catch (SQLException e){
+            System.out.println("Erreur dans la suppression !");
+        }
     }
 
     @FXML

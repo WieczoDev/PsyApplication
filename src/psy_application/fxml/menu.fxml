@@ -4,36 +4,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="93.0" prefWidth="783.0" style="-fx-background-color: #17202A;"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="psy_application.controller.menu">
+<AnchorPane prefHeight="93.0" prefWidth="783.0" style="-fx-background-color: #17202A;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.menu">
     <children>
-        <AnchorPane layoutY="5.0" prefHeight="84.0" prefWidth="783.0" style="-fx-background-color: #CB4335;">
+        <AnchorPane layoutY="5.0" prefHeight="84.0" prefWidth="1127.0" style="-fx-background-color: #CB4335;">
             <children>
-                <Button fx:id="addButton" layoutX="34.0" layoutY="18.0" mnemonicParsing="false" onAction="#addPatients"
-                        prefHeight="48.0" prefWidth="81.0" text="Add &#10;Patient" textAlignment="CENTER"
-                        textOverrun="CENTER_ELLIPSIS">
+                <Button fx:id="addButton" layoutX="34.0" layoutY="18.0" mnemonicParsing="false" onAction="#addPatients" prefHeight="48.0" prefWidth="81.0" text="Add &#10;Patient" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                     <font>
-                        <Font name="System Italic" size="14.0"/>
+                        <Font name="System Italic" size="14.0" />
                     </font>
                 </Button>
-                <Hyperlink fx:id="homeHP" layoutX="169.0" layoutY="18.0" onAction="#openHomeScene" text="Home"
-                           textFill="WHITE">
+                <Hyperlink fx:id="homeHP" layoutX="169.0" layoutY="18.0" onAction="#openHomeScene" text="Home" textFill="WHITE">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Hyperlink>
-                <Hyperlink fx:id="consultationHP" layoutX="299.0" layoutY="18.0" onAction="#openConsulScene"
-                           text="Consultations" textFill="WHITE">
+                <Hyperlink fx:id="consultationHP" layoutX="299.0" layoutY="18.0" onAction="#openConsulScene" text="Consultations" textFill="WHITE">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Hyperlink>
-                <Button fx:id="addButton1" layoutX="735.0" layoutY="42.0" mnemonicParsing="false"
-                        onAction="#closeButtonAction" prefHeight="28.0" prefWidth="34.0" text="Exit"
-                        textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                <Button fx:id="addButton1" layoutX="1058.0" layoutY="42.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="28.0" prefWidth="34.0" text="Exit" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                     <font>
-                        <Font name="System Italic" size="11.0"/>
+                        <Font name="System Italic" size="11.0" />
                     </font>
                 </Button>
             </children>

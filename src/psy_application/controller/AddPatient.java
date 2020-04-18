@@ -152,7 +152,7 @@ public class AddPatient {
                 rset = Main.database.stmt.executeQuery(myQuery);
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                 primaryStage.close();
-                Psy_Frame.showInfo("Ajout du patien avec succès !");
+                Psy_Frame.showInfo("Ajout du patient avec succès !");
             }
             System.out.println(A);
         } catch (Exception e) {

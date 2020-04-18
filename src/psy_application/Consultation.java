@@ -13,6 +13,7 @@ public class Consultation {
     int consul_reason;
     int consul_range;
 
+
     public int getConsul_ID() {
         return consul_ID;
     }
