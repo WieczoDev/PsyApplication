@@ -8,17 +8,17 @@
     <children>
         <AnchorPane layoutY="5.0" prefHeight="84.0" prefWidth="1127.0" style="-fx-background-color: #CB4335;">
             <children>
-                <Button fx:id="addButton" layoutX="34.0" layoutY="18.0" mnemonicParsing="false" onAction="#addPatients" prefHeight="48.0" prefWidth="81.0" text="Add &#10;Patient" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                <Button fx:id="addButton" layoutX="34.0" layoutY="18.0" mnemonicParsing="false" onAction="#addPatients" prefHeight="48.0" prefWidth="93.0" text="Ajouter un&#10;Patient" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                     <font>
                         <Font name="System Italic" size="14.0" />
                     </font>
                 </Button>
-                <Hyperlink fx:id="homeHP" layoutX="169.0" layoutY="18.0" onAction="#openHomeScene" text="Home" textFill="WHITE">
+                <Hyperlink fx:id="homeHP" layoutX="364.0" layoutY="18.0" onAction="#openHomeScene" text="Home" textFill="WHITE">
                     <font>
                         <Font size="25.0" />
                     </font>
                 </Hyperlink>
-                <Hyperlink fx:id="consultationHP" layoutX="299.0" layoutY="18.0" onAction="#openConsulScene" text="Consultations" textFill="WHITE">
+                <Hyperlink fx:id="consultationHP" layoutX="596.0" layoutY="18.0" onAction="#openConsulScene" text="Consultations" textFill="WHITE">
                     <font>
                         <Font size="25.0" />
                     </font>

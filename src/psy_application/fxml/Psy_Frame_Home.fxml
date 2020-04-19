@@ -10,13 +10,25 @@
             <fx:include source="menu.fxml" />
         </top>
         <center>
-            <Pane prefHeight="270.0" prefWidth="686.0" style="-fx-background-color: #000000;" BorderPane.alignment="CENTER">
+            <Pane prefHeight="365.0" prefWidth="1127.0" style="-fx-background-color: rgba(0,0,0,0);" BorderPane.alignment="CENTER">
                 <children>
-                    <Label fx:id="homepageLabel" layoutX="328.0" layoutY="107.0" text="Je suis sur l'home page" textFill="WHITE">
-                        <font>
-                            <Font size="42.0" />
-                        </font>
-                    </Label>
+                    <TableView fx:id="tableview" layoutX="447.0" layoutY="29.0" prefHeight="270.0" prefWidth="592.0">
+                        <columns>
+                            <TableColumn fx:id="heureCol" prefWidth="75.0" text="Heure" />
+                            <TableColumn fx:id="idCol" prefWidth="139.0" text="Numéro de Consul" />
+                            <TableColumn fx:id="patient1Col" prefWidth="75.0" text="Patient n*1" />
+                            <TableColumn fx:id="patient2Col" prefWidth="75.0" text="Patient *2" />
+                            <TableColumn fx:id="patient3Col" prefWidth="75.0" text="Patient *3" />
+                            <TableColumn fx:id="reasonCol" prefWidth="68.0" text="Raison" />
+                            <TableColumn fx:id="rangeCol" prefWidth="84.0" text="Range" />
+                        </columns>
+                    </TableView>
+               <Label alignment="CENTER" layoutX="61.0" layoutY="23.0" text="Bienvenue dans votre application de gestion &#10;des Rendez-Vous !" textAlignment="CENTER">
+                  <font>
+                     <Font size="17.0" />
+                  </font>
+               </Label>
+               <Label layoutX="667.0" layoutY="6.0" text="Consultation de la journéee :" />
                 </children>
             </Pane>
         </center>

@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import psy_application.Consultation;
 import psy_application.Main;
 
-import java.lang.invoke.SwitchPoint;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,49 +57,6 @@ public class CancelConsul implements Initializable {
         reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
     }
 
-    private ObservableList<Consultation> getConsulList(String strDate) {
-        list.clear();
-        int consul_ID, consul_hour, consul_reason, patient1 = 0, patient2 = 0, patient3 = 0;
-
-        try {
-            String myQuery = "SELECT consul_ID, consul_hour, consul_reason FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'dd-mm-yyyy')";
-            ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
-            while (rset1.next()) {
-                consul_ID = rset1.getInt(1);
-                consul_hour = rset1.getInt(2);
-                consul_reason = rset1.getInt(3);
-                try {
-                    System.out.println(" Consul id = " + consul_ID + " , consul_hour = " + consul_hour + " , consul_reason = " + consul_reason);
-                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_ID;
-                    System.out.println(" Je suis ici ");
-                    ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
-                    int count = 0;
-                    while (rset2.next()) {
-                        System.out.println(" Patient trouvé : " + rset2.getInt(1));
-                        switch (count) {
-                            case 0:
-                                patient1 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                            case 1:
-                                patient2 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                            case 2:
-                                patient3 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                        }
-                    }
-                    Consultation Consul1 = new Consultation(consul_ID, patient1, patient2, //
-                            patient3, strDate, consul_hour, consul_reason, consul_hour);
-                    list.add(Consul1);
-                } catch (SQLException e) {System.out.println("Erreur de connexion avec la database");}
-            }
-        } catch (SQLException e) {System.out.println("Erreur de connexion avec la database");}
-        return list;
-    }
-
     @FXML
     private void handleDeletePerson() {
         int selectedIndex = tableview.getSelectionModel().getSelectedIndex();
@@ -124,7 +80,7 @@ public class CancelConsul implements Initializable {
     @FXML
     private void findButtonAction() throws SQLException {
         strDate = Psy_Frame.convertJDatetoString(date_field);
-        list = getConsulList(strDate);
+        list = Psy_Frame.getConsulList(strDate , list);
         tableview.setItems(list);
     }
 

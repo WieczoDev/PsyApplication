@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -73,8 +76,15 @@ public class Psy_Frame_Consul  implements Initializable {
     @FXML
     public DatePicker date_field;
 
-    private String strDate;
-    ObservableList<Consultation> list = FXCollections.observableArrayList();
+    private String CurrentDate;
+    ObservableList<Consultation> list0 = FXCollections.observableArrayList();
+    ObservableList<Consultation> list1 = FXCollections.observableArrayList();
+    ObservableList<Consultation> list2 = FXCollections.observableArrayList();
+    ObservableList<Consultation> list3 = FXCollections.observableArrayList();
+    ObservableList<Consultation> list4 = FXCollections.observableArrayList();
+    ObservableList<Consultation> list5 = FXCollections.observableArrayList();
+
+
 
 
     @Override
@@ -93,63 +103,84 @@ public class Psy_Frame_Consul  implements Initializable {
         spatientCol.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
     }
 
-    private boolean isMonday(Date Date) {
+    private boolean isMonday(String strDate) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date Date = dateFormat.parse(strDate);
         Calendar c = Calendar.getInstance();
         c.setTime(Date);
-        if (c.get(c.DAY_OF_WEEK) == 7) {
+        if (c.get(c.DAY_OF_WEEK) == 2) {
+            System.out.println(c.get(c.DAY_OF_WEEK));
             return true;
         } else return false;
     }
-    @FXML
-    private void findButtonAction(){
-        //On VERFIE QUE LA DATE CHOISIE EST UN LUNDI
-        if(isMonday(java.util.Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()))){
-            strDate = Psy_Frame.convertJDatetoString(date_field);
-            list = getConsulList(strDate);
-            mondaytableview.setItems(list);
-        }
+    public static String addOneDay(String date) {
+        return LocalDate
+                .parse(date)
+                .plusDays(1)
+                .toString();
+    }
+    public static String convertJDatetoString(DatePicker date_field){ //Use a different date format
+        java.util.Date Ddate = java.util.Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(Ddate);
     }
 
-    private ObservableList<Consultation> getConsulList(String strDate) {
-        list.clear();
-        int consul_ID, consul_hour, consul_reason, patient1 = 0, patient2 = 0, patient3 = 0;
-        try {
-            String myQuery = "SELECT consul_ID, consul_hour, consul_reason FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'dd-mm-yyyy')";
-            ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
-            while (rset1.next()) {
-                consul_ID = rset1.getInt(1);
-                consul_hour = rset1.getInt(2);
-                consul_reason = rset1.getInt(3);
-                try {
-                    System.out.println(" Consul id = " + consul_ID + " , consul_hour = " + consul_hour + " , consul_reason = " + consul_reason);
-                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_ID;
-                    System.out.println(" Je suis ici ");
-                    ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
-                    int count = 0;
-                    while (rset2.next()) {
-                        System.out.println(" Patient trouvé : " + rset2.getInt(1));
-                        switch (count) {
-                            case 0:
-                                patient1 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                            case 1:
-                                patient2 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                            case 2:
-                                patient3 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                        }
+    @FXML
+    private void findButtonAction() throws ParseException {
+        //On VERFIE QUE LA DATE CHOISIE EST UN LUNDI
+            int count = 0;
+            CurrentDate = convertJDatetoString(date_field);
+            if(isMonday(CurrentDate)){
+                do{
+                    switch (count){
+                        case 0 :
+                            list0 = Psy_Frame.getConsulList(CurrentDate, list0);
+                            try{
+                                System.out.println(list0.get(0));
+                            }catch(Exception e ){ System.out.println("La liste est vide");}
+                            mondaytableview.setItems(list0);
+                            break;
+                        case 1 :
+                            list1 = Psy_Frame.getConsulList(CurrentDate, list1);
+                            try{
+                                System.out.println(list1.get(0));
+                            }catch(Exception e ){ System.out.println("La liste est vide");}
+                            tuesdaytableview.setItems(list1);
+                            break;
+                        case 2 :
+                            list2 = Psy_Frame.getConsulList(CurrentDate, list2);
+                            try{
+                                System.out.println(list2.get(0));
+                            }catch(Exception e ){ System.out.println("La liste est vide");}
+                            wednesdaytableview.setItems(list2);
+                            break;
+                        case 3 :
+                            list3 = Psy_Frame.getConsulList(CurrentDate, list3);
+                            try{
+                                System.out.println(list3.get(0));
+                            }catch(Exception e ){ System.out.println("La liste est vide");}
+                            thursdaytableview.setItems(list3);
+                            break;
+                        case 4 :
+                            list4 = Psy_Frame.getConsulList(CurrentDate, list4);
+                            try{
+                                System.out.println(list4.get(0));
+                            }catch(Exception e ){ System.out.println("La liste est vide");}
+                            fridaytableview.setItems(list4);
+                            break;
+                        case 5 :
+                            list5 = Psy_Frame.getConsulList(CurrentDate , list5);
+                            try{
+                                System.out.println(list5.get(0));
+                            }catch(Exception e ){ System.out.println("La liste est vide");}
+                            System.out.println("La date de samedi est :" + CurrentDate);
+                            saturdaytableview.setItems(list5);
+                            break;
                     }
-                    Consultation Consul1 = new Consultation(consul_ID, patient1, patient2, //
-                            patient3, strDate, consul_hour, consul_reason, consul_hour);
-                    list.add(Consul1);
-                } catch (SQLException e) {System.out.println("Erreur de connexion avec la database");}
+                    CurrentDate = addOneDay(CurrentDate);
+                    count+=1;
+                }while( !isMonday(CurrentDate));
             }
-        } catch (SQLException e) {System.out.println("Erreur de connexion avec la database");}
-        return list;
     }
 
     @FXML

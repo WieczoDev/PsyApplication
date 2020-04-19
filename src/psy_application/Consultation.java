@@ -88,4 +88,18 @@ public class Consultation {
         this.consul_reason = consul_reason;
         this.consul_range = consul_range;
     }
+
+    @Override
+    public String toString() {
+        return "Consultation{" +
+                "consul_ID=" + consul_ID +
+                ", patient_ID1=" + patient_ID1 +
+                ", patient_ID2=" + patient_ID2 +
+                ", patient_ID3=" + patient_ID3 +
+                ", consul_date='" + consul_date + '\'' +
+                ", consul_hour=" + consul_hour +
+                ", consul_reason=" + consul_reason +
+                ", consul_range=" + consul_range +
+                '}';
+    }
 }
