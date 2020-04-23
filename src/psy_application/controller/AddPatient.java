@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -81,6 +82,20 @@ public class AddPatient {
         }
     }
 
+    private boolean isaValidDate() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = sdf.parse(java.time.LocalDate.now().toString());        //Date d'aujourd'hui
+        Date date2 = sdf.parse(Psy_Frame.convertJDatetoString(dob_field));   // Date de Naissance
+
+        if (date1.compareTo(date2) > 0) {
+            System.out.println("Date1 is after Date2");
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     @FXML
     private void addButtonAction() throws IOException{
         try {
@@ -92,7 +107,7 @@ public class AddPatient {
             }else{
                 int how = 0, prof = 0;
                 try {
-                    // Trouvons dans la base de donnée la professions et compment il connait la PSY
+                    // Trouvons dans la base de donnée la professions et commment il connait la PSY
                     myQuery = "SELECT Prof_ID FROM Professions WHERE profession ='" + prof_field.getText() + "'";
                     rset = Main.database.stmt.executeQuery(myQuery);
                     if (rset.next()) {
@@ -131,7 +146,7 @@ public class AddPatient {
 
                     //VERIFICATION QUE TOUTES LES SAISIES OBLIGATOIRES SONT REMPLIES
 
-                    if ((A.getUser_login().equals("")) || (A.getUser_password().equals("")) || (A.getPatient_name().equals("")) || (A.getPatient_surname().equals(""))) {
+                    if ((A.getUser_login().equals("")) || (A.getUser_password().equals("")) || (A.getPatient_name().equals("")) || (A.getPatient_surname().equals("")) || !isaValidDate()) {
                         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                         primaryStage.close();
                         Psy_Frame.showAlert("L'une des informations obligatoire à été oubliée veuillez recommencer");
