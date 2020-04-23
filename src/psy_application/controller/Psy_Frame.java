@@ -19,6 +19,7 @@ import psy_application.Main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -26,10 +27,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class Psy_Frame implements Initializable{
+public class Psy_Frame implements Initializable {
     @FXML
     public static BorderPane home;
     @FXML
@@ -68,44 +70,65 @@ public class Psy_Frame implements Initializable{
         alert.showAndWait();
     }
 
-
-    public static ObservableList<Consultation> getConsulList(String strDate , ObservableList list) {
-        list.clear();
-        int consul_ID, consul_hour, consul_reason, patient1 = 0, patient2 = 0, patient3 = 0;
+    public static Consultation getConsul(int consul_id) {
+        Consultation Consul1 = new Consultation();
+        ArrayList<Integer> listPatient = new ArrayList<>();
         try {
-            String myQuery = "SELECT consul_ID, consul_hour, consul_reason FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'yyyy-MM-dd')";
+            String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how, consul_date FROM Consultations WHERE consul_id = " + consul_id;
             ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
-            while (rset1.next()) {
-                consul_ID = rset1.getInt(1);
-                consul_hour = rset1.getInt(2);
-                consul_reason = rset1.getInt(3);
+            if(rset1.next()){
                 try {
-                    System.out.println(" Consul id = " + consul_ID + " , consul_hour = " + consul_hour + " , consul_reason = " + consul_reason);
-                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_ID;
-                    System.out.println(" Je suis ici ");
+                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset1.getInt(1);
                     ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
                     int count = 0;
                     while (rset2.next()) {
-                        System.out.println(" Patient trouvé : " + rset2.getInt(1));
-                        switch (count) {
-                            case 0:
-                                patient1 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                            case 1:
-                                patient2 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                            case 2:
-                                patient3 = rset2.getInt(1);
-                                count += 1;
-                                break;
-                        }
+                        listPatient.add(rset2.getInt(1));
                     }
-                    Consultation Consul1 = new Consultation(consul_ID, patient1, patient2, //
-                            patient3, strDate, consul_hour, consul_reason, consul_hour);
+                    while ( listPatient.size() <3){
+                        listPatient.add(0);
+                    }
+                    Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
+                            listPatient.get(2), rset1.getString(7), rset1.getInt(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                    return Consul1;
+                } catch (SQLException e) {
+                    System.out.println("Erreur de connexion avec la database");
+                    return null;
+                }
+            }else{
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur de connexion avec la database");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ObservableList<Consultation> getConsulList(String strDate, ObservableList list) {
+        list.clear();
+        ArrayList<Integer> listPatient = new ArrayList<>();
+        String consul_text;
+        try { //this.consul_text = consul_text;            this.consul_price = consul_price;            this.consul_how = consul_how;
+            String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'yyyy-MM-dd')";
+            ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
+            while (rset1.next()) {
+                    listPatient.clear();
+                try {
+                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset1.getInt(1);
+                    ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
+                    int count = 0;
+                    while (rset2.next()) {
+                        listPatient.add(rset2.getInt(1));
+                    }
+                    while ( listPatient.size() <3){
+                        listPatient.add(0);
+                    }
+                    Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
+                            listPatient.get(2), strDate, rset1.getInt(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                     list.add(Consul1);
-                } catch (SQLException e) {System.out.println("Erreur de connexion avec la database");}
+                } catch (SQLException e) {
+                    System.out.println("Erreur de connexion avec la database");
+                }
             }
         } catch (SQLException e) {
             System.out.println("Erreur de connexion avec la database");
@@ -114,8 +137,7 @@ public class Psy_Frame implements Initializable{
         return list;
     }
 
-
-    public static String convertJDatetoString(DatePicker date_field){
+    public static String convertJDatetoString(DatePicker date_field) {
         java.util.Date Ddate = java.util.Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(Ddate);

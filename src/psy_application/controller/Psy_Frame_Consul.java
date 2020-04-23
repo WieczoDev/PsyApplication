@@ -173,7 +173,6 @@ public class Psy_Frame_Consul  implements Initializable {
                             try{
                                 System.out.println(list5.get(0));
                             }catch(Exception e ){ System.out.println("La liste est vide");}
-                            System.out.println("La date de samedi est :" + CurrentDate);
                             saturdaytableview.setItems(list5);
                             break;
                     }

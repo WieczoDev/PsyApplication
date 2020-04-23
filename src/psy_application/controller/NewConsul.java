@@ -103,7 +103,7 @@ public class NewConsul implements Initializable {
             Collections.addAll(ListofHour, List);
             date = Psy_Frame.convertJDatetoString(date_field);
             verifyDate = false;
-            String myQuery = "SELECT consul_hour FROM Consultations WHERE consul_date = TO_DATE('" + date + "', 'dd-mm-yyyy')";
+            String myQuery = "SELECT consul_hour FROM Consultations WHERE consul_date = TO_DATE('" + date + "', 'yyyy-MM-dd')";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             while (rset.next()) {
                 String str = rset.getString(1);
@@ -286,7 +286,7 @@ public class NewConsul implements Initializable {
         if (verifyStep1 && verifyStep2) {
             try {
                 int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
-                String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','dd-mm-yyyy')," + heure + ", " + reason + ", " + null + ")";
+                String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','yyyy-MM-dd')," + heure + ", " + reason + ", " + null + ", " + null + ", " + null+ ")";
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée
                 myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient1 + "," + Consul_id + ")";
                 rset = Main.database.stmt.executeQuery(myQuery);
@@ -304,7 +304,7 @@ public class NewConsul implements Initializable {
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
                 e.printStackTrace();
             }
-        } else if (!verifyStep1 || !verifyStep2) {
+        } else{
             Psy_Frame.showAlert("Vous n'avez pas validée une ( ou les deux ) étapes !");
         }
     }

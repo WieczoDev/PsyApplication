@@ -12,7 +12,33 @@ public class Consultation {
     int consul_hour;
     int consul_reason;
     int consul_range;
+    String consul_text;
+    int consul_price;
+    int consul_how;
 
+    public String getConsul_text() {
+        return consul_text;
+    }
+
+    public void setConsul_text(String consul_text) {
+        this.consul_text = consul_text;
+    }
+
+    public int getConsul_price() {
+        return consul_price;
+    }
+
+    public void setConsul_price(int consul_price) {
+        this.consul_price = consul_price;
+    }
+
+    public int getConsul_how() {
+        return consul_how;
+    }
+
+    public void setConsul_how(int consul_how) {
+        this.consul_how = consul_how;
+    }
 
     public int getConsul_ID() {
         return consul_ID;
@@ -66,6 +92,23 @@ public class Consultation {
         return consul_reason;
     }
 
+    @Override
+    public String toString() {
+        return "Consultation{" +
+                "consul_ID=" + consul_ID +
+                ", patient_ID1=" + patient_ID1 +
+                ", patient_ID2=" + patient_ID2 +
+                ", patient_ID3=" + patient_ID3 +
+                ", consul_date='" + consul_date + '\'' +
+                ", consul_hour=" + consul_hour +
+                ", consul_reason=" + consul_reason +
+                ", consul_range=" + consul_range +
+                ", consul_text='" + consul_text + '\'' +
+                ", consul_price='" + consul_price + '\'' +
+                ", consul_how=" + consul_how +
+                '}';
+    }
+
     public void setConsul_reason(int consul_reason) {
         this.consul_reason = consul_reason;
     }
@@ -78,7 +121,21 @@ public class Consultation {
         this.consul_range = consul_range;
     }
 
-    public Consultation(int consul_ID, int patient_ID1, int patient_ID2, int patient_ID3, String consul_date, int consul_hour, int consul_reason, int consul_range) {
+    public Consultation() {
+        this.consul_ID = 0;
+        this.patient_ID1 = 0;
+        this.patient_ID2 = 0;
+        this.patient_ID3 = 0;
+        this.consul_date = null;
+        this.consul_hour = 0;
+        this.consul_reason = 0;
+        this.consul_range = 0;
+        this.consul_text = null;
+        this.consul_price = 0;
+        this.consul_how = 0;
+    }
+
+    public Consultation(int consul_ID, int patient_ID1, int patient_ID2, int patient_ID3, String consul_date, int consul_hour, int consul_reason, int consul_range, String consul_text, int consul_price, int consul_how) {
         this.consul_ID = consul_ID;
         this.patient_ID1 = patient_ID1;
         this.patient_ID2 = patient_ID2;
@@ -87,19 +144,8 @@ public class Consultation {
         this.consul_hour = consul_hour;
         this.consul_reason = consul_reason;
         this.consul_range = consul_range;
-    }
-
-    @Override
-    public String toString() {
-        return "Consultation{" +
-                "consul_ID=" + consul_ID +
-                ", patient_ID1=" + patient_ID1 +
-                ", patient_ID2=" + patient_ID2 +
-                ", patient_ID3=" + patient_ID3 +
-                ", consul_date='" + consul_date + '\'' +
-                ", consul_hour=" + consul_hour +
-                ", consul_reason=" + consul_reason +
-                ", consul_range=" + consul_range +
-                '}';
+        this.consul_text = consul_text;
+        this.consul_price = consul_price;
+        this.consul_how = consul_how;
     }
 }
