@@ -135,44 +135,26 @@ public class Psy_Frame_Consul  implements Initializable {
                     switch (count){
                         case 0 :
                             list0 = Psy_Frame.getConsulList(CurrentDate, list0);
-                            try{
-                                System.out.println(list0.get(0));
-                            }catch(Exception e ){ System.out.println("La liste est vide");}
                             mondaytableview.setItems(list0);
                             break;
                         case 1 :
                             list1 = Psy_Frame.getConsulList(CurrentDate, list1);
-                            try{
-                                System.out.println(list1.get(0));
-                            }catch(Exception e ){ System.out.println("La liste est vide");}
                             tuesdaytableview.setItems(list1);
                             break;
                         case 2 :
                             list2 = Psy_Frame.getConsulList(CurrentDate, list2);
-                            try{
-                                System.out.println(list2.get(0));
-                            }catch(Exception e ){ System.out.println("La liste est vide");}
                             wednesdaytableview.setItems(list2);
                             break;
                         case 3 :
                             list3 = Psy_Frame.getConsulList(CurrentDate, list3);
-                            try{
-                                System.out.println(list3.get(0));
-                            }catch(Exception e ){ System.out.println("La liste est vide");}
                             thursdaytableview.setItems(list3);
                             break;
                         case 4 :
                             list4 = Psy_Frame.getConsulList(CurrentDate, list4);
-                            try{
-                                System.out.println(list4.get(0));
-                            }catch(Exception e ){ System.out.println("La liste est vide");}
                             fridaytableview.setItems(list4);
                             break;
                         case 5 :
                             list5 = Psy_Frame.getConsulList(CurrentDate , list5);
-                            try{
-                                System.out.println(list5.get(0));
-                            }catch(Exception e ){ System.out.println("La liste est vide");}
                             saturdaytableview.setItems(list5);
                             break;
                     }

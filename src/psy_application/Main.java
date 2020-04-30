@@ -7,11 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.fxml.*;
 
 
 import java.sql.*;
-import java.util.Scanner;
 
 public class Main extends Application {
     public static OracleDB database;

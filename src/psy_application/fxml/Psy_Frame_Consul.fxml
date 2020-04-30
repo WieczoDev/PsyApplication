@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="482.0" prefWidth="1127.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.Psy_Frame_Consul">
     <BorderPane fx:id="home" layoutY="-1.0" prefHeight="481.0" prefWidth="1118.0">
@@ -11,8 +12,14 @@
       <center>
             <Pane prefHeight="387.0" prefWidth="1127.0" style="-fx-background-color: #F0F3F4;" BorderPane.alignment="CENTER">
                 <children>
-                    <Button fx:id="createButton" layoutX="601.0" layoutY="314.0" mnemonicParsing="false" onAction="#createConsul" prefHeight="42.0" prefWidth="92.0" text="Creer une&#10;Consultation" textAlignment="CENTER" />
-               <Button fx:id="cancelConsulButton" layoutX="346.0" layoutY="312.0" mnemonicParsing="false" onAction="#cancelConsulButtonAction" prefHeight="45.0" prefWidth="90.0" text="Annuler une&#10;Consultation&#10;" />
+                    <Button fx:id="createButton" layoutX="612.0" layoutY="291.0" mnemonicParsing="false" onAction="#createConsul" prefHeight="72.0" prefWidth="196.0" text="Creer une&#10;Consultation" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font></Button>
+               <Button fx:id="cancelConsulButton" layoutX="340.0" layoutY="292.0" mnemonicParsing="false" onAction="#cancelConsulButtonAction" prefHeight="70.0" prefWidth="186.0" text="Gestion des&#10;Consultations&#10;">
+                  <font>
+                     <Font size="20.0" />
+                  </font></Button>
                <GridPane layoutX="24.0" layoutY="52.0" prefHeight="228.0" prefWidth="1080.0">
                  <columnConstraints>
                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="163.0" />
@@ -47,8 +54,8 @@
                      </TableView>
                      <TableView fx:id="wednesdaytableview" layoutX="10.0" layoutY="40.0" prefHeight="198.0" prefWidth="172.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <columns>
-                           <TableColumn fx:id="wheureCol" prefWidth="72.0" text="Heure" />
-                           <TableColumn fx:id="wpatientCol" prefWidth="131.0" text="Patient" />
+                           <TableColumn fx:id="wheureCol" prefWidth="103.0" text="Heure" />
+                           <TableColumn fx:id="wpatientCol" prefWidth="100.0" text="Patient" />
                         </columns>
                      </TableView>
                      <TableView fx:id="thursdaytableview" layoutX="10.0" layoutY="40.0" prefHeight="198.0" prefWidth="171.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -59,14 +66,14 @@
                      </TableView>
                      <TableView fx:id="fridaytableview" layoutX="406.0" layoutY="40.0" prefHeight="198.0" prefWidth="172.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                         <columns>
-                           <TableColumn fx:id="fheureCol" prefWidth="68.0" text="Heure" />
-                           <TableColumn fx:id="fpatientCol" prefWidth="113.0" text="Patient" />
+                           <TableColumn fx:id="fheureCol" prefWidth="93.0" text="Heure" />
+                           <TableColumn fx:id="fpatientCol" prefWidth="88.0" text="Patient" />
                         </columns>
                      </TableView>
                      <TableView fx:id="saturdaytableview" layoutX="523.0" layoutY="40.0" prefHeight="198.0" prefWidth="172.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                         <columns>
-                           <TableColumn fx:id="sheureCol" prefWidth="51.0" text="Heure" />
-                           <TableColumn fx:id="spatientCol" prefWidth="101.0" text="Patient" />
+                           <TableColumn fx:id="sheureCol" prefWidth="74.0" text="Heure" />
+                           <TableColumn fx:id="spatientCol" prefWidth="78.0" text="Patient" />
                         </columns>
                      </TableView>
                   </children>

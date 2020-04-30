@@ -23,16 +23,16 @@
                         <Button fx:id="closeButton" layoutX="437.0" layoutY="79.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Annuler" />
                         <TableView fx:id="tableview" layoutX="29.0" layoutY="142.0" prefHeight="322.0" prefWidth="949.0">
                             <columns>
-                                <TableColumn fx:id="heureCol" prefWidth="75.0" text="Heure" />
-                                <TableColumn fx:id="idCol" prefWidth="139.0" text="Numéro de Consul" />
-                                <TableColumn fx:id="patient1Col" prefWidth="68.0" text="Patient n*1" />
-                                <TableColumn fx:id="patient2Col" prefWidth="63.0" text="Patient *2" />
-                                <TableColumn fx:id="patient3Col" prefWidth="61.0" text="Patient *3" />
-                                <TableColumn fx:id="reasonCol" prefWidth="88.0" text="Raison" />
-                                <TableColumn fx:id="rangeCol" prefWidth="97.0" text="Range" />
-                                <TableColumn fx:id="payement" prefWidth="83.0" text="Paiement" />
-                                <TableColumn fx:id="prix" prefWidth="83.0" text="Prix" />
-                                <TableColumn fx:id="commentaire" prefWidth="191.0" text="Commentaire" />
+                                <TableColumn fx:id="heureCol" prefWidth="56.0" text="Heure" />
+                                <TableColumn fx:id="idCol" prefWidth="59.0" text="n°" />
+                                <TableColumn fx:id="patient1Col" prefWidth="72.0" text="Patient n*1" />
+                                <TableColumn fx:id="patient2Col" prefWidth="78.0" text="Patient *2" />
+                                <TableColumn fx:id="patient3Col" prefWidth="68.0" text="Patient *3" />
+                                <TableColumn fx:id="reasonCol" prefWidth="103.0" text="Raison" />
+                                <TableColumn fx:id="rangeCol" prefWidth="72.0" text="Range" />
+                                <TableColumn fx:id="payement" prefWidth="115.0" text="Paiement" />
+                                <TableColumn fx:id="prix" prefWidth="45.0" text="Prix" />
+                                <TableColumn fx:id="commentaire" prefWidth="280.0" text="Commentaire" />
 
                             </columns>
                         </TableView>
@@ -44,7 +44,7 @@
                     <children>
                         <Button fx:id="deleteButton" layoutX="669.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
                   <Button fx:id="finaliseButton" layoutX="118.0" layoutY="40.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="47.0" prefWidth="200.0" text="Finaliser la ligne selectionné" />
-                  <Button layoutX="397.0" layoutY="39.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
+                  <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
                     </children>
                 </Pane>
                 </bottom>

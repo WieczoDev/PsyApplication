@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="663.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.ModifyConsul">
+    <children>
+        <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="761.0" prefWidth="994.0">
+            <top>
+                <Label alignment="CENTER" prefHeight="84.0" prefWidth="1006.0" style="-fx-background-color: #000000;" text="Modification de la consultation" textFill="WHITE" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="System Italic" size="43.0" />
+                    </font></Label>
+            </top>
+
+            <bottom>
+                <Pane fx:id="containerbottom" prefHeight="165.0" prefWidth="994.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="finaliseButton" layoutX="524.0" layoutY="35.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="52.0" prefWidth="223.0" text="Valider les modification" BorderPane.alignment="CENTER" />
+                        <Button fx:id="closeButton" layoutX="230.0" layoutY="38.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="47.0" prefWidth="200.0" text="Annuler" />
+                        <Separator layoutX="230.0" layoutY="-8.0" prefHeight="46.0" prefWidth="521.0" />
+                    </children>
+                </Pane>
+            </bottom>
+         <left>
+                <Pane prefHeight="514.0" prefWidth="951.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="394.0" layoutY="14.0" text="Information de la consultation :">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="dateLabel" layoutX="226.0" layoutY="53.0" text="Date de la consultation : ">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="heureLabel" layoutX="226.0" layoutY="85.0" text="Heure de la consultaion :">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="patientsLabel" layoutX="113.0" layoutY="137.0" text="Liste des patients :">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Label>
+                        <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="532.0" layoutY="124.0" text="Mode de paiement :" textAlignment="CENTER">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Label>
+                        <ComboBox fx:id="payBox" layoutX="741.0" layoutY="128.0" prefWidth="150.0" promptText="Non payé" />
+                        <TextField fx:id="pricefield" layoutX="742.0" layoutY="167.0" />
+                        <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="681.0" layoutY="163.0" text="Prix :" textAlignment="CENTER">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="textLabel" alignment="CENTER" layoutX="550.0" layoutY="302.0" prefHeight="143.0" prefWidth="355.0" promptText="Insérer les notes de la séances" />
+                        <Slider fx:id="anxieteScroll" blockIncrement="1.0" layoutX="751.0" layoutY="209.0" majorTickUnit="10.0" max="9.0" minorTickCount="10" showTickLabels="true" showTickMarks="true" value="4.5" />
+                        <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="577.0" layoutY="209.0" text="Taux d'anxiété :" textAlignment="CENTER">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Label>
+                  <Label layoutX="661.0" layoutY="262.0" text="Commentaire">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="121.0" layoutY="202.0" />
+                  <TextField layoutX="121.0" layoutY="264.0" />
+                  <TextField layoutX="121.0" layoutY="329.0" />
+                  <Label fx:id="patientsLabel1" layoutX="152.0" layoutY="176.0" text="Patient n°1 ">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="patientsLabel11" layoutX="152.0" layoutY="239.0" text="Patient n°1 ">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="patientsLabel111" layoutX="152.0" layoutY="304.0" text="Patient n°1 ">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                    </children>
+                </Pane>
+         </left>
+        </BorderPane>
+    </children>
+
+</AnchorPane>
