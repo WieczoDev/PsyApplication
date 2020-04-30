@@ -284,7 +284,7 @@ public class NewConsul implements Initializable {
     @FXML
     private void AddConsulButtonAction() {
         if (verifyStep1 && verifyStep2) {
-            try {
+            try{
                 int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
                 String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','yyyy-MM-dd')," + heure + ", " + reason + ", " + null + ", " + null + ", " + null+ ")";
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée

@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -8,6 +9,7 @@ public class OracleDB {
 
     public Connection conn;
     public Statement stmt;
+    public CallableStatement RemoveConsulstmt; // Call procédure
     public Connection conn2; // Pour permettre deux requetes en même temps
     public Statement stmt2; // Pour permettre deux requetes en même temps
 
@@ -17,6 +19,7 @@ public class OracleDB {
             String url = "jdbc:oracle:thin:@192.168.1.58:1521:XE";
             conn = conn2 = DriverManager.getConnection(url, login, password);
             stmt  =  conn.createStatement();
+            RemoveConsulstmt = conn.prepareCall("call REMOVE_CONSUL(?)");
             stmt2 = conn2.createStatement();
         } catch (Exception e) {
             System.out.println("Aucune database trouvée");

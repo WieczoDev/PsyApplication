@@ -124,7 +124,7 @@ public class Psy_Frame implements Initializable {
                         listPatient.add(0);
                     }
                     Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
-                            listPatient.get(2), strDate, rset1.getInt(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                            listPatient.get(2), strDate, rset1.getDouble(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                     list.add(Consul1);
                 } catch (SQLException e) {
                     System.out.println("Erreur de connexion avec la database");

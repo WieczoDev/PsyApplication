@@ -9,7 +9,7 @@ public class Consultation {
     int patient_ID2;
     int patient_ID3;
     String consul_date;
-    int consul_hour;
+    double consul_hour;
     int consul_reason;
     int consul_range;
     String consul_text;
@@ -80,7 +80,7 @@ public class Consultation {
         this.consul_date = consul_date;
     }
 
-    public int getConsul_hour() {
+    public double getConsul_hour() {
         return consul_hour;
     }
 
@@ -135,7 +135,7 @@ public class Consultation {
         this.consul_how = 0;
     }
 
-    public Consultation(int consul_ID, int patient_ID1, int patient_ID2, int patient_ID3, String consul_date, int consul_hour, int consul_reason, int consul_range, String consul_text, int consul_price, int consul_how) {
+    public Consultation(int consul_ID, int patient_ID1, int patient_ID2, int patient_ID3, String consul_date, double consul_hour, int consul_reason, int consul_range, String consul_text, int consul_price, int consul_how) {
         this.consul_ID = consul_ID;
         this.patient_ID1 = patient_ID1;
         this.patient_ID2 = patient_ID2;

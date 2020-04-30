@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/psy_database.sql" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/src/psy_application/Main.java" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/src/psy_application/controller/AddPatient.java" dialect="OracleSqlPlus" />
+    <file url="file://$PROJECT_DIR$/src/psy_application/controller/CancelConsul.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/psy_application/controller/NewConsul.java" dialect="OracleSqlPlus" />
   </component>
 </project>

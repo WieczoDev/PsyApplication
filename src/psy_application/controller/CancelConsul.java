@@ -85,16 +85,13 @@ public class CancelConsul implements Initializable {
         consul_id = (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
         System.out.println(consul_id);
         try{
-            String myQuery = "DELETE FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_id ;
-            ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-            System.out.println("J'ai pu l'effacer dans la première table");
-            myQuery = "DELETE FROM CONSULTATIONS WHERE CONSUL_ID = " + consul_id ;
-            rset = Main.database.stmt.executeQuery(myQuery);
-            System.out.println("J'ai pu l'effacer dans la seconde table");
+            Main.database.RemoveConsulstmt.setString(1, String.valueOf(consul_id));
+            Main.database.RemoveConsulstmt.execute();                                                    // On appelle la procédure pour supprimer un rdv
             tableview.getItems().remove(tableview.getSelectionModel().getSelectedIndex());
         }catch (SQLException e){
             System.out.println("Erreur dans la suppression !");
-        }
+            e.printStackTrace();
+    }
     }
 
     @FXML
