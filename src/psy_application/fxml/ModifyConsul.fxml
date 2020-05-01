@@ -17,7 +17,7 @@
             <bottom>
                 <Pane fx:id="containerbottom" prefHeight="165.0" prefWidth="994.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="finaliseButton" layoutX="524.0" layoutY="35.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="52.0" prefWidth="223.0" text="Valider les modification" BorderPane.alignment="CENTER" />
+                        <Button fx:id="finaliseButton" layoutX="524.0" layoutY="35.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="52.0" prefWidth="223.0" text="Valider les modification" BorderPane.alignment="CENTER" />
                         <Button fx:id="closeButton" layoutX="230.0" layoutY="38.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="47.0" prefWidth="200.0" text="Annuler" />
                         <Separator layoutX="230.0" layoutY="-8.0" prefHeight="46.0" prefWidth="521.0" />
                     </children>
@@ -41,7 +41,7 @@
                                 <Font size="22.0" />
                             </font>
                         </Label>
-                        <Label fx:id="patientsLabel" layoutX="113.0" layoutY="137.0" text="Liste des patients :">
+                        <Label fx:id="patientsLabel" layoutX="195.0" layoutY="170.0" text="Liste des patients :">
                             <font>
                                 <Font size="22.0" />
                             </font>
@@ -58,7 +58,7 @@
                                 <Font size="22.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="textLabel" alignment="CENTER" layoutX="550.0" layoutY="302.0" prefHeight="143.0" prefWidth="355.0" promptText="Insérer les notes de la séances" />
+                        <TextField fx:id="textField" alignment="CENTER" layoutX="550.0" layoutY="302.0" prefHeight="143.0" prefWidth="355.0" promptText="Insérer les notes de la séances" />
                         <Slider fx:id="anxieteScroll" blockIncrement="1.0" layoutX="751.0" layoutY="209.0" majorTickUnit="10.0" max="9.0" minorTickCount="10" showTickLabels="true" showTickMarks="true" value="4.5" />
                         <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="577.0" layoutY="209.0" text="Taux d'anxiété :" textAlignment="CENTER">
                             <font>
@@ -70,22 +70,33 @@
                         <Font size="22.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="121.0" layoutY="202.0" />
-                  <TextField layoutX="121.0" layoutY="264.0" />
-                  <TextField layoutX="121.0" layoutY="329.0" />
-                  <Label fx:id="patientsLabel1" layoutX="152.0" layoutY="176.0" text="Patient n°1 ">
+                  <TextField fx:id="p1field" layoutX="203.0" layoutY="234.0" />
+                  <TextField fx:id="p2field" layoutX="203.0" layoutY="297.0" />
+                  <TextField fx:id="p3field" layoutX="203.0" layoutY="362.0" />
+                  <Label fx:id="patientsLabel1" layoutX="234.0" layoutY="209.0" text="Patient n°1 ">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="patientsLabel11" layoutX="152.0" layoutY="239.0" text="Patient n°1 ">
+                  <Label fx:id="patientsLabel2" layoutX="234.0" layoutY="272.0" text="Patient n°2">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="patientsLabel111" layoutX="152.0" layoutY="304.0" text="Patient n°1 ">
+                  <Label fx:id="patientsLabel3" layoutX="234.0" layoutY="337.0" text="Patient n°3">
                      <font>
                         <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="898.0" layoutY="161.0" text="€">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="reasonfield" layoutX="201.0" layoutY="421.0" />
+                  <Label fx:id="reasonLabel" layoutX="233.0" layoutY="392.0" text="Raison : ">
+                     <font>
+                        <Font size="23.0" />
                      </font>
                   </Label>
                     </children>

@@ -44,7 +44,7 @@
                     <children>
                         <Button fx:id="deleteButton" layoutX="669.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
                   <Button fx:id="finaliseButton" layoutX="118.0" layoutY="40.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="47.0" prefWidth="200.0" text="Finaliser la ligne selectionné" />
-                  <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
+                  <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
                     </children>
                 </Pane>
                 </bottom>

@@ -52,6 +52,8 @@ public class Psy_Frame implements Initializable {
     public TableColumn reasonCol;
     @FXML
     public TableColumn rangeCol;
+    @FXML
+    public Button gestionpatientButton;
 
     ObservableList<Consultation> list = FXCollections.observableArrayList();
 
@@ -71,14 +73,14 @@ public class Psy_Frame implements Initializable {
     }
 
     public static Consultation getConsul(int consul_id) {
-        Consultation Consul1 = new Consultation();
+        Consultation Consul1;
         ArrayList<Integer> listPatient = new ArrayList<>();
         try {
             String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how, consul_date FROM Consultations WHERE consul_id = " + consul_id;
             ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
             if(rset1.next()){
                 try {
-                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset1.getInt(1);
+                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_id;
                     ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
                     int count = 0;
                     while (rset2.next()) {
@@ -123,19 +125,51 @@ public class Psy_Frame implements Initializable {
                     while ( listPatient.size() <3){
                         listPatient.add(0);
                     }
-                    Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
+                    Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1),
                             listPatient.get(2), strDate, rset1.getDouble(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                     list.add(Consul1);
                 } catch (SQLException e) {
-                    System.out.println("Erreur de connexion avec la database");
+                    System.out.println("Erreur de connexion avec la database 1");
+                    e.printStackTrace();
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Erreur de connexion avec la database");
+            System.out.println("Erreur de connexion avec la database 2");
             e.printStackTrace();
         }
         return list;
     }
+
+    public static ObservableList<Consultation> getConsulList(int patient_id, ObservableList list) {
+        list.clear();
+        ArrayList<Integer> listPatient = new ArrayList();
+        try {
+            String myQuery2 = "SELECT consul_ID FROM PATIENT_CONSUL WHERE patient_ID = " + patient_id;
+            ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
+            while (rset2.next()){
+                listPatient.clear();
+                String myQuery1 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset2.getInt(1);
+                ResultSet rset1 = Main.database.stmt.executeQuery(myQuery1);
+                while(rset1.next()){
+                    listPatient.add(rset1.getInt(1));
+                }
+                while ( listPatient.size() <3){
+                    listPatient.add(0);
+                }
+                String myQuery = "SELECT CONSUL_DATE , consul_hour, consul_reason, consul_text, consul_price, consultation_how FROM Consultations WHERE CONSUL_ID =" + rset2.getInt(1);
+                rset1 = Main.database.stmt.executeQuery(myQuery);
+                rset1.next();
+                Consultation Consul1 = new Consultation(rset2.getInt(1), listPatient.get(0), listPatient.get(1),
+                        listPatient.get(2),rset1.getString(1),  rset1.getDouble(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                list.add(Consul1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur de connexion avec la database 2");
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
     public static String convertJDatetoString(DatePicker date_field) {
         java.util.Date Ddate = java.util.Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
@@ -154,6 +188,14 @@ public class Psy_Frame implements Initializable {
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/Psy_Frame_Consul.fxml"));
         login.psyStage.setScene(new Scene(root));
     }
+    @FXML
+    public void gestionpatientButtonAction() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../fxml/HandlePatient.fxml"));
+        Stage HandlePatient = new Stage();
+        HandlePatient.setScene(new Scene(root));
+        HandlePatient.show();
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -163,11 +205,11 @@ public class Psy_Frame implements Initializable {
         patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
         patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
         reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
-        System.out.println("Bonjour Admin !");
         tableview.setPlaceholder(new Label("Aucune consultation aujourd'hui !"));
         String strDate = java.time.LocalDate.now().toString();
-        System.out.println(strDate);
         list = getConsulList(strDate, list);
         tableview.setItems(list);
     }
+
+
 }

@@ -140,6 +140,7 @@ public class NewConsul implements Initializable {
         heure = null;
         reason = 0;
         verifyStep1 = false;
+        Step1Label.setText("ETAPE 1 :");
 
         heure = (String) heure_Box.getSelectionModel().getSelectedItem();
         System.out.println(heure.length());
@@ -197,6 +198,7 @@ public class NewConsul implements Initializable {
     private void Step2ButtonAction() throws SQLException {
         Patient1 = Patient2 = Patient3 = 0;
         verifyStep2 = false;
+        Step2Label.setText("ETAPE 2 :");
 
         // On vérifie l'existence des Patients
         try {
@@ -251,22 +253,23 @@ public class NewConsul implements Initializable {
         if (!(patient3field.getText().equals(""))) {
             try {
                 Integer.parseInt(patient3field.getText());
-                String myQuery = "SELECT Patient_ID FROM Patients WHERE patient_id ='" + patient3field.getText() + "'";
+                String myQuery = "SELECT Patient_ID FROM Patients WHERE patient_id =" + patient3field.getText();
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery);
                 if (rset.next()) {
                     Patient3 = rset.getInt(1);
+                    System.out.println("Patient 3 est : " + Patient3);
                     patient3label.setText("Patient n°3 : Trouvé");
                 } else {
                     patient2label.setText("Patient n°3 : Pas trouvé");
                 }
             } catch (NumberFormatException e) {
-                String myQuery = "SELECT User_ID FROM USERS WHERE user_login ='" + patient3field.getText() + "'";
+                String myQuery = "SELECT User_ID FROM USERS WHERE user_login =" + patient3field.getText();
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery);
                 if (rset.next()) {
                     Patient3 = rset.getInt(1);
                     patient3label.setText("Patient n°3 : Trouvé");
                 } else {
-                    patient2label.setText("Patient n°3 : Pas trouvé");
+                    patient3label.setText("Patient n°3 : Pas trouvé");
                 }
             }
             if (Patient3 == 0) {
@@ -293,7 +296,9 @@ public class NewConsul implements Initializable {
                 if (Patient2 != 0) {
                     myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient2 + "," + Consul_id + ")";
                     rset = Main.database.stmt.executeQuery(myQuery);
-                } else if (Patient3 != 0) {
+                }
+                if (Patient3 != 0) {
+                    System.out.println("J'ajoute le dernier patient à la DB");
                     myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient3 + "," + Consul_id + ")";
                     rset = Main.database.stmt.executeQuery(myQuery);
                 }

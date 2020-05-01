@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="629.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.HandlePatient">
+    <children>
+        <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="636.0" prefWidth="994.0">
+            <top>
+                <Label alignment="CENTER" prefHeight="84.0" prefWidth="1006.0" style="-fx-background-color: #000000;" text="Gestion des patients" textFill="WHITE" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="System Italic" size="38.0" />
+                    </font>
+                </Label>
+            </top>
+            <center>
+                <Pane fx:id="container" prefHeight="446.0" prefWidth="994.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="410.0" layoutY="14.0" text="Listes des patients :">
+                     <font>
+                        <Font size="22.0" />
+                     </font></Label>
+                        <TableView fx:id="tableview" layoutX="23.0" layoutY="84.0" prefHeight="322.0" prefWidth="949.0">
+                            <columns>
+                                <TableColumn fx:id="idCol" prefWidth="59.0" text="n°" />
+                                <TableColumn fx:id="surnameCol" prefWidth="113.0" text="Nom" />
+                                <TableColumn fx:id="nameCol" prefWidth="94.0" text="Prénom" />
+                                <TableColumn fx:id="dobCol" prefWidth="124.0" text="Date de naissance" />
+                                <TableColumn fx:id="maillingCol" prefWidth="279.0" text="Adresse" />
+                                <TableColumn fx:id="howCol" minWidth="0.0" prefWidth="177.0" text="Comment il me connait ?" />
+                                <TableColumn fx:id="profCol" prefWidth="102.0" text="Profession" />
+
+                            </columns>
+                        </TableView>
+                    </children>
+                </Pane>
+            </center>
+            <bottom>
+                <Pane fx:id="containerbottom" prefHeight="139.0" prefWidth="994.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="deleteButton" layoutX="669.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
+                        <Button fx:id="printConsulButton" layoutX="127.0" layoutY="41.0" mnemonicParsing="false" onAction="#printConsulButtonAction" prefHeight="47.0" prefWidth="200.0" text="Voir tous les rendez-vous &#10;du patient selctionnée" textAlignment="CENTER" />
+                        <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
+                    </children>
+                </Pane>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>

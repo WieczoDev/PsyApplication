@@ -29,6 +29,7 @@
                   </font>
                </Label>
                <Label layoutX="667.0" layoutY="6.0" text="Consultation de la journéee :" />
+               <Button fx:id="gestionpatientButton" layoutX="142.0" layoutY="137.0" mnemonicParsing="false" onAction="#gestionpatientButtonAction" prefHeight="77.0" prefWidth="174.0" text="Acceder à la gestion&#10;des patients" textAlignment="CENTER" />
                 </children>
             </Pane>
         </center>

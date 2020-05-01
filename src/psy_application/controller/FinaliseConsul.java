@@ -35,62 +35,46 @@ public class FinaliseConsul implements Initializable {
 
     private int consul_id;
     private Consultation consultation;
-    String[] List = new String[]{"Non payé","Chèque", "Carte Bancaire", "Espèces" , "PayPal", "Lydia"};
+    String[] List = new String[]{"Non payé", "Chèque", "Carte Bancaire", "Espèces", "PayPal", "Lydia"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         payBox.setItems(FXCollections.observableArrayList(List));
         consul_id = CancelConsul.getConsul_id();
         consultation = Psy_Frame.getConsul(consul_id);
-        dateLabel.setText( dateLabel.getText() +" " + consultation.getConsul_date());
-        heureLabel.setText( heureLabel.getText() +" " + consultation.getConsul_hour());
-        if(consultation.getConsul_text() != null) textLabel.setText(consultation.getConsul_text());
-        patientsLabel.setText( patientsLabel.getText() +" " + consultation.getPatient_ID1() + ", " + consultation.getPatient_ID2() + ", " + consultation.getPatient_ID3());
-        if(consultation.getConsul_reason() != 6){
+        dateLabel.setText(dateLabel.getText() + " " + consultation.getConsul_date());
+        heureLabel.setText(heureLabel.getText() + " " + consultation.getConsul_hour());
+        if (consultation.getConsul_text() != null) textLabel.setText(consultation.getComment());
+        patientsLabel.setText(patientsLabel.getText() + " " + consultation.getPatient_ID1() + ", " + consultation.getPatient_ID2() + ", " + consultation.getPatient_ID3());
+        System.out.println(consultation.getConsul_reason());
+        if (consultation.getConsul_reason() == null || !consultation.getConsul_reason().equals("Anxiété")) {
             anxieteScroll.setDisable(true);
         }
     }
-    private int getHow(){
-        try {
-            switch ((String) payBox.getSelectionModel().getSelectedItem()){
-                case "Chèque":
-                    return 2;
-                case  "Carte Bancaire" :
-                    return 1;
-                case "Espèces" :
-                    return 3;
-                case "PayPal" :
-                    return 4;
-                case  "Lydia":
-                    return 5;
-                default: return 0;
-            }
-        }catch (Exception e){
-            return -1;
-        }
-    }
+
     private boolean isanInt(String chaine) {
         try {
             Integer.parseInt(chaine);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
         return true;
     }
+
     @FXML
     private void finaliseButtonAction() throws SQLException {
-        if(getHow() != -1 && isanInt(pricefield.getText())){
-            consultation.setConsul_how(getHow());
+        if (isanInt(pricefield.getText())) {
+            consultation.setConsul_how(consultation.getHow(((String) payBox.getSelectionModel().getSelectedItem())));
             consultation.setConsul_price(Integer.parseInt(pricefield.getText()));
-            if(consultation.getConsul_reason() != 6){
+            if (!consultation.getConsul_reason().equals("Anxiété")) {
                 consultation.setConsul_text(textLabel.getText());
-            }else{
-                consultation.setConsul_text("Le taux d'anxiété du patient est = " + (int) anxieteScroll.getValue() + ", Votre commentaire :" + textLabel.getText());
-
+            } else {
+                consultation.setConsul_text("Le taux d'anxiété du patient est = " + (int) anxieteScroll.getValue() + "; " + textLabel.getText());
             }
             System.out.println(consultation);
-            consultation.setConsul_text(consultation.getConsul_text().replace("'", "''"));String myQuery = "UPDATE CONSULTATIONS SET CONSULTATION_HOW = " +consultation.getConsul_how() +
-                    ", CONSUL_TEXT ='" + consultation.getConsul_text() +"', CONSUL_PRICE =" + consultation.getConsul_price() + " WHERE CONSUL_ID = " + consul_id;;
+            consultation.setConsul_text(consultation.getConsul_text().replace("'", "''"));
+            String myQuery = "UPDATE CONSULTATIONS SET CONSULTATION_HOW = " + consultation.getHow(((String) payBox.getSelectionModel().getSelectedItem())) +
+                    ", CONSUL_TEXT ='" + consultation.getConsul_text() + "', CONSUL_PRICE =" + consultation.getConsul_price() + " WHERE CONSUL_ID = " + consul_id;
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             Psy_Frame.showInfo("Finalisation effectué !");
             Stage primaryStage = (Stage) closeButton.getScene().getWindow();

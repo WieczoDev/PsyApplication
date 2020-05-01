@@ -127,7 +127,10 @@ public class Psy_Frame_Consul  implements Initializable {
 
     @FXML
     private void findButtonAction() throws ParseException {
-        //On VERFIE QUE LA DATE CHOISIE EST UN LUNDI
+        System.out.println();
+
+        try{
+            //On VERFIE QUE LA DATE CHOISIE EST UN LUNDI
             int count = 0;
             CurrentDate = convertJDatetoString(date_field);
             if(isMonday(CurrentDate)){
@@ -161,7 +164,13 @@ public class Psy_Frame_Consul  implements Initializable {
                     CurrentDate = addOneDay(CurrentDate);
                     count+=1;
                 }while( !isMonday(CurrentDate));
+            }else{
+                Psy_Frame.showAlert("Vous devez saisir un lundi !");
             }
+        }catch (NullPointerException e){
+            Psy_Frame.showAlert("Vous devez saisir un lundi !");
+        }
+
     }
 
     @FXML

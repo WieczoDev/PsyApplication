@@ -17,11 +17,10 @@ import psy_application.User.Psy;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CancelConsul implements Initializable {
+public class PatientConsul implements Initializable {
     @FXML
     public Button findButton;
     @FXML
@@ -41,7 +40,7 @@ public class CancelConsul implements Initializable {
     @FXML
     public TableColumn patient3Col;
     @FXML
-    public TableColumn reasonCol;
+    public TableColumn dateCol;
     @FXML
     public TableColumn rangeCol;
     @FXML
@@ -55,11 +54,11 @@ public class CancelConsul implements Initializable {
     @FXML
     public Button finaliseButton;
     @FXML
+    public Label titleLabel;
+    @FXML
     private javafx.scene.control.Button closeButton;
-
-    private String strDate;
-    private static int consul_id;
     ObservableList<Consultation> list = FXCollections.observableArrayList();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,22 +67,16 @@ public class CancelConsul implements Initializable {
         patient1Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
         patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
         patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
-        reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("consul_date"));
         payement.setCellValueFactory(new PropertyValueFactory<>("consul_how"));
         prix.setCellValueFactory(new PropertyValueFactory<>("consul_price"));
         commentaire.setCellValueFactory(new PropertyValueFactory<>("consul_text"));
+        buildtableview(HandlePatient.patient_id);
     }
-
-    //GETTERS
-    public static int getConsul_id(){
-        return consul_id;
-    }
-
     @FXML
     private void handleDeletePerson() {
         // this gives the value in the selected cell:
-        consul_id = (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
-        System.out.println(consul_id);
+        int consul_id = (int)idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
         try{
             Main.database.RemoveConsulstmt.setString(1, String.valueOf(consul_id));
             Main.database.RemoveConsulstmt.execute();                                                    // On appelle la procédure pour supprimer un rdv
@@ -91,45 +84,24 @@ public class CancelConsul implements Initializable {
         }catch (SQLException e){
             System.out.println("Erreur dans la suppression !");
             e.printStackTrace();
-    }
-    }
-
-    @FXML
-    private void findButtonAction() throws SQLException {
-        try{
-            strDate = Psy_Frame.convertJDatetoString(date_field);
-            list = Psy_Frame.getConsulList(strDate , list);
-            tableview.setItems(list);
-        }catch (NullPointerException e){
-            System.out.println("Aucune date selectionnée ");
         }
-
     }
-
     @FXML
     private void modifyButtonAction() throws IOException {
+        System.out.println((int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue());
         ModifyConsul.consultation_id =  (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
+        System.out.println(ModifyConsul.consultation_id);
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/ModifyConsul.fxml"));
         Stage ModifyConsul = new Stage();
         ModifyConsul.setScene(new Scene(root));
         ModifyConsul.show();
     }
 
-    @FXML
-    private void finaliseButtonAction(){
-        try{
-            consul_id =  (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
-            Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/FinaliseConsul.fxml"));
-            Stage FinaliseConsul = new Stage();
-            FinaliseConsul.setScene(new Scene(root));
-            FinaliseConsul.show();
-        }catch (Exception e ){
-            Psy_Frame.showAlert("Aucune consultation séléctionnée !");
-            e.printStackTrace();
-        }
-
+    private  void buildtableview(int patient_id){
+        list.clear();
+        list = Psy_Frame.getConsulList(patient_id, list);
+        tableview.setItems(list);
     }
-
 
     @FXML
     private void closeButtonAction() {
