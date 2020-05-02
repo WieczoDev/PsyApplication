@@ -110,7 +110,6 @@ public class Psy_Frame_Consul  implements Initializable {
         Calendar c = Calendar.getInstance();
         c.setTime(Date);
         if (c.get(c.DAY_OF_WEEK) == 2) {
-            System.out.println(c.get(c.DAY_OF_WEEK));
             return true;
         } else return false;
     }
@@ -128,8 +127,6 @@ public class Psy_Frame_Consul  implements Initializable {
 
     @FXML
     private void findButtonAction() throws ParseException {
-        System.out.println();
-
         try{
             //On VERFIE QUE LA DATE CHOISIE EST UN LUNDI
             int count = 0;

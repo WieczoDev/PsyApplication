@@ -66,7 +66,7 @@ public class FinaliseConsul implements Initializable {
         if (isanInt(pricefield.getText())) {
             consultation.setConsul_how(consultation.getHow(((String) payBox.getSelectionModel().getSelectedItem())));
             consultation.setConsul_price(Integer.parseInt(pricefield.getText()));
-            if (!consultation.getConsul_reason().equals("Anxiété")) {
+            if (consultation.getConsul_reason() == null || !consultation.getConsul_reason().equals("Anxiété")) {
                 consultation.setConsul_text(textLabel.getText());
             } else {
                 consultation.setConsul_text("Le taux d'anxiété du patient est = " + (int) anxieteScroll.getValue() + "; " + textLabel.getText());

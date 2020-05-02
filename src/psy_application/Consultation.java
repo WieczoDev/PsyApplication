@@ -94,11 +94,13 @@ public class Consultation {
         String MyQuery3 = "SELECT PATIENT_ID FROM PATIENTS WHERE Patient_surname = '" + name +"'";
         ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
         int count = 0 ;
-        if(rset.next()){
-            if(rset.next()){
-                return -1;
-            }
-            return rset.getInt(1);
+        int id = -1;
+        while(rset.next()){
+            count += 1 ;
+            id = rset.getInt(1);
+        }
+        if(count == 1 ){
+            return id;
         }
         else return -1;
     }
@@ -252,7 +254,6 @@ public class Consultation {
         //PATIENT 1
         try {
             Integer.parseInt(this.patient_1);                                       //On regarde si c'est l'ID du patient qui est donné ou pas
-            System.out.println(this.patient_1);
             if(PatientExist(Integer.parseInt(this.patient_1))){
             }else{
                 this.patient_1 = String.valueOf(-1);
@@ -269,7 +270,6 @@ public class Consultation {
         if (this.patient_2 != null){
             try {
                 Integer.parseInt(this.patient_2);                                       //On regarde si c'est l'ID du patient qui est donné ou pas
-                System.out.println(this.patient_2);
                 if(PatientExist(Integer.parseInt(this.patient_2))){
                 }else{
                     this.patient_2 = String.valueOf(-1);
@@ -287,7 +287,6 @@ public class Consultation {
         if (this.patient_3 != null){
             try {
                 Integer.parseInt(this.patient_3);                                       //On regarde si c'est l'ID du patient qui est donné ou pas
-                System.out.println(this.patient_3);
                 if(PatientExist(Integer.parseInt(this.patient_3))){
                 }else{
                     this.patient_3 = String.valueOf(-1);
@@ -314,12 +313,12 @@ public class Consultation {
         return true;
     }
 
-    // PERMET DE TRANSFORMER LA RAISON SAISIE EN SONS ID EQUIVALENT
+    // PERMET DE TRANSFORMER LA RAISON SAISIE EN SONT ID EQUIVALENT
 
     public boolean updatereason(){
         try {
             String myQuery3 = "SELECT Reason_ID FROM Reasons WHERE reason ='" + this.getConsul_reason() + "'";
-            ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3);
+            ResultSet rset3 = Main.database.stmt3.executeQuery(myQuery3);
             if (rset3.next()) {
                 this.consul_reason = String.valueOf(rset3.getInt(1));
             } else if (this.getConsul_reason() == null) {
@@ -327,11 +326,12 @@ public class Consultation {
             } else {
                 // CREATION D'UNE RAISON ET AJOUT DANS LA DB
                 myQuery3 = "SELECT MAX(reason_ID) FROM reasons";
-                rset3 = Main.database.stmt.executeQuery(myQuery3);
+                rset3 = Main.database.stmt3.executeQuery(myQuery3);
                 rset3.next();
-                myQuery3 = "INSERT INTO REASONS VALUES ( " + rset3.getInt(1) + 1 + ", '" + this.getConsul_reason() + "')";
-                this.consul_reason = String.valueOf(rset3.getInt(1) + 1);
-                rset3 = Main.database.stmt.executeQuery(myQuery3);
+                int reason_id = rset3.getInt(1) + 1;
+                myQuery3 = "INSERT INTO REASONS VALUES ( " + reason_id + ", '" + this.getConsul_reason() + "')";
+                this.consul_reason = String.valueOf(reason_id);
+                rset3 = Main.database.stmt3.executeQuery(myQuery3);
             }
             return true;
         } catch (SQLException e) {
@@ -343,7 +343,6 @@ public class Consultation {
     // SI ON MODIFIE LA LISTE DES PATIENTS
 
     public void updatePatientConsul() throws SQLException {
-        System.out.println("L'ID de ma consultation est : " + consul_ID);
         String myQuery3 = "DELETE FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_ID;
         ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3);
         myQuery3 = "INSERT INTO Patient_Consul VALUES ("+ patient_1 + "," + consul_ID + ")";

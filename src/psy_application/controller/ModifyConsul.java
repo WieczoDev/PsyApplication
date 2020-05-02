@@ -49,7 +49,6 @@ public class ModifyConsul implements Initializable {
         reasonfield.setText(consultation.getConsul_reason());
         payBox.setPromptText(consultation.getConsul_how());
         pricefield.setText(consultation.getConsul_price() + "");
-        System.out.println(consultation.getConsul_reason());
         try {
             textField.setText(consultation.getComment());
             if (!consultation.getConsul_reason().equals("Anxiété") || consultation.getConsul_reason() == null) {

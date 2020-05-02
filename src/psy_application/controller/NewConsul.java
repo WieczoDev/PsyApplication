@@ -148,7 +148,6 @@ public class NewConsul implements Initializable {
         Step1Label.setText("ETAPE 1 :");
 
         heure = (String) heure_Box.getSelectionModel().getSelectedItem();
-        System.out.println(heure.length());
         switch (heure.length()){
             case 2:
                 heure = (String) heure.substring(0, 1);
@@ -163,8 +162,6 @@ public class NewConsul implements Initializable {
                 heure = (String) heure.substring(0, 2) + ".5";
                 break;
         }
-        System.out.println(heure);
-
         // Trouvons dans la base de donnée la raison de la consultation et Testons la date
 
         try {
@@ -172,10 +169,8 @@ public class NewConsul implements Initializable {
             String myQuery = "SELECT Reason_ID FROM Reasons WHERE reason ='" + reason_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {
-                System.out.println(" J'ai trouvé une reason avec un int de  = " + rset.getInt(1));
                 reason = rset.getInt(1);
             } else if (reason_field.getText().equals("")) {
-                System.out.println("Je suis ici");
                 reason = 0;
             } else {
                 // CREATION D'UNE RAISON ET AJOUT DANS LA DB
@@ -309,7 +304,6 @@ public class NewConsul implements Initializable {
                     rset = Main.database.stmt.executeQuery(myQuery);
                 }
                 if (Patient3 != 0) {
-                    System.out.println("J'ajoute le dernier patient à la DB");
                     myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient3 + "," + Consul_id + ")";
                     rset = Main.database.stmt.executeQuery(myQuery);
                 }
@@ -319,7 +313,6 @@ public class NewConsul implements Initializable {
                 Psy_Frame.showInfo("Ajout de la consultation avec succès");
             } catch (Exception e) {
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
-                e.printStackTrace();
             }
         } else{
             Psy_Frame.showAlert("Vous n'avez pas validée une ( ou les deux ) étapes !");

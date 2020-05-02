@@ -43,6 +43,8 @@ public class PatientConsul implements Initializable {
     @FXML
     public TableColumn dateCol;
     @FXML
+    public TableColumn reasonCol;
+    @FXML
     public TableColumn rangeCol;
     @FXML
     public Button deleteButton;
@@ -68,6 +70,7 @@ public class PatientConsul implements Initializable {
         patient1Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
         patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
         patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
+        reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("consul_date"));
         payement.setCellValueFactory(new PropertyValueFactory<>("consul_how"));
         prix.setCellValueFactory(new PropertyValueFactory<>("consul_price"));
