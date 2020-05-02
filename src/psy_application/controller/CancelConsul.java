@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import psy_application.Consultation;
 import psy_application.Main;
 import psy_application.User.Psy;
@@ -112,6 +113,7 @@ public class CancelConsul implements Initializable {
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/ModifyConsul.fxml"));
         Stage ModifyConsul = new Stage();
         ModifyConsul.setScene(new Scene(root));
+        ModifyConsul.initStyle(StageStyle.UNDECORATED);
         ModifyConsul.show();
     }
 
@@ -122,6 +124,7 @@ public class CancelConsul implements Initializable {
             Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/FinaliseConsul.fxml"));
             Stage FinaliseConsul = new Stage();
             FinaliseConsul.setScene(new Scene(root));
+            FinaliseConsul.initStyle(StageStyle.UNDECORATED);
             FinaliseConsul.show();
         }catch (Exception e ){
             Psy_Frame.showAlert("Aucune consultation séléctionnée !");
@@ -130,10 +133,10 @@ public class CancelConsul implements Initializable {
 
     }
 
-
     @FXML
     private void closeButtonAction() {
         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
         primaryStage.close();
+        login.psyStage.show();
     }
 }

@@ -3,6 +3,7 @@ package psy_application.controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -106,6 +107,10 @@ public class Psy_Frame implements Initializable {
         }
     }
 
+    /*
+           METHODES PERMETTANT DE CREER LES LISTES DE CONSULTATION POUR LES TABLEAU ( AFFICHAGE )
+     */
+
     public static ObservableList<Consultation> getConsulList(String strDate, ObservableList list) {
         list.clear();
         ArrayList<Integer> listPatient = new ArrayList<>();
@@ -170,7 +175,6 @@ public class Psy_Frame implements Initializable {
         return list;
     }
 
-
     public static String convertJDatetoString(DatePicker date_field) {
         java.util.Date Ddate = java.util.Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -190,6 +194,7 @@ public class Psy_Frame implements Initializable {
     }
     @FXML
     public void gestionpatientButtonAction() throws IOException {
+        login.psyStage.close();
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/HandlePatient.fxml"));
         Stage HandlePatient = new Stage();
         HandlePatient.setScene(new Scene(root));

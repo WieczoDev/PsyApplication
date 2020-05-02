@@ -46,9 +46,11 @@ public class menu {
 
     @FXML
     private void addPatients() throws IOException {
+        login.psyStage.close();
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/AddPatient.fxml"));
         Stage AddPatient = new Stage();
         AddPatient.setScene(new Scene(root));
+        AddPatient.initStyle(StageStyle.UNDECORATED);
         AddPatient.show();
     }
 

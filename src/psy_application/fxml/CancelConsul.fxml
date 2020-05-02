@@ -19,8 +19,7 @@
                     <children>
                         <DatePicker fx:id="date_field" layoutX="417.0" layoutY="41.0" />
                         <Label layoutX="380.0" layoutY="14.0" text="Chercher la consultation par rapport à la date :" />
-                        <Button fx:id="findButton" layoutX="521.0" layoutY="79.0" mnemonicParsing="false" onAction="#findButtonAction" text="Chercher" />
-                        <Button fx:id="closeButton" layoutX="437.0" layoutY="79.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Annuler" />
+                        <Button fx:id="findButton" layoutX="465.0" layoutY="74.0" mnemonicParsing="false" onAction="#findButtonAction" text="Chercher" />
                         <TableView fx:id="tableview" layoutX="29.0" layoutY="142.0" prefHeight="322.0" prefWidth="949.0">
                             <columns>
                                 <TableColumn fx:id="heureCol" prefWidth="56.0" text="Heure" />
@@ -46,6 +45,11 @@
                   <Button fx:id="finaliseButton" layoutX="118.0" layoutY="40.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="47.0" prefWidth="200.0" text="Finaliser la ligne selectionné" />
                   <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
                     </children>
+                    <Button fx:id="closeButton" layoutX="407.0" layoutY="107.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Retour en Arrière">
+                        <font>
+                            <Font size="20.0" />
+                        </font>
+                    </Button>
                 </Pane>
                 </bottom>
         </BorderPane>

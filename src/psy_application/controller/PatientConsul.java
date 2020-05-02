@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import psy_application.Consultation;
 import psy_application.Main;
 import psy_application.User.Psy;
@@ -94,6 +95,7 @@ public class PatientConsul implements Initializable {
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/ModifyConsul.fxml"));
         Stage ModifyConsul = new Stage();
         ModifyConsul.setScene(new Scene(root));
+        ModifyConsul.initStyle(StageStyle.UNDECORATED);
         ModifyConsul.show();
     }
 

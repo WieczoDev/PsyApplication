@@ -96,6 +96,11 @@ public class NewConsul implements Initializable {
         }
     }
 
+    // LA SAISIE D'UNE NOUVELLE CONSULTATION CE FAIT EN 2 ETAPES
+    // LA PREMIERE ETAPE CONTIENT UNE VERIFICATION DE LA DATE ET UNE MISE A JOUR DES CRENEAUX HORRAIRES DISPONIBLES
+        // PUIS LA SELECTION DE L'HORRAIRE ET (FALCULTATIF) LA SAISIE DE LA RAISON
+    // LA SECONDE ETAPE CORRESPOND A LA SAISIE DES PATIENTS VIA ID OU PAR EMAIL
+
     @FXML
     private void CheckDateButtonAction() throws SQLException {
         try{
@@ -201,6 +206,7 @@ public class NewConsul implements Initializable {
         Step2Label.setText("ETAPE 2 :");
 
         // On vérifie l'existence des Patients
+        // VERIFICATION DU PATIENT N1
         try {
             Integer.parseInt(patient1field.getText()); //On regarde si c'est l'ID du patient qui est donné ou pas
             System.out.println(patient1field.getText());
@@ -224,6 +230,9 @@ public class NewConsul implements Initializable {
                 patient1label.setText("Patient n°1 *: Pas trouvé");
             }
         }
+
+        // VERIFICATION DU PATIENT N2
+
         if (!(patient2field.getText().equals(""))) {
             try {
                 Integer.parseInt(patient2field.getText());
@@ -250,6 +259,8 @@ public class NewConsul implements Initializable {
                 System.out.println("Aucun patient 2 trouvé");
             }
         }
+        // VERIFICATION DU PATIENT N3
+
         if (!(patient3field.getText().equals(""))) {
             try {
                 Integer.parseInt(patient3field.getText());
@@ -304,6 +315,7 @@ public class NewConsul implements Initializable {
                 }
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                 primaryStage.close();
+                login.psyStage.show();
                 Psy_Frame.showInfo("Ajout de la consultation avec succès");
             } catch (Exception e) {
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
@@ -318,5 +330,6 @@ public class NewConsul implements Initializable {
     private void closeButtonAction() {
         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
         primaryStage.close();
+        login.psyStage.show();
     }
 }

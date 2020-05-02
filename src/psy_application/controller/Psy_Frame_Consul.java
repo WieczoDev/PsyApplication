@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import psy_application.Consultation;
 import psy_application.Main;
 
@@ -178,14 +179,19 @@ public class Psy_Frame_Consul  implements Initializable {
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/CancelConsul.fxml"));
         Stage CancelConsul = new Stage();
         CancelConsul.setScene(new Scene(root));
+        CancelConsul.initStyle(StageStyle.UNDECORATED);
         CancelConsul.show();
+        login.psyStage.close();
     }
 
     @FXML
     public void createConsul(ActionEvent actionEvent) throws IOException {
+        login.psyStage.close();
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/NewConsul.fxml"));
         Stage NewConsul = new Stage();
         NewConsul.setScene(new Scene(root));
+        NewConsul.initStyle(StageStyle.UNDECORATED);
         NewConsul.show();
+        login.psyStage.close();
     }
 }

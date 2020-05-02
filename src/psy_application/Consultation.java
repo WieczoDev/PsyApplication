@@ -24,27 +24,55 @@ public class Consultation {
 
 
     /*
-            SETTER & GETTER
+            SETTER
      */
+    public void setConsul_ID(int consul_ID) {
+        this.consul_ID = consul_ID;
+    }
 
-    public String getConsul_text() {
-        return consul_text;
+    public void setPatient_ID1(int patient_ID1)throws SQLException {
+        String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID1;
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        rset.next();
+        this.patient_1 = rset.getString(1);
+    }
+
+    public void setPatient_ID2(int patient_ID2) throws SQLException {
+        String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID2;
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset.next())this.patient_2 = rset.getString(1);
+    }
+
+    public void setPatient_ID3(int patient_ID3) throws SQLException {
+        String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID3;
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset.next())this.patient_3 = rset.getString(1);
+    }
+
+    public void setConsul_date(String consul_date) {
+        this.consul_date = consul_date;
+    }
+
+    public void setConsul_hour(int consul_hour) {
+        this.consul_hour = consul_hour;
+    }
+
+    public void setConsul_reason(int consul_reason) throws SQLException {
+        String MyQuery3 = "SELECT REASON FROM REASONS WHERE REASON_ID = " + consul_reason;
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset.next())this.consul_reason = rset.getString(1);
+    }
+
+    public void setConsul_range(int consul_range) {
+        this.consul_range = consul_range;
     }
 
     public void setConsul_text(String consul_text) {
         this.consul_text = consul_text;
     }
 
-    public int getConsul_price() {
-        return consul_price;
-    }
-
     public void setConsul_price(int consul_price) {
         this.consul_price = consul_price;
-    }
-
-    public String getConsul_how() {
-        return consul_how;
     }
 
     public void setConsul_how(int consul_how)throws SQLException {
@@ -58,36 +86,47 @@ public class Consultation {
         return consul_ID;
     }
 
-    public void setConsul_ID(int consul_ID) {
-        this.consul_ID = consul_ID;
+    /*
+        GETTER
+     */
+
+    public int getIdFromName(String name) throws SQLException {
+        String MyQuery3 = "SELECT PATIENT_ID FROM PATIENTS WHERE Patient_surname = '" + name +"'";
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        int count = 0 ;
+        if(rset.next()){
+            if(rset.next()){
+                return -1;
+            }
+            return rset.getInt(1);
+        }
+        else return -1;
+    }
+
+    public int getIdFromMail(String name) throws SQLException {
+        String MyQuery3 = "SELECT USER_ID FROM USERS WHERE USER_LOGIN = '" + name +"'";
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset.next())return rset.getInt(1);
+        else return -1;
     }
 
     public String getPatient_ID1() {
         return patient_1;
     }
 
-    public void setPatient_ID1(int patient_ID1)throws SQLException {
-        String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID1;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        rset.next();
-        this.patient_1 = rset.getString(1);
-    }
-
     public String getPatient_ID2() {
         return patient_2;
     }
 
-    public void setPatient_ID2(int patient_ID2) throws SQLException {
-        String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID2;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())this.patient_2 = rset.getString(1);
+    public String getPatient_ID3() {
+        return patient_3;
     }
 
     public int getAnxiete(){
         int index = this.getConsul_text().indexOf(";");  // Gets the first index where a space occours
         String id = this.getConsul_text().substring(index-1, index); // Gets the first part
         return Integer.parseInt(id);
-    }
+    }  // Vu que le niveau d'anxiété est contenu dans le commentaire on le recupère ici seulement si la raison de la consultation est anxiété !
 
     public String getComment(){
         int index = this.getConsul_text().indexOf(";");  // Gets the first index where a space occours
@@ -95,49 +134,34 @@ public class Consultation {
         return Comment;
     }
 
-    public String getPatient_ID3() {
-        return patient_3;
-    }
-
-    public void setPatient_ID3(int patient_ID3) throws SQLException {
-        String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID3;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())this.patient_3 = rset.getString(1);
-    }
-
     public String getConsul_date() {
         return consul_date;
-    }
-
-    public void setConsul_date(String consul_date) {
-        this.consul_date = consul_date;
     }
 
     public double getConsul_hour() {
         return consul_hour;
     }
 
-    public void setConsul_hour(int consul_hour) {
-        this.consul_hour = consul_hour;
-    }
-
     public String getConsul_reason() {
         return consul_reason;
-    }
-
-    public void setConsul_reason(int consul_reason) throws SQLException {
-        String MyQuery3 = "SELECT REASON FROM REASONS WHERE REASON_ID = " + consul_reason;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())this.consul_reason = rset.getString(1);
     }
 
     public int getConsul_range() {
         return consul_range;
     }
 
-    public void setConsul_range(int consul_range) {
-        this.consul_range = consul_range;
+    public String getConsul_text() {
+        return consul_text;
     }
+
+    public int getConsul_price() {
+        return consul_price;
+    }
+
+    public String getConsul_how() {
+        return consul_how;
+    }
+
 
     /*
         CONSTRUCTORS
@@ -156,6 +180,9 @@ public class Consultation {
         this.consul_price = 0;
         this.consul_how = null;
     }
+
+    // On utilise deux types de constructeurs car nous avons 2 styles de consultations , l'une normalisée pour pouvoir la mettre dans la base de donnée et
+    // l'autre avec les strings pour pouvoir avoir un affichage qui à du sens pour la psy !
 
     public Consultation(int consul_ID, String patient_1, String patient_2, String patient_3, String consul_date, double consul_hour, String consul_reason, int consul_range, String consul_text, int consul_price, String consul_how) {
         this.consul_ID = consul_ID;
@@ -189,6 +216,8 @@ public class Consultation {
         METHODES
      */
 
+    // Permet de normalisé le moyen de payement car il existe que un nombre fixe de moyen de paiement !
+
     public int getHow(String how){
         try {
             switch (how){
@@ -208,20 +237,7 @@ public class Consultation {
             return 0;
         }
     }
-
-    public int getIdFromName(String name) throws SQLException {
-        String MyQuery3 = "SELECT PATIENT_ID FROM PATIENTS WHERE Patient_surname = '" + name +"'";
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())return rset.getInt(1);
-        else return -1;
-    }
-
-    public int getIdFromMail(String name) throws SQLException {
-        String MyQuery3 = "SELECT USER_ID FROM USERS WHERE USER_LOGIN = '" + name +"'";
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())return rset.getInt(1);
-        else return -1;
-    }
+    // Verifie si le patient saisie existe return true si oui
 
     public boolean PatientExist(int id) throws SQLException {
         String MyQuery3 = "SELECT PATIENT_ID FROM PATIENTS WHERE PATIENT_ID = " + id;
@@ -229,6 +245,8 @@ public class Consultation {
         if(rset.next())return true;
         else return false;
     }
+
+    // Permet peut-importe la valeur des saisies des patients ( mail / id ou nom ) de le transformer en ID pour pouvoir les saisirs dans la base de données
 
     public boolean updatepatient() throws SQLException {
         //PATIENT 1
@@ -296,6 +314,8 @@ public class Consultation {
         return true;
     }
 
+    // PERMET DE TRANSFORMER LA RAISON SAISIE EN SONS ID EQUIVALENT
+
     public boolean updatereason(){
         try {
             String myQuery3 = "SELECT Reason_ID FROM Reasons WHERE reason ='" + this.getConsul_reason() + "'";
@@ -320,6 +340,8 @@ public class Consultation {
         }
     }
 
+    // SI ON MODIFIE LA LISTE DES PATIENTS
+
     public void updatePatientConsul() throws SQLException {
         System.out.println("L'ID de ma consultation est : " + consul_ID);
         String myQuery3 = "DELETE FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_ID;
@@ -335,6 +357,8 @@ public class Consultation {
             rset3 = Main.database.stmt.executeQuery(myQuery3);
         }
     }
+
+    // SI ON MODIFIE LA CONSULTATION
 
     public boolean UpdateConsultation() throws SQLException {
         // ON VERIFIE LES NOUVEAUX INPUTS POUR LES PATIENTS

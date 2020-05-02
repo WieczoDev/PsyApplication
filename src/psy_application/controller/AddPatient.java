@@ -175,6 +175,7 @@ public class AddPatient {
                         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                         primaryStage.close();
                         Psy_Frame.showInfo("Ajout du patient avec succès !");
+                        login.psyStage.show();
                     }
                     System.out.println(A);
                 } catch (Exception e) {
@@ -197,5 +198,6 @@ public class AddPatient {
     private void closeButtonAction() {
         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
         primaryStage.close();
+        login.psyStage.show();
     }
 }

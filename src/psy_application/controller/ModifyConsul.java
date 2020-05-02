@@ -68,6 +68,7 @@ public class ModifyConsul implements Initializable {
     private void closeButtonAction() {
         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
         primaryStage.close();
+
     }
 
     @FXML

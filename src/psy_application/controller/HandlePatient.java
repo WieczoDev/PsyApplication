@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import psy_application.Consultation;
 import psy_application.Main;
 import psy_application.User.Patient;
@@ -52,6 +53,8 @@ public class HandlePatient implements Initializable {
     public Button deleteButton;
     @FXML
     public Button printConsulButton;
+    @FXML
+    private javafx.scene.control.Button closeButton;
 
     private ObservableList<Patient> list = FXCollections.observableArrayList();
     public static int patient_id;
@@ -104,12 +107,20 @@ public class HandlePatient implements Initializable {
     }
 
     @FXML
+    private void closeButtonAction() {
+        Stage primaryStage = (Stage) closeButton.getScene().getWindow();
+        primaryStage.close();
+        login.psyStage.show();
+    }
+
+    @FXML
     private void printConsulButtonAction() throws IOException {
         // this gives the value in the selected cell:
         patient_id = (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/PatientConsul.fxml"));
-        Stage HandlePatient = new Stage();
-        HandlePatient.setScene(new Scene(root));
-        HandlePatient.show();
+        Stage PatientConsul = new Stage();
+        PatientConsul.setScene(new Scene(root));
+        PatientConsul.initStyle(StageStyle.UNDECORATED);
+        PatientConsul.show();
     }
 }
