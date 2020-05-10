@@ -3,7 +3,6 @@ package psy_application.Model.User;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class User {
-    static final AtomicInteger count = new AtomicInteger(0);
     int user_ID;
     String user_login;
     String user_password;
@@ -32,5 +31,4 @@ public abstract class User {
         this.user_password = user_password;
     }
 
-    boolean isFilled;
 }
