@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import psy_application.Consultation;
+import psy_application.Model.Consultation;
 
 import java.net.URL;
 import java.sql.SQLException;

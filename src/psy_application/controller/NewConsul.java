@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import psy_application.Main;
+import psy_application.Model.Consultation;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -166,21 +167,7 @@ public class NewConsul implements Initializable {
 
         try {
             date = Psy_Frame.convertJDatetoString(date_field);
-            String myQuery = "SELECT Reason_ID FROM Reasons WHERE reason ='" + reason_field.getText() + "'";
-            ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-            if (rset.next()) {
-                reason = rset.getInt(1);
-            } else if (reason_field.getText().equals("")) {
-                reason = 0;
-            } else {
-                // CREATION D'UNE RAISON ET AJOUT DANS LA DB
-                myQuery = "SELECT MAX(reason_ID) FROM reasons";
-                rset = Main.database.stmt.executeQuery(myQuery);
-                rset.next();
-                reason = rset.getInt(1) + 1;
-                myQuery = "INSERT INTO REASONS VALUES ( " + reason + ", '" + reason_field.getText() + "')";
-                rset = Main.database.stmt.executeQuery(myQuery);
-            }
+            reason = Consultation.findaddReason(reason_field.getText());
         } catch (Exception e) {
             System.out.println("Erreur de saisie dans la date ! ");
             e.fillInStackTrace();
@@ -202,6 +189,33 @@ public class NewConsul implements Initializable {
 
         // On vérifie l'existence des Patients
         // VERIFICATION DU PATIENT N1
+        Patient1 = Consultation.findaddPatient(patient1field.getText());
+        if ( Patient1 == 0 ){
+            patient1label.setText("Patient n°1 *: Pas trouvé");
+        }else{
+            patient1label.setText("Patient n°1 *: Trouvé");
+        }
+        // VERIFICATION DU PATIENT N2
+        if (!(patient2field.getText().equals(""))) {
+            Patient2 = Consultation.findaddPatient(patient2field.getText());
+            if (Patient2 == 0) {
+                patient2label.setText("Patient n°2 *: Pas trouvé");
+                Patient2 = -1;
+            } else {
+                patient2label.setText("Patient n°2 *: Trouvé");
+            }
+        }
+        // VERIFICATION DU PATIENT N3
+        if (!(patient3field.getText().equals(""))) {
+            Patient3 = Consultation.findaddPatient(patient3field.getText());
+            if (Patient3 == 0) {
+                patient3label.setText("Patient n°3 *: Pas trouvé");
+                Patient3 = -1;
+            } else {
+                patient3label.setText("Patient n°3 *: Trouvé");
+            }
+        }
+        /*
         try {
             Integer.parseInt(patient1field.getText()); //On regarde si c'est l'ID du patient qui est donné ou pas
             System.out.println(patient1field.getText());
@@ -282,7 +296,7 @@ public class NewConsul implements Initializable {
                 Patient3 = -1;
                 System.out.println("Aucun patient 3 trouvé");
             }
-        }
+        }*/
         if ((Patient1 != 0) && (Patient2 != -1) && (Patient3 != -1)) {
             verifyStep2 = true;
             Step2Label.setText("ETAPE 2 : √");
@@ -295,7 +309,11 @@ public class NewConsul implements Initializable {
         if (verifyStep1 && verifyStep2) {
             try{
                 int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
-                String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','yyyy-MM-dd')," + heure + ", " + reason + ", " + null + ", " + null + ", " + null+ ")";
+                /*public Consultation(int consul_ID, String patient_1, String patient_2, String patient_3, String consul_date, double consul_hour, String consul_reason, int consul_range, String consul_text, int consul_price, String consul_how) {*/
+                Consultation temp_consul = new Consultation( Consul_id, String.valueOf(Patient1),String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason) , 0, null, 0, null);
+                temp_consul.addConsulDB();
+                System.out.println(String.valueOf(Patient2) + " , " + String.valueOf(Patient3));
+                /*String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','yyyy-MM-dd')," + heure + ", " + reason + ", " + null + ", " + null + ", " + null+ ")";
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée
                 myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient1 + "," + Consul_id + ")";
                 rset = Main.database.stmt.executeQuery(myQuery);
@@ -306,7 +324,7 @@ public class NewConsul implements Initializable {
                 if (Patient3 != 0) {
                     myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient3 + "," + Consul_id + ")";
                     rset = Main.database.stmt.executeQuery(myQuery);
-                }
+                }*/
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
                 primaryStage.close();
                 login.psyStage.show();

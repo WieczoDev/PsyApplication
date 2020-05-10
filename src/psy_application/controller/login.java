@@ -1,6 +1,5 @@
 package psy_application.controller;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import psy_application.Main;
-import psy_application.User.Psy;
-import psy_application.User.User;
+import psy_application.Model.User.Psy;
+import psy_application.Model.User.User;
 
 import java.io.IOException;
 import java.sql.ResultSet;
