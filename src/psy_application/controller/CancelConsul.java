@@ -68,6 +68,7 @@ public class CancelConsul implements Initializable {
         patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
         patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
         reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
+        rangeCol.setCellValueFactory(new PropertyValueFactory<>("consul_range"));
         payement.setCellValueFactory(new PropertyValueFactory<>("consul_how"));
         prix.setCellValueFactory(new PropertyValueFactory<>("consul_price"));
         commentaire.setCellValueFactory(new PropertyValueFactory<>("consul_text"));

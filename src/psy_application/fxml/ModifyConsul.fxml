@@ -99,6 +99,9 @@
                         <Font size="23.0" />
                      </font>
                   </Label>
+                        <CheckBox fx:id="couplebox" layoutX="165.0" layoutY="459.0" mnemonicParsing="false" text="Couple" />
+                        <CheckBox fx:id="hommebox" layoutX="241.0" layoutY="459.0" mnemonicParsing="false" text="Homme" />
+                        <CheckBox fx:id="femmebox" layoutX="325.0" layoutY="459.0" mnemonicParsing="false" text="Femme" />
                     </children>
                 </Pane>
          </left>

@@ -108,7 +108,7 @@ public class Psy_Frame implements Initializable {
         ArrayList<Integer> listPatient = new ArrayList<>();
         String consul_text;
         try { //this.consul_text = consul_text;            this.consul_price = consul_price;            this.consul_how = consul_how;
-            String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'yyyy-MM-dd')";
+            String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how, CONSULTATION_RANGE FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'yyyy-MM-dd')";
             ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
             while (rset1.next()) {
                     listPatient.clear();
@@ -123,7 +123,7 @@ public class Psy_Frame implements Initializable {
                         listPatient.add(0);
                     }
                     Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1),
-                            listPatient.get(2), strDate, rset1.getDouble(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                            listPatient.get(2), strDate, rset1.getDouble(2), rset1.getInt(3), rset1.getInt(7), rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                     list.add(Consul1);
                 } catch (SQLException e) {
                     System.out.println("Erreur de connexion avec la database 1");
@@ -202,6 +202,7 @@ public class Psy_Frame implements Initializable {
         patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
         patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
         reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
+        rangeCol.setCellValueFactory(new PropertyValueFactory<>("consul_range"));
         tableview.setPlaceholder(new Label("Aucune consultation aujourd'hui !"));
         String strDate = java.time.LocalDate.now().toString();
         list = getConsulList(strDate, list);

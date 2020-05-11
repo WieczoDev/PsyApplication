@@ -7,11 +7,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import psy_application.Main;
 import psy_application.Model.Consultation;
+import psy_application.Model.User.Psy;
 
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.*;
@@ -35,6 +37,12 @@ public class NewConsul implements Initializable {
     public Button CheckDateButton;
     @FXML
     public Label datelabel;
+    @FXML
+    public CheckBox couplebox;
+    @FXML
+    public CheckBox hommebox;
+    @FXML
+    public CheckBox femmebox;
 
     @FXML
     private javafx.scene.control.Button closeButton;
@@ -59,6 +67,7 @@ public class NewConsul implements Initializable {
     //On creer des variables locales qui permettront de creer le rdv
     private String heure;
     private String date;
+    private int range =0;
     private int reason;
     private int Patient1 = 0;
     private int Patient2 = 0;
@@ -101,6 +110,16 @@ public class NewConsul implements Initializable {
     // LA PREMIERE ETAPE CONTIENT UNE VERIFICATION DE LA DATE ET UNE MISE A JOUR DES CRENEAUX HORRAIRES DISPONIBLES
         // PUIS LA SELECTION DE L'HORRAIRE ET (FALCULTATIF) LA SAISIE DE LA RAISON
     // LA SECONDE ETAPE CORRESPOND A LA SAISIE DES PATIENTS VIA ID OU PAR EMAIL
+
+    private int getRange(){
+        if(couplebox.isSelected() && patient2field != null) return 5;
+        if(hommebox.isSelected() && !femmebox.isSelected()){
+            return 4;
+        }else if (!hommebox.isSelected() && femmebox.isSelected()){
+            return 3;
+        }
+        return 0;
+    }
 
     @FXML
     private void CheckDateButtonAction() throws SQLException {
@@ -297,7 +316,20 @@ public class NewConsul implements Initializable {
                 System.out.println("Aucun patient 3 trouvé");
             }
         }*/
-        if ((Patient1 != 0) && (Patient2 != -1) && (Patient3 != -1)) {
+        range = getRange();
+        try{
+            if( range == 5 && Patient2 == 0 && Patient3 ==0){
+                Psy_Frame.showAlert("Vous devez avoir plusieurs patients pour un couple");
+                range = -1;
+            }else if ( range == 0){
+                range = Consultation.findPatientRange(Patient1, range);
+                if(range == -1){
+                    Psy_Frame.showAlert("Vous devez cocher la case Homme ou Femme");
+                }
+            }
+            System.out.println(range);
+        }catch (ParseException e){}
+        if ((Patient1 != 0) && (Patient2 != -1) && (Patient3 != -1) && range != -1) {
             verifyStep2 = true;
             Step2Label.setText("ETAPE 2 : √");
         }
@@ -309,10 +341,17 @@ public class NewConsul implements Initializable {
         if (verifyStep1 && verifyStep2) {
             try{
                 int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
-                /*public Consultation(int consul_ID, String patient_1, String patient_2, String patient_3, String consul_date, double consul_hour, String consul_reason, int consul_range, String consul_text, int consul_price, String consul_how) {*/
-                Consultation temp_consul = new Consultation( Consul_id, String.valueOf(Patient1),String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason) , 0, null, 0, null);
+
+                Consultation temp_consul = new Consultation( Consul_id, String.valueOf(Patient1),String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason) , String.valueOf(range), null, 0, null);
                 temp_consul.addConsulDB();
                 System.out.println(String.valueOf(Patient2) + " , " + String.valueOf(Patient3));
+                Stage primaryStage = (Stage) closeButton.getScene().getWindow();
+                primaryStage.close();
+                login.psyStage.show();
+                Psy_Frame.showInfo("Ajout de la consultation avec succès");
+
+
+
                 /*String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','yyyy-MM-dd')," + heure + ", " + reason + ", " + null + ", " + null + ", " + null+ ")";
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée
                 myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient1 + "," + Consul_id + ")";
@@ -325,10 +364,6 @@ public class NewConsul implements Initializable {
                     myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient3 + "," + Consul_id + ")";
                     rset = Main.database.stmt.executeQuery(myQuery);
                 }*/
-                Stage primaryStage = (Stage) closeButton.getScene().getWindow();
-                primaryStage.close();
-                login.psyStage.show();
-                Psy_Frame.showInfo("Ajout de la consultation avec succès");
             } catch (Exception e) {
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
             }

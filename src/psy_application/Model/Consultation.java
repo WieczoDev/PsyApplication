@@ -2,12 +2,19 @@ package psy_application.Model;
 
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import psy_application.Main;
+import psy_application.Model.User.Psy;
 import psy_application.controller.CancelConsul;
 import psy_application.controller.Psy_Frame;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Consultation {
@@ -18,7 +25,7 @@ public class Consultation {
     String consul_date;
     double consul_hour;
     String consul_reason;
-    int consul_range;
+    String consul_range;
     String consul_text;
     int consul_price;
     String consul_how;
@@ -64,8 +71,10 @@ public class Consultation {
         if(rset.next())this.consul_reason = rset.getString(1);
     }
 
-    public void setConsul_range(int consul_range) {
-        this.consul_range = consul_range;
+    public void setConsul_range(int consul_range) throws SQLException {
+        String MyQuery3 = "SELECT RANGE_STR FROM RANGE WHERE RANGE_ID = " + consul_range;
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset.next())this.consul_range = rset.getString(1);
     }
 
     public void setConsul_text(String consul_text) {
@@ -149,7 +158,7 @@ public class Consultation {
         return consul_reason;
     }
 
-    public int getConsul_range() {
+    public String getConsul_range() {
         return consul_range;
     }
 
@@ -178,7 +187,7 @@ public class Consultation {
         this.consul_date = null;
         this.consul_hour = 0;
         this.consul_reason = null;
-        this.consul_range = 0;
+        this.consul_range = null;
         this.consul_text = null;
         this.consul_price = 0;
         this.consul_how = null;
@@ -187,7 +196,7 @@ public class Consultation {
     // On utilise deux types de constructeurs car nous avons 2 styles de consultations , l'une normalisée pour pouvoir la mettre dans la base de donnée et
     // l'autre avec les strings pour pouvoir avoir un affichage qui à du sens pour la psy !
 
-    public Consultation(int consul_ID, String patient_1, String patient_2, String patient_3, String consul_date, double consul_hour, String consul_reason, int consul_range, String consul_text, int consul_price, String consul_how) {
+    public Consultation(int consul_ID, String patient_1, String patient_2, String patient_3, String consul_date, double consul_hour, String consul_reason, String consul_range, String consul_text, int consul_price, String consul_how) throws SQLException {
         this.consul_ID = consul_ID;
         this.patient_1 = patient_1;
         this.patient_2 = patient_2;
@@ -209,7 +218,7 @@ public class Consultation {
         this.consul_date = consul_date;
         this.consul_hour = consul_hour;
         setConsul_reason(consul_reason);
-        this.consul_range = consul_range;
+        setConsul_range(consul_range);
         this.consul_text = consul_text;
         this.consul_price = consul_price;
         setConsul_how(consul_how);
@@ -220,7 +229,7 @@ public class Consultation {
      */
 
     public void addConsulDB() throws SQLException {
-        String myQuery3 = "INSERT INTO CONSULTATIONS VALUES ( " + this.consul_ID + "," + " TO_DATE( '" + this.consul_date + "','yyyy-MM-dd')," + this.consul_hour + ", " + this.consul_reason + ", " + null + ", " + null + ", " + null+ ")";
+        String myQuery3 = "INSERT INTO CONSULTATIONS VALUES ( " + this.consul_ID + "," + " TO_DATE( '" + this.consul_date + "','yyyy-MM-dd')," + this.consul_hour + ", " + this.consul_reason + ", " + null + ", " + null + ", " + null+ ", " + this.consul_range+ ")";
         ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3); // On ajoute cette consultation dans la base de donnée
         myQuery3 = " INSERT INTO Patient_Consul VALUES (" + this.patient_1 + "," + this.consul_ID + ")";
         rset3 = Main.database.stmt.executeQuery(myQuery3);
@@ -232,6 +241,38 @@ public class Consultation {
             myQuery3 = " INSERT INTO Patient_Consul VALUES (" + this.patient_3 + "," + this.consul_ID + ")";
             rset3 = Main.database.stmt.executeQuery(myQuery3);
         }
+    }
+
+    private static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    public static int findPatientRange(int patient_id, int range) throws SQLException, ParseException {
+        int age = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String myQuery3 = "SELECT PATIENT_DOB FROM PATIENTS WHERE Patient_ID = "+ patient_id ;
+        ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3);
+        if(rset3.next()){
+            LocalDate now = convertToLocalDateViaInstant(sdf.parse(java.time.LocalDate.now().toString()));        //Date d'aujourd'hui
+            LocalDate dob = convertToLocalDateViaInstant(sdf.parse(rset3.getString(1)));   // Date de Naissance
+            System.out.println(now + " , " + dob);
+            if ((dob != null) && (now != null)) {
+                System.out.println(Period.between(dob, now).getYears());
+                age = Period.between(dob, now).getYears();
+            } else {
+                age = -1;
+            }
+        }else{
+            Psy_Frame.showAlert("Erreur aucun patient trouvé");
+        }
+        if(age < 11) return 1;
+        else if (age >= 11 && age <= 18) return 2;
+        else if (range == 0) {
+            return -1;
+        }
+        return -1;
     }
 
     public static int findaddReason(String reason) throws SQLException {
@@ -422,6 +463,7 @@ public class Consultation {
                         ", CONSUL_TEXT ='" + consul_text +
                         "', CONSUL_PRICE =" + consul_price +
                         ", CONSUL_REASON =" + consul_reason +
+                        ", CONSULTATION_RANGE =" + consul_range +
                         " WHERE CONSUL_ID = " + consul_ID;
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery);
                 updatePatientConsul();
