@@ -193,7 +193,6 @@ public class Psy_Frame implements Initializable {
         HandlePatient.show();
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         heureCol.setCellValueFactory(new PropertyValueFactory<>("consul_hour"));
@@ -208,6 +207,4 @@ public class Psy_Frame implements Initializable {
         list = getConsulList(strDate, list);
         tableview.setItems(list);
     }
-
-
 }

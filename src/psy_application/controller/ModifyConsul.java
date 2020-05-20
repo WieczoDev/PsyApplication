@@ -116,7 +116,7 @@ public class ModifyConsul implements Initializable {
             Consultation tmpConsul = new Consultation(consultation_id, p1field.getText(), p2field.getText(), p3field.getText(), consultation.getConsul_date(), consultation.getConsul_hour(),
                     reasonfield.getText(), String.valueOf(range) , textField.getText(), price, payement);
             if (tmpConsul.getConsul_reason() != null) {
-                if (tmpConsul.getConsul_reason().equals("6")) {
+                if (tmpConsul.getConsul_reason().equals("6") || tmpConsul.getConsul_reason().equals("Anxiété")) {
                     tmpConsul.setConsul_text("Le taux d'anxiété du patient est = " + (int) anxieteScroll.getValue() + "; " + textField.getText());
                 }
             }

@@ -40,21 +40,21 @@ public class Consultation {
 
     public void setPatient_ID1(int patient_ID1)throws SQLException {
         String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID1;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        rset.next();
-        this.patient_1 = rset.getString(1);
+        ResultSet rset3 = Main.database.stmt3.executeQuery(MyQuery3);
+        rset3.next();
+        this.patient_1 = rset3.getString(1);
     }
 
     public void setPatient_ID2(int patient_ID2) throws SQLException {
         String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID2;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())this.patient_2 = rset.getString(1);
+        ResultSet rset3 = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset3.next())this.patient_2 = rset3.getString(1);
     }
 
     public void setPatient_ID3(int patient_ID3) throws SQLException {
         String MyQuery3 = "SELECT Patient_surname FROM PATIENTS WHERE patient_ID = " + patient_ID3;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())this.patient_3 = rset.getString(1);
+        ResultSet rset3 = Main.database.stmt3.executeQuery(MyQuery3);
+        if(rset3.next())this.patient_3 = rset3.getString(1);
     }
 
     public void setConsul_date(String consul_date) {
@@ -96,7 +96,7 @@ public class Consultation {
         return consul_ID;
     }
 
-    /*
+    /**
         GETTER
      */
 
@@ -135,9 +135,15 @@ public class Consultation {
     }
 
     public int getAnxiete(){
-        int index = this.getConsul_text().indexOf(";");  // Gets the first index where a ; occours
-        String id = this.getConsul_text().substring(index-1, index); // Gets the first part
-        return Integer.parseInt(id);
+        try{
+            int index = this.getConsul_text().indexOf(";");  // Gets the first index where a ; occours
+            String id = this.getConsul_text().substring(index-1, index); // Gets the first part
+            return Integer.parseInt(id);
+        }catch (Exception e){
+            System.out.println("Il n'y a pas encore d'anxiété");
+            return 0;
+        }
+
     }  // Vu que le niveau d'anxiété est contenu dans le commentaire on le recupère ici seulement si la raison de la consultation est anxiété !
 
     public String getComment(){

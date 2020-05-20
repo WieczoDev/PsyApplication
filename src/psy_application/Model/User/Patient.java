@@ -149,9 +149,10 @@ public class Patient extends User {
             return 0;
         } else {
             // CREATION D'UNE PROFESSION ET AJOUT DANS LA DB
-            myQuery3 = "INSERT INTO PROFESSIONS VALUES ( " + getMaxID("PROFESSIONS") + ", '" + prof + "')";
+            int prof_id = getMaxID("PROFESSIONS");
+            myQuery3 = "INSERT INTO PROFESSIONS VALUES ( " + prof_id + ", '" + prof + "')";
             rset3 = Main.database.stmt.executeQuery(myQuery3);
-            return getMaxID("PROFESSIONS");
+            return prof_id;
         }
     }
 
@@ -164,10 +165,11 @@ public class Patient extends User {
         } else if (how.equals("")) {
             return 0;
         } else {
-            // CREATION D'UNE PROFESSION ET AJOUT DANS LA DB
-            myQuery3 = "INSERT INTO PROFESSIONS VALUES ( " + getMaxID("HOW") + ", '" + how + "')";
+            // CREATION D'UN MOYEN DE CONNAISSANCE ET AJOUT DANS LA DB
+            int how_id = getMaxID("HOW");
+            myQuery3 = "INSERT INTO HOW VALUES ( " + how_id  + ", '" + how + "')";
             rset3 = Main.database.stmt.executeQuery(myQuery3);
-            return getMaxID("HOW");
+            return how_id;
         }
     }
 
