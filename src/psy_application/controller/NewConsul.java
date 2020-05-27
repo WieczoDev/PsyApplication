@@ -67,7 +67,7 @@ public class NewConsul implements Initializable {
     //On creer des variables locales qui permettront de creer le rdv
     private String heure;
     private String date;
-    private int range =0;
+    private String range = null;
     private int reason;
     private int Patient1 = 0;
     private int Patient2 = 0;
@@ -111,14 +111,14 @@ public class NewConsul implements Initializable {
         // PUIS LA SELECTION DE L'HORRAIRE ET (FALCULTATIF) LA SAISIE DE LA RAISON
     // LA SECONDE ETAPE CORRESPOND A LA SAISIE DES PATIENTS VIA ID OU PAR EMAIL
 
-    private int getRange(){
-        if(couplebox.isSelected() && patient2field != null) return 5;
+    private String getRange(){
+        if(couplebox.isSelected() && patient2field != null) return "Couple";
         if(hommebox.isSelected() && !femmebox.isSelected()){
-            return 4;
+            return "Homme";
         }else if (!hommebox.isSelected() && femmebox.isSelected()){
-            return 3;
+            return "Femme";
         }
-        return 0;
+        return "0";
     }
 
     @FXML
@@ -318,18 +318,18 @@ public class NewConsul implements Initializable {
         }*/
         range = getRange();
         try{
-            if( range == 5 && Patient2 == 0 && Patient3 ==0){
+            if( range.equals("Couple") && Patient2 == 0 && Patient3 ==0){
                 Psy_Frame.showAlert("Vous devez avoir plusieurs patients pour un couple");
-                range = -1;
-            }else if ( range == 0){
+                range = "-1";
+            }else if ( range.equals("0")){
                 range = Consultation.findPatientRange(Patient1, range);
-                if(range == -1){
+                if(range.equals("-1")){
                     Psy_Frame.showAlert("Vous devez cocher la case Homme ou Femme");
                 }
             }
             System.out.println(range);
         }catch (ParseException e){}
-        if ((Patient1 != 0) && (Patient2 != -1) && (Patient3 != -1) && range != -1) {
+        if ((Patient1 != 0) && (Patient2 != -1) && (Patient3 != -1) && !range.equals("-1")) {
             verifyStep2 = true;
             Step2Label.setText("ETAPE 2 : √");
         }

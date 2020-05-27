@@ -83,7 +83,7 @@ public class Psy_Frame implements Initializable {
                         listPatient.add(0);
                     }
                     Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
-                            listPatient.get(2), rset1.getString(7), rset1.getInt(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                            listPatient.get(2), rset1.getString(7), rset1.getInt(2), rset1.getInt(3), null, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                     return Consul1;
                 } catch (SQLException e) {
                     System.out.println("Erreur de connexion avec la database");
@@ -123,7 +123,7 @@ public class Psy_Frame implements Initializable {
                         listPatient.add(0);
                     }
                     Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1),
-                            listPatient.get(2), strDate, rset1.getDouble(2), rset1.getInt(3), rset1.getInt(7), rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                            listPatient.get(2), strDate, rset1.getDouble(2), rset1.getInt(3), rset1.getString(7), rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                     list.add(Consul1);
                 } catch (SQLException e) {
                     System.out.println("Erreur de connexion avec la database 1");
@@ -157,7 +157,7 @@ public class Psy_Frame implements Initializable {
                 rset1 = Main.database.stmt.executeQuery(myQuery);
                 rset1.next();
                 Consultation Consul1 = new Consultation(rset2.getInt(1), listPatient.get(0), listPatient.get(1),
-                        listPatient.get(2),rset1.getString(1),  rset1.getDouble(2), rset1.getInt(3), 0, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                        listPatient.get(2),rset1.getString(1),  rset1.getDouble(2), rset1.getInt(3), null, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                 list.add(Consul1);
             }
         } catch (SQLException e) {

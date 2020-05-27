@@ -195,7 +195,7 @@ public class Patient extends User {
         }else return false;
     }
 
-    public boolean addinDB() throws ParseException, SQLException {
+    public boolean addinDB() throws ParseException {
        try{
            if ((this.user_login.equals("")) ||
                    (this.user_password.equals("")) ||

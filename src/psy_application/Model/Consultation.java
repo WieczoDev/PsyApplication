@@ -71,11 +71,7 @@ public class Consultation {
         if(rset.next())this.consul_reason = rset.getString(1);
     }
 
-    public void setConsul_range(int consul_range) throws SQLException {
-        String MyQuery3 = "SELECT RANGE_STR FROM RANGE WHERE RANGE_ID = " + consul_range;
-        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery3);
-        if(rset.next())this.consul_range = rset.getString(1);
-    }
+    public void setConsul_range(String consul_range) throws SQLException {this.consul_range = consul_range;}
 
     public void setConsul_text(String consul_text) {
         this.consul_text = consul_text;
@@ -216,7 +212,7 @@ public class Consultation {
         this.consul_how = consul_how;
     }
 
-    public Consultation(int consul_ID, int patient_ID1, int patient_ID2, int patient_ID3, String consul_date, double consul_hour, int consul_reason, int consul_range, String consul_text, int consul_price, int consul_how) throws SQLException {
+    public Consultation(int consul_ID, int patient_ID1, int patient_ID2, int patient_ID3, String consul_date, double consul_hour, int consul_reason, String consul_range, String consul_text, int consul_price, int consul_how) throws SQLException {
         this.consul_ID = consul_ID;
         setPatient_ID1(patient_ID1);
         setPatient_ID2(patient_ID2);
@@ -224,7 +220,7 @@ public class Consultation {
         this.consul_date = consul_date;
         this.consul_hour = consul_hour;
         setConsul_reason(consul_reason);
-        setConsul_range(consul_range);
+        this.consul_range = consul_range;
         this.consul_text = consul_text;
         this.consul_price = consul_price;
         setConsul_how(consul_how);
@@ -255,7 +251,7 @@ public class Consultation {
                 .toLocalDate();
     }
 
-    public static int findPatientRange(int patient_id, int range) throws SQLException, ParseException {
+    public static String findPatientRange(int patient_id, String range) throws SQLException, ParseException {
         int age = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String myQuery3 = "SELECT PATIENT_DOB FROM PATIENTS WHERE Patient_ID = "+ patient_id ;
@@ -273,12 +269,12 @@ public class Consultation {
         }else{
             Psy_Frame.showAlert("Erreur aucun patient trouvé");
         }
-        if(age < 11) return 1;
-        else if (age >= 11 && age <= 18) return 2;
-        else if (range == 0) {
-            return -1;
+        if(age < 11) return "Enfant";
+        else if (age >= 11 && age <= 18) return "Ado";
+        else if (range.equals("0")) {
+            return "-1";
         }
-        return -1;
+        return "-1";
     }
 
     public static int findaddReason(String reason) throws SQLException {
@@ -469,8 +465,8 @@ public class Consultation {
                         ", CONSUL_TEXT ='" + consul_text +
                         "', CONSUL_PRICE =" + consul_price +
                         ", CONSUL_REASON =" + consul_reason +
-                        ", CONSULTATION_RANGE =" + consul_range +
-                        " WHERE CONSUL_ID = " + consul_ID;
+                        ", CONSULTATION_RANGE ='" + consul_range +
+                        "' WHERE CONSUL_ID = " + consul_ID;
                 ResultSet rset = Main.database.stmt.executeQuery(myQuery);
                 updatePatientConsul();
                 Psy_Frame.showInfo("Modification effecuté");

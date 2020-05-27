@@ -48,14 +48,19 @@ public class ModifyConsul implements Initializable {
 
     Consultation consultation;
 
-    private int getRange(){
-        if(couplebox.isSelected() && p2field != null) return 5;
-        if(hommebox.isSelected() && !femmebox.isSelected()){
-            return 4;
-        }else if (!hommebox.isSelected() && femmebox.isSelected()){
-            return 3;
+    private String getRange(){
+        if(couplebox.isSelected()){
+                System.out.println(p2field.getText() + " , " + p3field.getText());
+                return "Couple";
         }
-        return 0;
+        else if(hommebox.isSelected() && femmebox.isSelected()){
+            return "-1";
+        }else if(hommebox.isSelected() && !femmebox.isSelected()){
+            return "Homme";
+        }else if (!hommebox.isSelected() && femmebox.isSelected()){
+            return "Femme";
+        }
+        return "0";
     }
 
 
@@ -86,28 +91,31 @@ public class ModifyConsul implements Initializable {
     private void closeButtonAction() {
         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
         primaryStage.close();
-
     }
 
 
 
     @FXML
     private void modifyButtonAction() throws SQLException {
-        int range = getRange();
-        try{
-            if( range == 5 && p2field.getText().equals("") && p3field.getText().equals("")){
+        String range = getRange();
+        System.out.println(range);
+        try {
+            if (range.equals("Couple") && p2field.getText().equals("null") && p3field.getText().equals("null")){
                 Psy_Frame.showAlert("Vous devez avoir plusieurs patients pour un couple");
-                range = -1;
-            }else if ( range == 0){
+                range = "-1";
+            } else if (range.equals("0")) {
                 int Patient1 = Consultation.findaddPatient(p1field.getText());
                 range = Consultation.findPatientRange(Patient1, range);
-                if(range == -1){
+                if (range.equals("-1")) {
                     Psy_Frame.showAlert("Vous devez cocher la case Homme ou Femme");
                 }
             }
             System.out.println(range);
-        }catch (ParseException e){}
-        if( range != -1){
+        } catch (ParseException | NullPointerException e) {
+            Psy_Frame.showAlert("Vous devez avoir plusieurs patients pour un couple");
+            range = "-1";
+        }
+        if( !range.equals("-1")){
             int price = Integer.parseInt(pricefield.getText());
             String payement;
             if ((String) payBox.getSelectionModel().getSelectedItem() == null) {
