@@ -1,23 +1,12 @@
 package psy_application.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import psy_application.Main;
 import psy_application.Model.User.Patient;
-import psy_application.Model.User.Psy;
-
-import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class AddPatient {
     @FXML

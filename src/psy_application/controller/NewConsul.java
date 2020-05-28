@@ -333,9 +333,7 @@ public class NewConsul implements Initializable {
             verifyStep2 = true;
             Step2Label.setText("ETAPE 2 : √");
         }
-
     }
-
     @FXML
     private void AddConsulButtonAction() {
         if (verifyStep1 && verifyStep2) {
@@ -349,21 +347,6 @@ public class NewConsul implements Initializable {
                 primaryStage.close();
                 login.psyStage.show();
                 Psy_Frame.showInfo("Ajout de la consultation avec succès");
-
-
-
-                /*String myQuery = "INSERT INTO CONSULTATIONS VALUES ( " + Consul_id + "," + " TO_DATE( '" + date + "','yyyy-MM-dd')," + heure + ", " + reason + ", " + null + ", " + null + ", " + null+ ")";
-                ResultSet rset = Main.database.stmt.executeQuery(myQuery); // On ajoute cette consultation dans la base de donnée
-                myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient1 + "," + Consul_id + ")";
-                rset = Main.database.stmt.executeQuery(myQuery);
-                if (Patient2 != 0) {
-                    myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient2 + "," + Consul_id + ")";
-                    rset = Main.database.stmt.executeQuery(myQuery);
-                }
-                if (Patient3 != 0) {
-                    myQuery = " INSERT INTO Patient_Consul VALUES (" + Patient3 + "," + Consul_id + ")";
-                    rset = Main.database.stmt.executeQuery(myQuery);
-                }*/
             } catch (Exception e) {
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
             }

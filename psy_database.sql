@@ -51,18 +51,18 @@ CREATE TABLE Consultations
     CONSTRAINT FK_consul_reason FOREIGN KEY (consul_reason) REFERENCES Reasons (reason_ID),
     Consultation_how int,
     consul_text varchar2(500),
-    consul_price int
+    consul_price int,
+    consultation_range varchar2(20)
 );
 
+ALTER TABLE Consultations
+    ADD CONSTRAINT FK_Consultation_how FOREIGN KEY (Consultation_how) REFERENCES PAYMENT (payment_ID);
 
 CREATE TABLE PAYMENT
 (
     payment_ID  int PRIMARY KEY,
     payment_how varchar2(20)
 );
-
-ALTER TABLE Consultations
-    ADD CONSTRAINT FK_Consultation_how FOREIGN KEY (Consultation_how) REFERENCES PAYMENT (payment_ID);
 
 CREATE TABLE Patient_Consul
 (
@@ -78,6 +78,8 @@ ALTER TABLE Patient_Consul
 
 SELECT *
 from Users;
+
+/* INSERT */
 
 INSERT INTO Users
 VALUES (1, 'admin', 'admin');
@@ -147,6 +149,14 @@ VALUES (2, 'Violence');
 INSERT INTO REASONS
 VALUES (3, 'Suicide');
 
+INSERT INTO CONSULTATIONS VALUES ( 4,  TO_DATE('2020-05-30', 'yyyy-MM-dd'), 10,  2 ,null , null ,null ,  null);
+INSERT INTO Patient_Consul VALUES (3, 4 );
+INSERT INTO CONSULTATIONS VALUES ( 5,  TO_DATE('2020-05-30', 'yyyy-MM-dd'), 10.5,  2 ,null, null ,null ,  null);
+INSERT INTO Patient_Consul VALUES (3, 5 );
+INSERT INTO CONSULTATIONS VALUES ( 6,  TO_DATE('2020-05-30', 'yyyy-MM-dd'), 8,  2 ,null, null ,null ,  null);
+INSERT INTO Patient_Consul VALUES (3, 6 );
+
+
 
 DELETE
 FROM USERS
@@ -170,14 +180,6 @@ SELECT consul_ID, consul_hour, consul_reason
 FROM Consultations
 WHERE consul_date = TO_DATE('2020-04-16', 'yyyy-MM-dd');
 
-
-SELECT Consultations.consul_ID, Consultations.consul_hour, COUNT(*), Consultations.consul_reason
-FROM Consultations
-         INNER JOIN Patient_Consul
-                    ON Consultations.consul_ID = Patient_Consul.consul_ID
-GROUP BY Consultations.consul_ID;
-
-
 SELECT consul_ID, consul_hour, consul_reason
 FROM Consultations
 WHERE consul_date = TO_DATE('16-04-2020', 'dd-mm-yyyy');
@@ -190,6 +192,49 @@ SELECT MAX(prof_ID)
 FROM PROFESSIONS;
 SELECT MAX(how_ID)
 FROm HOW;
-COMMIT;
 
-UPDATE CONSULTATIONS SET CONSULTATION_HOW = 2, CONSUL_TEXT ='"Le taux d'anxiété du patient est = 2, Votre commentaire :hello"', CONSUL_PRICE =10 WHERE CONSUL_ID = 6
+
+/* PROCEDURE */
+
+CREATE OR REPLACE PROCEDURE remove_consul (consul_id_in NUMBER) IS
+BEGIN
+    DELETE FROM PATIENT_CONSUL
+    WHERE PATIENT_CONSUL.Consul_ID = consul_id_in;
+    DELETE FROM CONSULTATIONS
+    WHERE Consultations.Consul_ID = consul_id_in;
+    COMMIT;
+END;
+
+CREATE OR REPLACE PROCEDURE show_patient (x int) AS
+DECLARE
+    l_patient_name Patients.patient_ID%TYPE;
+BEGIN
+    SELECT patient_ID INTO l_patient_name
+    FROM PATIENTS
+    WHERE PATIENTS.patient_ID = show_patient.x;
+END;
+
+CREATE OR REPLACE PROCEDURE remove_consul (consul_id_in NUMBER) AS
+BEGIN
+    DELETE FROM PATIENT_CONSUL
+    WHERE PATIENT_CONSUL.Consul_ID = consul_id_in;
+    DELETE FROM CONSULTATIONS
+    WHERE Consultations.Consul_ID = consul_id_in;
+    COMMIT;
+END;
+
+call remove_patient(17);
+
+CREATE OR REPLACE PROCEDURE remove_patient (patient_id_in NUMBER) AS
+BEGIN
+    DELETE FROM PATIENT_CONSUL
+    WHERE Patient_Consul.patient_ID = patient_id_in;
+    DELETE FROM PATIENTS
+    WHERE PATIENTS.patient_ID = patient_id_in;
+    DELETE FROM USERS
+    WHERE USERS.user_ID = patient_id_in;
+    COMMIT;
+END;
+
+
+
