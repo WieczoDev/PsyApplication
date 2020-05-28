@@ -24,7 +24,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws SQLException {
-        database = new OracleDB("admin", "admin");
+        database = new OracleDB("admin", "oracle");
         String myQuery = "SELECT User_Login FROM Users";
         ResultSet rset = database.stmt.executeQuery(myQuery);
         while (rset.next()) {
