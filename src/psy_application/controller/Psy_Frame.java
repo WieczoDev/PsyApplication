@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import psy_application.Model.Consultation;
 import psy_application.Main;
 
@@ -47,6 +48,7 @@ public class Psy_Frame implements Initializable {
     public TableColumn rangeCol;
     @FXML
     public Button gestionpatientButton;
+    public static Stage HandlePatient;
 
     ObservableList<Consultation> list = FXCollections.observableArrayList();
 
@@ -71,7 +73,7 @@ public class Psy_Frame implements Initializable {
         try {
             String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how, consul_date FROM Consultations WHERE consul_id = " + consul_id;
             ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
-            if(rset1.next()){
+            if (rset1.next()) {
                 try {
                     String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_id;
                     ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
@@ -79,7 +81,7 @@ public class Psy_Frame implements Initializable {
                     while (rset2.next()) {
                         listPatient.add(rset2.getInt(1));
                     }
-                    while ( listPatient.size() <3){
+                    while (listPatient.size() < 3) {
                         listPatient.add(0);
                     }
                     Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
@@ -89,7 +91,7 @@ public class Psy_Frame implements Initializable {
                     System.out.println("Erreur de connexion avec la database");
                     return null;
                 }
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException e) {
@@ -111,7 +113,7 @@ public class Psy_Frame implements Initializable {
             String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how, CONSULTATION_RANGE FROM Consultations WHERE consul_date = TO_DATE('" + strDate + "', 'yyyy-MM-dd')";
             ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
             while (rset1.next()) {
-                    listPatient.clear();
+                listPatient.clear();
                 try {
                     String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset1.getInt(1);
                     ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
@@ -119,7 +121,7 @@ public class Psy_Frame implements Initializable {
                     while (rset2.next()) {
                         listPatient.add(rset2.getInt(1));
                     }
-                    while ( listPatient.size() <3){
+                    while (listPatient.size() < 3) {
                         listPatient.add(0);
                     }
                     Consultation Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1),
@@ -143,21 +145,21 @@ public class Psy_Frame implements Initializable {
         try {
             String myQuery2 = "SELECT consul_ID FROM PATIENT_CONSUL WHERE patient_ID = " + patient_id;
             ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
-            while (rset2.next()){
+            while (rset2.next()) {
                 listPatient.clear();
                 String myQuery1 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset2.getInt(1);
                 ResultSet rset1 = Main.database.stmt.executeQuery(myQuery1);
-                while(rset1.next()){
+                while (rset1.next()) {
                     listPatient.add(rset1.getInt(1));
                 }
-                while ( listPatient.size() <3){
+                while (listPatient.size() < 3) {
                     listPatient.add(0);
                 }
                 String myQuery = "SELECT CONSUL_DATE , consul_hour, consul_reason, consul_text, consul_price, consultation_how FROM Consultations WHERE CONSUL_ID =" + rset2.getInt(1);
                 rset1 = Main.database.stmt.executeQuery(myQuery);
                 rset1.next();
                 Consultation Consul1 = new Consultation(rset2.getInt(1), listPatient.get(0), listPatient.get(1),
-                        listPatient.get(2),rset1.getString(1),  rset1.getDouble(2), rset1.getInt(3), null, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
+                        listPatient.get(2), rset1.getString(1), rset1.getDouble(2), rset1.getInt(3), null, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
                 list.add(Consul1);
             }
         } catch (SQLException e) {
@@ -184,12 +186,14 @@ public class Psy_Frame implements Initializable {
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/Psy_Frame_Consul.fxml"));
         login.psyStage.setScene(new Scene(root));
     }
+
     @FXML
     public void gestionpatientButtonAction() throws IOException {
         login.psyStage.close();
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/HandlePatient.fxml"));
-        Stage HandlePatient = new Stage();
+        HandlePatient = new Stage();
         HandlePatient.setScene(new Scene(root));
+        HandlePatient.initStyle(StageStyle.UNDECORATED);
         HandlePatient.show();
     }
 

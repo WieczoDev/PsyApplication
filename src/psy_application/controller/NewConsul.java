@@ -339,8 +339,8 @@ public class NewConsul implements Initializable {
         if (verifyStep1 && verifyStep2) {
             try{
                 int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
-
-                Consultation temp_consul = new Consultation( Consul_id, String.valueOf(Patient1),String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason) , String.valueOf(range), null, 0, null);
+                Consultation temp_consul = new Consultation( Consul_id, String.valueOf(Patient1),String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason) , range, null, 0, null);
+                System.out.println(temp_consul);
                 temp_consul.addConsulDB();
                 System.out.println(String.valueOf(Patient2) + " , " + String.valueOf(Patient3));
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
@@ -348,6 +348,7 @@ public class NewConsul implements Initializable {
                 login.psyStage.show();
                 Psy_Frame.showInfo("Ajout de la consultation avec succès");
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
             }
         } else{

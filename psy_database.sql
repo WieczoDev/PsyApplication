@@ -55,14 +55,14 @@ CREATE TABLE Consultations
     consultation_range varchar2(20)
 );
 
-ALTER TABLE Consultations
-    ADD CONSTRAINT FK_Consultation_how FOREIGN KEY (Consultation_how) REFERENCES PAYMENT (payment_ID);
-
 CREATE TABLE PAYMENT
 (
     payment_ID  int PRIMARY KEY,
     payment_how varchar2(20)
 );
+
+ALTER TABLE Consultations
+    ADD CONSTRAINT FK_Consultation_how FOREIGN KEY (Consultation_how) REFERENCES PAYMENT (payment_ID);
 
 CREATE TABLE Patient_Consul
 (
@@ -93,13 +93,13 @@ INSERT INTO Users
 VALUES (5, 'laulau@gmail.com', 'laulau');
 
 INSERT INTO PATIENTS
-VALUES (2, 'Guillaume', 'Thomas', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', null, null);
+VALUES (2, 'Guillaume', 'Thomas', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 2, 6);
 INSERT INTO PATIENTS
-VALUES (3, 'Fourcauld', 'Guilhem', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', null, null);
+VALUES (3, 'Fourcauld', 'Guilhem', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 2,2);
 INSERT INTO PATIENTS
-VALUES (4, 'Wieczorek', 'Antonin', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', null, null);
+VALUES (4, 'Wieczorek', 'Antonin', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 1, 3);
 INSERT INTO PATIENTS
-VALUES (5, 'Forestier', 'Laurine', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', null, null);
+VALUES (5, 'Forestier', 'Laurine', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 3,5);
 
 INSERT INTO HOW
 VALUES (0, null);
@@ -157,62 +157,7 @@ INSERT INTO CONSULTATIONS VALUES ( 6,  TO_DATE('2020-05-30', 'yyyy-MM-dd'), 8,  
 INSERT INTO Patient_Consul VALUES (3, 6 );
 
 
-
-DELETE
-FROM USERS
-WHERE user_ID > 6;
-
-DELETE
-FROM HOW
-WHERE how_ID > 5;
-
-SELECT *
-FROM PATIENTS;
-
-SELECT *
-FROM USERS;
-
-SELECT consul_hour
-FROM Consultations
-WHERE consul_date = TO_DATE('16-04-2020', 'dd-mm-yyyy');
-
-SELECT consul_ID, consul_hour, consul_reason
-FROM Consultations
-WHERE consul_date = TO_DATE('2020-04-16', 'yyyy-MM-dd');
-
-SELECT consul_ID, consul_hour, consul_reason
-FROM Consultations
-WHERE consul_date = TO_DATE('16-04-2020', 'dd-mm-yyyy');
-
-SELECT patient_ID
-FROM PATIENT_CONSUL
-WHERE CONSUL_ID = 1;
-
-SELECT MAX(prof_ID)
-FROM PROFESSIONS;
-SELECT MAX(how_ID)
-FROm HOW;
-
-
 /* PROCEDURE */
-
-CREATE OR REPLACE PROCEDURE remove_consul (consul_id_in NUMBER) IS
-BEGIN
-    DELETE FROM PATIENT_CONSUL
-    WHERE PATIENT_CONSUL.Consul_ID = consul_id_in;
-    DELETE FROM CONSULTATIONS
-    WHERE Consultations.Consul_ID = consul_id_in;
-    COMMIT;
-END;
-
-CREATE OR REPLACE PROCEDURE show_patient (x int) AS
-DECLARE
-    l_patient_name Patients.patient_ID%TYPE;
-BEGIN
-    SELECT patient_ID INTO l_patient_name
-    FROM PATIENTS
-    WHERE PATIENTS.patient_ID = show_patient.x;
-END;
 
 CREATE OR REPLACE PROCEDURE remove_consul (consul_id_in NUMBER) AS
 BEGIN
@@ -222,8 +167,6 @@ BEGIN
     WHERE Consultations.Consul_ID = consul_id_in;
     COMMIT;
 END;
-
-call remove_patient(17);
 
 CREATE OR REPLACE PROCEDURE remove_patient (patient_id_in NUMBER) AS
 BEGIN
@@ -235,6 +178,4 @@ BEGIN
     WHERE USERS.user_ID = patient_id_in;
     COMMIT;
 END;
-
-
 

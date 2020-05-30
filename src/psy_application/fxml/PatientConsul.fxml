@@ -24,7 +24,7 @@
                                 <TableColumn fx:id="patient1Col" prefWidth="72.0" text="Patient n*1" />
                                 <TableColumn fx:id="patient2Col" prefWidth="78.0" text="Patient *2" />
                                 <TableColumn fx:id="patient3Col" prefWidth="68.0" text="Patient *3" />
-                                <TableColumn fx:id="reasonCol" prefWidth="103.0" text="Raison" />
+                                <TableColumn fx:id="reasonCol" prefWidth="103.0" text="Motif" />
                                 <TableColumn fx:id="dateCol" prefWidth="72.0" text="Date" />
                                 <TableColumn fx:id="payement" prefWidth="115.0" text="Paiement" />
                                 <TableColumn fx:id="prix" prefWidth="45.0" text="Prix" />

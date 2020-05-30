@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import psy_application.Main;
 import psy_application.Model.User.Patient;
+import psy_application.Model.User.Psy;
 
 import java.io.IOException;
 import java.net.URL;
@@ -70,35 +71,35 @@ public class HandlePatient implements Initializable {
         tableview.setItems(list);
     }
 
-    public ObservableList<Patient> getPatientList(){
+    public ObservableList<Patient> getPatientList() {
         ObservableList<Patient> listPatient = FXCollections.observableArrayList();
-            String consul_text;
-            try {
-                String myQuery = "SELECT patient_ID, patient_surname , patient_name , patient_dob, patient_mailing, patient_how , patient_profession FROM PATIENTS";
-                ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
-                while (rset1.next()){
-                    Patient patient = new Patient(rset1.getInt(1) , rset1.getString(2), rset1.getString(3),  rset1.getString(4),  rset1.getString(5) , rset1.getInt(6), rset1.getInt(7));
-                    listPatient.add(patient);
-                }
-            } catch (SQLException e) {
-                System.out.println("Erreur de connexion avec la database");
-                e.printStackTrace();
+        String consul_text;
+        try {
+            String myQuery = "SELECT patient_ID, patient_surname , patient_name , patient_dob, patient_mailing, patient_how , patient_profession FROM PATIENTS";
+            ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
+            while (rset1.next()) {
+                Patient patient = new Patient(rset1.getInt(1), rset1.getString(2), rset1.getString(3), rset1.getString(4).substring(0, 10), rset1.getString(5), rset1.getInt(6), rset1.getInt(7));
+                listPatient.add(patient);
             }
-            return listPatient;
+        } catch (SQLException e) {
+            System.out.println("Erreur de connexion avec la database");
+            e.printStackTrace();
+        }
+        return listPatient;
     }
 
     @FXML
     private void handleDeletePerson() {
         // this gives the value in the selected cell:
-        patient_id = (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
+        patient_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
         System.out.println(patient_id);
-        try{
+        try {
             // On appelle la procédure pour supprimer le PATIENT
 
             Main.database.RemovePatientstmt.setString(1, String.valueOf(patient_id));
             Main.database.RemovePatientstmt.execute();
             tableview.getItems().remove(tableview.getSelectionModel().getSelectedIndex()); // On le supprime aussi visuellement
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Erreur dans la suppression !");
             e.printStackTrace();
         }
@@ -114,11 +115,33 @@ public class HandlePatient implements Initializable {
     @FXML
     private void printConsulButtonAction() throws IOException {
         // this gives the value in the selected cell:
-        patient_id = (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
-        Parent root = FXMLLoader.load(getClass().getResource("../fxml/PatientConsul.fxml"));
-        Stage PatientConsul = new Stage();
-        PatientConsul.setScene(new Scene(root));
-        PatientConsul.initStyle(StageStyle.UNDECORATED);
-        PatientConsul.show();
+        try {
+            patient_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
+            Parent root = FXMLLoader.load(getClass().getResource("../fxml/PatientConsul.fxml"));
+            Stage PatientConsul = new Stage();
+            PatientConsul.setScene(new Scene(root));
+            PatientConsul.initStyle(StageStyle.UNDECORATED);
+            PatientConsul.show();
+        } catch (Exception e) {
+            Psy_Frame.showAlert("Aucun patient selectionné");
+        }
+    }
+
+    @FXML
+    private void modifyButtonAction() throws IOException {
+        // this gives the value in the selected cell:
+        try {
+            AddPatient.patient_id = patient_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
+            System.out.println(AddPatient.patient_id);
+            Parent root = FXMLLoader.load(getClass().getResource("../fxml/AddPatient.fxml"));
+            Stage PatientConsul = new Stage();
+            PatientConsul.setScene(new Scene(root));
+            PatientConsul.initStyle(StageStyle.UNDECORATED);
+            PatientConsul.show();
+            Psy_Frame.HandlePatient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Psy_Frame.showAlert("Aucun patient selectionné");
+        }
     }
 }

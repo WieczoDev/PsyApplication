@@ -231,7 +231,7 @@ public class Consultation {
      */
 
     public void addConsulDB() throws SQLException {
-        String myQuery3 = "INSERT INTO CONSULTATIONS VALUES ( " + this.consul_ID + "," + " TO_DATE( '" + this.consul_date + "','yyyy-MM-dd')," + this.consul_hour + ", " + this.consul_reason + ", " + null + ", " + null + ", " + null+ ", " + this.consul_range+ ")";
+        String myQuery3 = "INSERT INTO CONSULTATIONS VALUES ( " + this.consul_ID + "," + " TO_DATE( '" + this.consul_date + "','yyyy-MM-dd')," + this.consul_hour + ", " + this.consul_reason + ", " + null + ", " + null + ", " + null+ ", '" + this.consul_range+ "')";
         ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3); // On ajoute cette consultation dans la base de donnée
         myQuery3 = " INSERT INTO Patient_Consul VALUES (" + this.patient_1 + "," + this.consul_ID + ")";
         rset3 = Main.database.stmt.executeQuery(myQuery3);
