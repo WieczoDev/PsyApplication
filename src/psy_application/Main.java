@@ -24,13 +24,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws SQLException {
-        database = new OracleDB("admin", "admin");
-        String myQuery = "SELECT User_Login FROM Users";
-        ResultSet rset = database.stmt.executeQuery(myQuery);
-        while (rset.next()) {
-            String i = rset.getString(1);
-            System.out.println("ROW = " + i);
-        }
         launch(args);
     }
 }

@@ -22,28 +22,37 @@ public class Patient extends User {
     String patient_how;
     String patient_profession;
 
-    /** GETTER **/
+    /**
+     * GETTER
+     **/
 
     public String getPatient_surname() {
         return patient_surname;
     }
+
     public String getPatient_name() {
         return patient_name;
     }
+
     public String getPatient_DOB() {
         return patient_DOB;
     }
+
     public String getPatient_mailing() {
         return patient_mailing;
     }
+
     public String getPatient_how() {
         return patient_how;
     }
+
     public String getPatient_profession() {
         return patient_profession;
     }
 
-    /** SETTER **/
+    /**
+     * SETTER
+     **/
 
     public void setPatient_surname(String patient_surname) {
         this.patient_surname = patient_surname;
@@ -68,6 +77,10 @@ public class Patient extends User {
         this.patient_how = rset.getString(1);
     }
 
+    public void setPatient_how(String patient_how) {
+        this.patient_how = patient_how;
+    }
+
     public void setPatient_profession(int patient_profession) throws SQLException {
         String MyQuery = "SELECT PROFESSION FROM PROFESSIONS WHERE PROF_ID = " + patient_profession;
         ResultSet rset = Main.database.stmt3.executeQuery(MyQuery);
@@ -75,11 +88,29 @@ public class Patient extends User {
         this.patient_profession = rset.getString(1);
     }
 
-    /** CONSTRUCTORS **/
+    public void setPatient_profession(String patient_profession) {
+        this.patient_profession = patient_profession;
+    }
+
+    /**
+     * CONSTRUCTORS
+     **/
 
     public Patient(String user_login, String user_password) {
         this.user_login = user_login;
         this.user_password = user_password;
+    }
+
+    public Patient(int user_ID, String user_login, String user_password, String patient_surname, String patient_name, String patient_DOB, String patient_mailing, String patient_how, String patient_profession) throws SQLException {
+        this.user_login = user_login;
+        this.user_password = user_password;
+        this.user_ID = user_ID;
+        this.patient_surname = patient_surname;
+        this.patient_name = patient_name;
+        this.patient_DOB = patient_DOB;
+        this.patient_mailing = patient_mailing;
+        this.patient_how = patient_how;
+        this.patient_profession = patient_profession;
     }
 
     public Patient(int user_ID, String user_login, String user_password, String patient_surname, String patient_name, String patient_DOB, String patient_mailing, int patient_how, int patient_profession) throws SQLException {
@@ -90,8 +121,8 @@ public class Patient extends User {
         this.patient_name = patient_name;
         this.patient_DOB = patient_DOB;
         this.patient_mailing = patient_mailing;
-        this.patient_how = String.valueOf(patient_how);
-        this.patient_profession = String.valueOf(patient_profession);
+        setPatient_how(patient_how);
+        setPatient_profession(patient_profession);
     }
 
     public Patient(int user_ID, String patient_surname, String patient_name, String patient_DOB, String patient_mailing, int patient_how, int patient_profession) throws SQLException {
@@ -100,11 +131,25 @@ public class Patient extends User {
         this.patient_name = patient_name;
         this.patient_DOB = patient_DOB;
         this.patient_mailing = patient_mailing;
-        setPatient_how( patient_how);
+        setPatient_how(patient_how);
         setPatient_profession(patient_profession);
     }
 
-    /** METHODS **/
+    /**
+     * METHODS
+     **/
+
+    public static Patient getPatientFromDB(int patient_id) throws SQLException {
+        String MyQuery = "SELECT * FROM USERS WHERE USER_ID = " + patient_id;
+        ResultSet rset = Main.database.stmt3.executeQuery(MyQuery);
+        rset.next();
+        String username = rset.getString(2);
+        String password = rset.getString(3);
+        MyQuery = "SELECT * FROM PATIENTS WHERE PATIENT_ID = " + patient_id;
+        rset = Main.database.stmt3.executeQuery(MyQuery);
+        rset.next();
+        return new Patient(patient_id, username, password, rset.getString(2), rset.getString(3), rset.getString(4), rset.getString(5), rset.getInt(6), rset.getInt(7));
+    }
 
     public static int getMaxID(String table) throws SQLException {
         switch (table) {
@@ -167,7 +212,7 @@ public class Patient extends User {
         } else {
             // CREATION D'UN MOYEN DE CONNAISSANCE ET AJOUT DANS LA DB
             int how_id = getMaxID("HOW");
-            myQuery3 = "INSERT INTO HOW VALUES ( " + how_id  + ", '" + how + "')";
+            myQuery3 = "INSERT INTO HOW VALUES ( " + how_id + ", '" + how + "')";
             rset3 = Main.database.stmt.executeQuery(myQuery3);
             return how_id;
         }
@@ -186,46 +231,71 @@ public class Patient extends User {
 
     }
 
-    public static boolean patientexist(String mail ) throws SQLException {
+    public static boolean patientexist(String mail) throws SQLException {
         String myQuery = "SELECT user_login FROM USERS WHERE USER_LOGIN ='" + mail + "'";
         ResultSet rset = Main.database.stmt.executeQuery(myQuery);
         if (rset.next()) {
-            Psy_Frame.showAlert(" User déjà dans la base de donnée veuillez recommencer !");
             return true;
-        }else return false;
+        } else return false;
     }
 
     public boolean addinDB() throws ParseException {
-       try{
-           if ((this.user_login.equals("")) ||
-                   (this.user_password.equals("")) ||
-                   (this.patient_name.equals("")) ||
-                   (this.patient_surname.equals("")) ||
-                   !isaValidDate()) {
-               return false;
-           } else {
-               // AJOUT DE L'USER DANS LES DIFFERENTE DATABASE
-               String myQuery3 = "INSERT INTO USERS VALUES ( " + this.user_ID + ",'" + this.user_login + "', '" + this.user_password + "')";
-               ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3);
-               myQuery3 = "INSERT INTO PATIENTS VALUES ( " + this.user_ID + ",'"
-                       + this.patient_surname + "', '"
-                       + this.patient_name + "', TO_DATE( '"
-                       + this.patient_DOB + "', 'yyyy-MM-dd'), '"
-                       + this.patient_mailing + "', '"
-                       + this.patient_how + "', '"
-                       + this.patient_profession + "'"
-                       + ")";
-               rset3 = Main.database.stmt.executeQuery(myQuery3);
-               return true;
-           }
-       }catch ( SQLException e){
-           Psy_Frame.showAlert("Ajout dans la base de donnée echoué");
-           return false;
-       }
+        try {
+            if ((this.user_login.equals("")) ||
+                    (this.user_password.equals("")) ||
+                    (this.patient_name.equals("")) ||
+                    (this.patient_surname.equals("")) ||
+                    !isaValidDate()) {
+                return false;
+            } else {
+                // AJOUT DE L'USER DANS LES DIFFERENTE DATABASE
+                String myQuery3 = "INSERT INTO USERS VALUES ( " + this.user_ID + ",'" + this.user_login + "', '" + this.user_password + "')";
+                ResultSet rset3 = Main.database.stmt.executeQuery(myQuery3);
+                myQuery3 = "INSERT INTO PATIENTS VALUES ( " + this.user_ID + ",'"
+                        + this.patient_surname + "', '"
+                        + this.patient_name + "', TO_DATE( '"
+                        + this.patient_DOB + "', 'yyyy-MM-dd'), '"
+                        + this.patient_mailing + "', '"
+                        + this.patient_how + "', '"
+                        + this.patient_profession + "'"
+                        + ")";
+                rset3 = Main.database.stmt.executeQuery(myQuery3);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Psy_Frame.showAlert("Ajout dans la base de donnée echoué");
+            return false;
+        }
 
     }
 
-
+    public void UpdatePatient() throws SQLException {
+        // ON VERIFIE LES NOUVEAUX INPUTS POUR LES PATIENTS
+        try {
+            patient_how = String.valueOf(findHowID(patient_how));
+        } catch (NullPointerException e) {
+            // Si jamais la case comment  n'est pas renseignée
+        }
+        try {
+            patient_profession = String.valueOf(findProfID(patient_profession));
+        } catch (NullPointerException e) {
+            // Si jamais la case profession n'est pas renseignée
+        }
+        String myQuery = "UPDATE PATIENTS SET " +
+                " PATIENT_SURNAME = '" + patient_surname +
+                "', PATIENT_NAME ='" + patient_name +
+                "', PATIENT_DOB =  TO_DATE( '"
+                + this.patient_DOB + "', 'yyyy-MM-dd')" +
+                ", PATIENT_MAILING ='" + patient_mailing +
+                "', PATIENT_HOW =" + patient_how +
+                ", PATIENT_PROFESSION = " + patient_profession +
+                " WHERE PATIENT_ID = " + user_ID;
+        ResultSet rset = Main.database.stmt.executeQuery(myQuery);
+        myQuery = "UPDATE USERS SET USER_LOGIN ='" + user_login + "', USER_PASS = '" + user_password + "' WHERE USER_ID =" + user_ID;
+        rset = Main.database.stmt.executeQuery(myQuery);
+        Psy_Frame.showInfo("Modification effectué");
+    }
 
     @Override
     public String toString() {
