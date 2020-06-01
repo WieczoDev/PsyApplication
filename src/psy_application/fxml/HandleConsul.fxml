@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="629.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.CancelConsul">
+<AnchorPane prefHeight="629.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.HandleConsul">
     <children>
         <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="761.0" prefWidth="994.0">
             <top>
@@ -27,7 +27,7 @@
                                 <TableColumn fx:id="patient1Col" prefWidth="72.0" text="Patient n*1" />
                                 <TableColumn fx:id="patient2Col" prefWidth="78.0" text="Patient *2" />
                                 <TableColumn fx:id="patient3Col" prefWidth="68.0" text="Patient *3" />
-                                <TableColumn fx:id="reasonCol" prefWidth="103.0" text="Raison" />
+                                <TableColumn fx:id="reasonCol" prefWidth="103.0" text="Motif" />
                                 <TableColumn fx:id="rangeCol" prefWidth="72.0" text="Range" />
                                 <TableColumn fx:id="payement" prefWidth="115.0" text="Paiement" />
                                 <TableColumn fx:id="prix" prefWidth="45.0" text="Prix" />
@@ -39,11 +39,11 @@
                 </Pane>
             </center>
             <bottom>
-                <Pane fx:id="containerbottom" prefHeight="173.0" prefWidth="994.0" BorderPane.alignment="CENTER">
+                <Pane fx:id="containerbottom" prefHeight="214.0" prefWidth="994.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="deleteButton" layoutX="669.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
-                  <Button fx:id="finaliseButton" layoutX="118.0" layoutY="40.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="47.0" prefWidth="200.0" text="Finaliser la ligne selectionné" />
-                  <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
+                        <Button fx:id="deleteButton" layoutX="669.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleDeleteConsul" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
+                        <Button fx:id="finaliseButton" layoutX="118.0" layoutY="40.0" mnemonicParsing="false" onAction="#finaliseButtonAction" prefHeight="47.0" prefWidth="200.0" text="Finaliser la ligne selectionné" />
+                        <Button fx:id="modifyButton" layoutX="397.0" layoutY="39.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
                     </children>
                     <Button fx:id="closeButton" layoutX="407.0" layoutY="107.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Retour en Arrière">
                         <font>

@@ -28,7 +28,7 @@
                         <TextField fx:id="reason_field" layoutX="81.0" layoutY="239.0" />
                         <Label fx:id="datelabel" layoutX="91.0" layoutY="100.0" text="Date de la consultation :" />
                         <Label layoutX="137.0" layoutY="148.0" text="Heure " />
-                        <Label layoutX="107.0" layoutY="209.0" text="Pour quelle raison" />
+                        <Label layoutX="137.0" layoutY="215.0" text="Motif :" />
                         <Button fx:id="Step1Button" layoutX="124.0" layoutY="304.0" mnemonicParsing="false" onAction="#Step1ButtonAction" prefHeight="40.0" prefWidth="63.0" text="Valider &#10;Etape 1" />
                         <Button fx:id="CheckDateButton" layoutX="257.0" layoutY="123.0" mnemonicParsing="false" onAction="#CheckDateButtonAction" text="CheckDate" />
                     </children>

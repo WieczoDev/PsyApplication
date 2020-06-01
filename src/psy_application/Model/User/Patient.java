@@ -1,12 +1,7 @@
 package psy_application.Model.User;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import psy_application.Main;
 import psy_application.controller.Psy_Frame;
-import psy_application.controller.login;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -96,11 +91,7 @@ public class Patient extends User {
      * CONSTRUCTORS
      **/
 
-    public Patient(String user_login, String user_password) {
-        this.user_login = user_login;
-        this.user_password = user_password;
-    }
-
+    // L'utilisation d'un contructeur ou un autre et pour mettre un affichage plus concret pour la psy
     public Patient(int user_ID, String user_login, String user_password, String patient_surname, String patient_name, String patient_DOB, String patient_mailing, String patient_how, String patient_profession) throws SQLException {
         this.user_login = user_login;
         this.user_password = user_password;
@@ -223,7 +214,6 @@ public class Patient extends User {
         Date date1 = sdf.parse(java.time.LocalDate.now().toString());        //Date d'aujourd'hui
         Date date2 = sdf.parse(this.patient_DOB);   // Date de Naissance
         if (date1.compareTo(date2) > 0) {
-            System.out.println("Date1 is after Date2");
             return true;
         } else {
             return false;
@@ -231,6 +221,7 @@ public class Patient extends User {
 
     }
 
+    //Verification pour s'avoir si le patient(User) existe
     public static boolean patientexist(String mail) throws SQLException {
         String myQuery = "SELECT user_login FROM USERS WHERE USER_LOGIN ='" + mail + "'";
         ResultSet rset = Main.database.stmt.executeQuery(myQuery);
@@ -239,6 +230,7 @@ public class Patient extends User {
         } else return false;
     }
 
+    // Ajout de l'objet Patient dans la base de donnée
     public boolean addinDB() throws ParseException {
         try {
             if ((this.user_login.equals("")) ||

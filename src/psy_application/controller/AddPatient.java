@@ -1,22 +1,23 @@
 package psy_application.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import psy_application.Main;
+import javafx.stage.StageStyle;
 import psy_application.Model.User.Patient;
-import psy_application.Model.User.Psy;
 
+import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+
 
 public class AddPatient implements Initializable {
     @FXML
@@ -44,33 +45,44 @@ public class AddPatient implements Initializable {
     private Patient A;
     public static int patient_id = -1;
 
+    /**
+     * PAGE D'AJOUT DE PATIENT MAIS AUSSI DE MOFICATION DES PATIENTS DEJA EXISTANTS SI OUVERTE VIA LE BUTTON MODIFIER LE
+     * PATIENT
+     * <p>
+     * SI L'ON OUVRE VIA ADD -> PATIENT_ID = -1
+     * SINON = L'ID DU PATIENT QU'ON VA MODIFIER
+     */
+
     @FXML
     private void addButtonAction() {
         try {
-            if (!Patient.patientexist(mail_field.getText())) {
-                if (patient_id == -1) {
-                    int how = 0, prof = 0;
-                    how = Patient.findHowID(how_field.getText());
-                    prof = Patient.findProfID(prof_field.getText());
-                    try {
-                        System.out.println(" How = " + how + ", Prof = " + prof);
-                        String strDate = Psy_Frame.convertJDatetoString(dob_field);
-                        int user_id = Patient.getMaxID("USERS");
-                        A = new Patient(user_id, mail_field.getText(), pass_field.getText(), surname_field.getText(), name_field.getText(), strDate, mailing_field.getText(), String.valueOf(how), String.valueOf(prof));
-                        System.out.println(A);
-                        if (A.addinDB()) {
-                            Stage primaryStage = (Stage) closeButton.getScene().getWindow();
-                            primaryStage.close();
-                            Psy_Frame.showInfo("Ajout du patient avec succès !");
-                            login.psyStage.show();
-                        } else {
-                            Psy_Frame.showAlert("Erreur dans la saisie des infos ! \n Veuillez recommencer !");
-                        }
-                    } catch (NullPointerException e) {
-                        Psy_Frame.showAlert("Veuillez remplir les champs obligatoires");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            if (!Patient.patientexist(mail_field.getText()) && patient_id == -1) { // On verifie que le patient n'existe pas deja
+                int how = 0, prof = 0;
+                /** ON CHERCHE LES CLé PRIMAIRE ASSOCIé AU INPUTS **/
+                how = Patient.findHowID(how_field.getText());
+                prof = Patient.findProfID(prof_field.getText());
+                try {
+                    String strDate = Psy_Frame.convertJDatetoString(dob_field);
+
+                    // Comme l'implémentation d'une auto incrémentation sur SQL PLUS n'était pas intuitive
+                    // nous avons fait une fonction qui s'assure de cela
+
+                    int user_id = Patient.getMaxID("USERS");
+                    A = new Patient(user_id, mail_field.getText(), pass_field.getText(), surname_field.getText(), name_field.getText(), strDate, mailing_field.getText(), String.valueOf(how), String.valueOf(prof));
+                    if (A.addinDB()) {
+                        Stage primaryStage = (Stage) closeButton.getScene().getWindow();
+                        primaryStage.close();
+                        Psy_Frame.showInfo("Ajout du patient avec succès !");
+                        login.psyStage.show();
+                    } else {
+                        Psy_Frame.showAlert("Erreur dans la saisie des infos ! \n Veuillez recommencer !");
                     }
+                } catch (NullPointerException e) {
+                    Psy_Frame.showAlert("Veuillez remplir les champs obligatoires");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                    /*
                 } else {
                     int how = 0, prof = 0;
                     how = Patient.findHowID(how_field.getText());
@@ -91,57 +103,84 @@ public class AddPatient implements Initializable {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-
-            } else if (patient_id == -1) {
+                }*/
+            } else if (Patient.patientexist(mail_field.getText()) && patient_id == -1) {
                 Psy_Frame.showAlert(" User déjà dans la base de donnée veuillez recommencer !");
-            } else {
+            } else if (patient_id != -1) {
+
+                /** OUVERTURE DE LA FENETRE POUR LA MODIFICATION **/
+
                 try {
                     try {
                         if (!prof_field.getText().equals(A.getPatient_profession()))
                             A.setPatient_profession(prof_field.getText());
-                        if (!how_field.getText().equals(A.getPatient_how())) A.setPatient_how(how_field.getText());
+                    } catch (NullPointerException e) {
+                        // Ce sont des champs qui peuvent être vide donc
+                    }
+                    try {
+                        if (!how_field.getText().equals(A.getPatient_how()))
+                            A.setPatient_how(how_field.getText());
+                    } catch (NullPointerException e) {
+                        // Ce sont des champs qui peuvent être vide donc
+                    }
+                    try {
                         if (!mailing_field.getText().equals(A.getPatient_mailing()))
                             A.setPatient_mailing(mailing_field.getText());
-                        String DOB = Psy_Frame.convertJDatetoString(dob_field);
-                        if (!DOB.equals(A.getPatient_DOB())) A.setPatient_DOB(DOB);
                     } catch (NullPointerException e) {
+                        // Ce sont des champs qui peuvent être vide donc
+                    }
+                    // VERIFICATION DE LA DATE DE NAISSANCE
+                    try {
+                        String DOB = Psy_Frame.convertJDatetoString(dob_field);
+                        if (!DOB.equals(A.getPatient_DOB().substring(0, 10)))
+                            A.setPatient_DOB(DOB);
+                    } catch (NullPointerException e) {
+                        // Ce sont des champs qui peuvent être vide donc
                     }
                     if (!mail_field.getText().equals(A.getUser_login())) A.setUser_login(mail_field.getText());
                     if (!name_field.getText().equals(A.getPatient_name())) A.setPatient_name(name_field.getText());
                     if (!surname_field.getText().equals(A.getPatient_surname()))
                         A.setPatient_surname(surname_field.getText());
-                    if (!pass_field.getText().equals("*****")) A.setUser_password(pass_field.getText());
+                    if (!pass_field.getText().equals("*****") && !pass_field.getText().equals(""))
+                        A.setUser_password(pass_field.getText());
                     A.UpdatePatient();
-                    Psy_Frame.showInfo("Modification effectué !");
-                    patient_id = -1;
-                    Stage primaryStage = (Stage) closeButton.getScene().getWindow();
-                    primaryStage.close();
-                    Psy_Frame.HandlePatient.show();
+                    try {
+                        closeButtonAction();
+                    } catch (IOException e) {
+                    }
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
+                    // Les champs sont obligatoires donc s'il sont vide on stop l'opération
                     Psy_Frame.showAlert("Veuillez remplir les champs obligatoires");
                 }
-
             }
         } catch (SQLException E) {
-            E.printStackTrace();
+            System.out.println("Erreur dans l'ajout dans la base de donnée ( ADD PATIENT ) ");
         }
     }
 
     @FXML
-    private void closeButtonAction() {
+    private void closeButtonAction() throws IOException {
         Stage primaryStage = (Stage) closeButton.getScene().getWindow();
         primaryStage.close();
+        /** SOIT ON OUVRE HANDLEPATIENT (ON ETAIT EN MODIFICATION )
+         *  SOIT ON OUVRE LA PAGE D'ACCEUIL ( ON ETAIT EN AJOUT )
+         */
+
         if (patient_id != -1) {
             patient_id = -1;
+            Parent root = FXMLLoader.load(getClass().getResource("../fxml/HandlePatient.fxml"));
+            Psy_Frame.HandlePatient = new Stage();
+            Psy_Frame.HandlePatient.setScene(new Scene(root));
+            Psy_Frame.HandlePatient.initStyle(StageStyle.UNDECORATED);
             Psy_Frame.HandlePatient.show();
-        } else login.psyStage.show();
+        } else {
+            login.psyStage.show();
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(patient_id);
+        /** ON PRE REMPLIS LES CHAMPS SI ON EST EN MODIFICATION */
 
         if (patient_id != -1) {
             try {

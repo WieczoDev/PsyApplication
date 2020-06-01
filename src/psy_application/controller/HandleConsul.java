@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CancelConsul implements Initializable {
+public class HandleConsul implements Initializable {
     @FXML
     public Button findButton;
     @FXML
@@ -60,8 +60,15 @@ public class CancelConsul implements Initializable {
     private static int consul_id;
     ObservableList<Consultation> list = FXCollections.observableArrayList();
 
+
+    /**
+     * HANDLE CONSUL ->  FRAME POSSEDANT LA LISTE DES CONSULTATIONS SUR UNE JOURNEE PRECISE
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /** AFIN DE DEFINIR CHAQUE COLLONE DU TABLEAU LORS DE L'OUVERTURE DE LA FRAME */
+
         heureCol.setCellValueFactory(new PropertyValueFactory<>("consul_hour"));
         idCol.setCellValueFactory(new PropertyValueFactory<>("consul_ID"));
         patient1Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
@@ -80,19 +87,24 @@ public class CancelConsul implements Initializable {
     }
 
     @FXML
-    private void handleDeletePerson() {
-        // this gives the value in the selected cell:
-        consul_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
-        System.out.println(consul_id);
+    private void handleDeleteConsul() {
+        // Pour obtenir la ligne selectionée
         try {
-            Main.database.RemoveConsulstmt.setString(1, String.valueOf(consul_id));
-            Main.database.RemoveConsulstmt.execute();                                                    // On appelle la procédure pour supprimer un rdv
-            tableview.getItems().remove(tableview.getSelectionModel().getSelectedIndex());
-        } catch (SQLException e) {
-            System.out.println("Erreur dans la suppression !");
-            e.printStackTrace();
+            consul_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
+            try {
+                Main.database.RemoveConsulstmt.setString(1, String.valueOf(consul_id));
+                Main.database.RemoveConsulstmt.execute();         // On appelle la procédure pour supprimer un rdv
+                tableview.getItems().remove(tableview.getSelectionModel().getSelectedIndex());
+            } catch (SQLException e) {
+                System.out.println("Erreur dans la suppression !");
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            // Si on clique alors qu'on a rien selectioné
         }
     }
+
+    // Methode permettant de remplir le tableau avec la date saisie
 
     @FXML
     private void findButtonAction() throws SQLException {
@@ -103,9 +115,9 @@ public class CancelConsul implements Initializable {
         } catch (NullPointerException e) {
             System.out.println("Aucune date selectionnée ");
         }
-
     }
 
+    // OUVERTURE DE LA FRAME MODIFICATION DE CONSULTATION ( MODIFYCONSUL)
     @FXML
     private void modifyButtonAction() throws IOException {
         try {
@@ -120,15 +132,20 @@ public class CancelConsul implements Initializable {
         }
     }
 
+    // OUVERTURE DE LA FRAME FINALISATION DE LA CONSULTATION
     @FXML
     private void finaliseButtonAction() {
         try {
             consul_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
-            Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/FinaliseConsul.fxml"));
-            Stage FinaliseConsul = new Stage();
-            FinaliseConsul.setScene(new Scene(root));
-            FinaliseConsul.initStyle(StageStyle.UNDECORATED);
-            FinaliseConsul.show();
+            if (Consultation.getConsul(consul_id).getConsul_price() != 0) {
+                Psy_Frame.showInfo("La consultation selectionée à déjà été finalisé, vous pouvez désormais la modifier");
+            } else {
+                Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/FinaliseConsul.fxml"));
+                Stage FinaliseConsul = new Stage();
+                FinaliseConsul.setScene(new Scene(root));
+                FinaliseConsul.initStyle(StageStyle.UNDECORATED);
+                FinaliseConsul.show();
+            }
         } catch (Exception e) {
             Psy_Frame.showAlert("Aucune consultation séléctionnée !");
             e.printStackTrace();

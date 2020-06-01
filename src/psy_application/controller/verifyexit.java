@@ -9,6 +9,10 @@ public class verifyexit {
     @FXML
     public javafx.scene.control.Button noButton;
 
+    /**
+     * VERIFY EXIT -> POUR VERIFIER QUE L'UTILISATEUR VEUT REELEMENT QUITTER L'APPLICATION
+     */
+
     @FXML
     private void noButtonAction() {
         Stage primaryStage = (Stage) yesButton.getScene().getWindow();

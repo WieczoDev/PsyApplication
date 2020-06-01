@@ -26,6 +26,10 @@ public class menu {
     @FXML
     private javafx.scene.control.Button closeButton;
 
+    /**
+     * MENU EST UNE FRAME FXML QUI EST INSERE DANS LES DIFFERENTES FRAMES AYANT BESOIN POUR EVITER LA DUPLICATION
+     */
+
     @FXML
     private void openHomeScene() throws IOException {
         Psy_Frame.openHomeScene();

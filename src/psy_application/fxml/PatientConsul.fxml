@@ -38,7 +38,7 @@
             <bottom>
                 <Pane fx:id="containerbottom" prefHeight="104.0" prefWidth="994.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="deleteButton" layoutX="637.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
+                        <Button fx:id="deleteButton" layoutX="637.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleDeleteConsul" prefHeight="52.0" prefWidth="223.0" text="Supprimer la ligne selectionné" BorderPane.alignment="CENTER" />
                         <Button fx:id="modifyButton" layoutX="383.0" layoutY="29.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="47.0" prefWidth="200.0" text="Modifier la ligne selectionné" />
                   <Button fx:id="closeButton" layoutX="135.0" layoutY="29.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="47.0" prefWidth="200.0" text="Retour en arrière" />
                     </children>

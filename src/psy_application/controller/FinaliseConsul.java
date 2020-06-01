@@ -37,11 +37,15 @@ public class FinaliseConsul implements Initializable {
     private Consultation consultation;
     String[] List = new String[]{"Non payé", "Chèque", "Carte Bancaire", "Espèces", "PayPal", "Lydia"};
 
+    /**
+     * FINALISECONSUL ->  FRAME PERMETTANT DE SAISIR UN PRIX, UN MOYEN DE PAIEMENT, NIVEAU D'ANXIETE ET DES MOTS CLES
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         payBox.setItems(FXCollections.observableArrayList(List));
-        consul_id = CancelConsul.getConsul_id();
-        consultation = Psy_Frame.getConsul(consul_id);
+        consul_id = HandleConsul.getConsul_id();
+        consultation = Consultation.getConsul(consul_id);
         dateLabel.setText(dateLabel.getText() + " " + consultation.getConsul_date());
         heureLabel.setText(heureLabel.getText() + " " + consultation.getConsul_hour());
         if (consultation.getConsul_text() != null) textLabel.setText(consultation.getComment());
@@ -50,8 +54,12 @@ public class FinaliseConsul implements Initializable {
         if (consultation.getConsul_reason() == null || !consultation.getConsul_reason().equals("Anxiété")) {
             anxieteScroll.setDisable(true);
         }
+        if (consultation.getConsul_price() != 0) {
+            pricefield.setText(String.valueOf(consultation.getConsul_price()));
+        }
     }
 
+    // VERIFICATION QUE LE PRIX SOIT BIEN UN INT
     private boolean isanInt(String chaine) {
         try {
             Integer.parseInt(chaine);
@@ -64,6 +72,9 @@ public class FinaliseConsul implements Initializable {
     @FXML
     private void finaliseButtonAction() throws SQLException {
         if (isanInt(pricefield.getText())) {
+
+            /** On va mettre a jour l'objet Consultation */
+
             consultation.setConsul_how(consultation.getHow(((String) payBox.getSelectionModel().getSelectedItem())));
             consultation.setConsul_price(Integer.parseInt(pricefield.getText()));
             if (consultation.getConsul_reason() == null || !consultation.getConsul_reason().equals("Anxiété")) {
@@ -73,10 +84,10 @@ public class FinaliseConsul implements Initializable {
             }
             System.out.println(consultation);
             consultation.setConsul_text(consultation.getConsul_text().replace("'", "''"));
-            String myQuery = "UPDATE CONSULTATIONS SET CONSULTATION_HOW = " + consultation.getHow(((String) payBox.getSelectionModel().getSelectedItem())) +
-                    ", CONSUL_TEXT ='" + consultation.getConsul_text() + "', CONSUL_PRICE =" + consultation.getConsul_price() + " WHERE CONSUL_ID = " + consul_id;
-            ResultSet rset = Main.database.stmt.executeQuery(myQuery);
-            Psy_Frame.showInfo("Finalisation effectué !");
+
+            // Update la BDD
+            consultation.UpdateConsultation();
+            // Puis on ferme la page
             Stage primaryStage = (Stage) closeButton.getScene().getWindow();
             primaryStage.close();
         }

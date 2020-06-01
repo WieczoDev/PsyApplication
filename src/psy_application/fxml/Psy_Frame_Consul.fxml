@@ -16,7 +16,7 @@
                   <font>
                      <Font size="20.0" />
                   </font></Button>
-               <Button fx:id="cancelConsulButton" layoutX="340.0" layoutY="292.0" mnemonicParsing="false" onAction="#cancelConsulButtonAction" prefHeight="70.0" prefWidth="186.0" text="Gestion des&#10;Consultations&#10;">
+               <Button fx:id="cancelConsulButton" layoutX="340.0" layoutY="292.0" mnemonicParsing="false" onAction="#HandleConsulButtonAction" prefHeight="70.0" prefWidth="186.0" text="Gestion des&#10;Consultations&#10;">
                   <font>
                      <Font size="20.0" />
                   </font></Button>

@@ -52,6 +52,31 @@ public class Psy_Frame implements Initializable {
 
     ObservableList<Consultation> list = FXCollections.observableArrayList();
 
+    /**
+     * PSY FRAME -> PAGE D'ACCEUIL DE NOTRE APPLICATION
+     * PERMMETANT D'ACCEDER A LA GESTION DE TOUS LES PATIENTS
+     * ET AFFICHAGE DES RDV DE LA JOURNEE
+     */
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        heureCol.setCellValueFactory(new PropertyValueFactory<>("consul_hour"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("consul_ID"));
+        patient1Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
+        patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
+        patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
+        reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
+        rangeCol.setCellValueFactory(new PropertyValueFactory<>("consul_range"));
+        tableview.setPlaceholder(new Label("Aucune consultation aujourd'hui !"));
+        String strDate = java.time.LocalDate.now().toString();
+        list = getConsulList(strDate, list);
+        tableview.setItems(list);
+    }
+
+    /**
+     * METHOD
+     */
+
     public static void showAlert(String text) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Attention !");
@@ -67,42 +92,8 @@ public class Psy_Frame implements Initializable {
         alert.showAndWait();
     }
 
-    public static Consultation getConsul(int consul_id) {
-        Consultation Consul1;
-        ArrayList<Integer> listPatient = new ArrayList<>();
-        try {
-            String myQuery = "SELECT consul_ID, consul_hour, consul_reason, consul_text, consul_price, consultation_how, consul_date FROM Consultations WHERE consul_id = " + consul_id;
-            ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
-            if (rset1.next()) {
-                try {
-                    String myQuery2 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + consul_id;
-                    ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
-                    int count = 0;
-                    while (rset2.next()) {
-                        listPatient.add(rset2.getInt(1));
-                    }
-                    while (listPatient.size() < 3) {
-                        listPatient.add(0);
-                    }
-                    Consul1 = new Consultation(rset1.getInt(1), listPatient.get(0), listPatient.get(1), //
-                            listPatient.get(2), rset1.getString(7), rset1.getInt(2), rset1.getInt(3), null, rset1.getString(4), rset1.getInt(5), rset1.getInt(6));
-                    return Consul1;
-                } catch (SQLException e) {
-                    System.out.println("Erreur de connexion avec la database");
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur de connexion avec la database");
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     /*
-           METHODES PERMETTANT DE CREER LES LISTES DE CONSULTATION POUR LES TABLEAU ( AFFICHAGE )
+           METHODES PERMETTANT DE CREER LES LISTES DE CONSULTATION POUR LES TABLEAUX ( AFFICHAGE )
      */
 
     public static ObservableList<Consultation> getConsulList(String strDate, ObservableList list) {
@@ -175,6 +166,10 @@ public class Psy_Frame implements Initializable {
         return dateFormat.format(Ddate);
     }
 
+    /**
+     * FXML
+     */
+
     @FXML
     public static void openHomeScene() throws IOException {
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/Psy_Frame_Home.fxml"));
@@ -195,20 +190,5 @@ public class Psy_Frame implements Initializable {
         HandlePatient.setScene(new Scene(root));
         HandlePatient.initStyle(StageStyle.UNDECORATED);
         HandlePatient.show();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        heureCol.setCellValueFactory(new PropertyValueFactory<>("consul_hour"));
-        idCol.setCellValueFactory(new PropertyValueFactory<>("consul_ID"));
-        patient1Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
-        patient2Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID2"));
-        patient3Col.setCellValueFactory(new PropertyValueFactory<>("patient_ID3"));
-        reasonCol.setCellValueFactory(new PropertyValueFactory<>("consul_reason"));
-        rangeCol.setCellValueFactory(new PropertyValueFactory<>("consul_range"));
-        tableview.setPlaceholder(new Label("Aucune consultation aujourd'hui !"));
-        String strDate = java.time.LocalDate.now().toString();
-        list = getConsulList(strDate, list);
-        tableview.setItems(list);
     }
 }

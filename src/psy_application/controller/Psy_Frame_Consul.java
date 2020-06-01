@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class Psy_Frame_Consul  implements Initializable {
+public class Psy_Frame_Consul implements Initializable {
     @FXML
     public Button createButton;
     @FXML
@@ -83,7 +83,9 @@ public class Psy_Frame_Consul  implements Initializable {
     ObservableList<Consultation> list5 = FXCollections.observableArrayList();
 
 
-
+    /**
+     * PSY FRAME CONSUL, SECONDE PAGE PERMETTANT LA VISION DES RDV DE LA SEMAINE SELECTIONEE
+     */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -101,6 +103,10 @@ public class Psy_Frame_Consul  implements Initializable {
         spatientCol.setCellValueFactory(new PropertyValueFactory<>("patient_ID1"));
     }
 
+    /**
+     * METHOD
+     */
+
     private boolean isMonday(String strDate) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date Date = dateFormat.parse(strDate);
@@ -110,71 +116,67 @@ public class Psy_Frame_Consul  implements Initializable {
             return true;
         } else return false;
     }
+
     public static String addOneDay(String date) {
         return LocalDate
                 .parse(date)
                 .plusDays(1)
                 .toString();
     }
-    public static String convertJDatetoString(DatePicker date_field){ //Use a different date format
-        java.util.Date Ddate = java.util.Date.from(date_field.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(Ddate);
-    }
 
     @FXML
     private void findButtonAction() throws ParseException {
-        try{
+        try {
             //On VERFIE QUE LA DATE CHOISIE EST UN LUNDI
             int count = 0;
-            CurrentDate = convertJDatetoString(date_field);
-            if(isMonday(CurrentDate)){
-                do{
-                    switch (count){
-                        case 0 :
+            CurrentDate = Psy_Frame.convertJDatetoString(date_field);
+            if (isMonday(CurrentDate)) {
+                do {
+                    switch (count) {
+                        case 0:
                             list0 = Psy_Frame.getConsulList(CurrentDate, list0);
                             mondaytableview.setItems(list0);
                             break;
-                        case 1 :
+                        case 1:
                             list1 = Psy_Frame.getConsulList(CurrentDate, list1);
                             tuesdaytableview.setItems(list1);
                             break;
-                        case 2 :
+                        case 2:
                             list2 = Psy_Frame.getConsulList(CurrentDate, list2);
                             wednesdaytableview.setItems(list2);
                             break;
-                        case 3 :
+                        case 3:
                             list3 = Psy_Frame.getConsulList(CurrentDate, list3);
                             thursdaytableview.setItems(list3);
                             break;
-                        case 4 :
+                        case 4:
                             list4 = Psy_Frame.getConsulList(CurrentDate, list4);
                             fridaytableview.setItems(list4);
                             break;
-                        case 5 :
-                            list5 = Psy_Frame.getConsulList(CurrentDate , list5);
+                        case 5:
+                            list5 = Psy_Frame.getConsulList(CurrentDate, list5);
                             saturdaytableview.setItems(list5);
                             break;
                     }
                     CurrentDate = addOneDay(CurrentDate);
-                    count+=1;
-                }while( !isMonday(CurrentDate));
-            }else{
+                    count += 1;
+                } while (!isMonday(CurrentDate));
+            } else {
                 Psy_Frame.showAlert("Vous devez saisir un lundi !");
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Psy_Frame.showAlert("Vous devez saisir un lundi !");
         }
 
     }
 
     @FXML
-    public void cancelConsulButtonAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/CancelConsul.fxml"));
-        Stage CancelConsul = new Stage();
-        CancelConsul.setScene(new Scene(root));
-        CancelConsul.initStyle(StageStyle.UNDECORATED);
-        CancelConsul.show();
+    public void HandleConsulButtonAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/HandleConsul.fxml"));
+        Stage HandleConsul = new Stage();
+        HandleConsul.setScene(new Scene(root));
+        HandleConsul.initStyle(StageStyle.UNDECORATED);
+        HandleConsul.show();
         login.psyStage.close();
     }
 

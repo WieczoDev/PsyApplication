@@ -1,5 +1,6 @@
 package database;
 
+import psy_application.controller.Psy_Frame;
 import sun.plugin2.jvm.RemoteJVMLauncher;
 import java.sql.*;
 
@@ -9,10 +10,9 @@ public class OracleDB {
     public Statement stmt;
 
     public Connection conn2; // Pour permettre deux requetes en même temps
-     // Pour permettre deux requetes en même temps
      public Statement stmt2;
      /*
-        CallableStatement for all our procedure !
+        CallableStatement pour nos procédures
       */
 
      public CallableStatement RemoveConsulstmt;
@@ -20,7 +20,7 @@ public class OracleDB {
 
 
      /*
-    *   Pour tous les constructeur de classe la connection suivante à été utilisé
+           Pour tous les constructeur de classe la connection suivante à été utilisé
      */
     public Connection conn3;
     public Statement stmt3;
@@ -43,9 +43,11 @@ public class OracleDB {
             linkProcedure();
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Aucune database trouvée");
+        }catch (java.sql.SQLException e){
+            Psy_Frame.showAlert("Connexion refusée, vérifié vos identifiants");
+        }
+        catch (Exception e) {
+            System.out.println("Aucune database trouvée, driver manquant");
         }
     }
 

@@ -22,10 +22,6 @@ import java.util.ResourceBundle;
 
 public class PatientConsul implements Initializable {
     @FXML
-    public Button findButton;
-    @FXML
-    public DatePicker date_field;
-    @FXML
     public Pane container;
     @FXML
     public TableView tableview;
@@ -44,8 +40,6 @@ public class PatientConsul implements Initializable {
     @FXML
     public TableColumn reasonCol;
     @FXML
-    public TableColumn rangeCol;
-    @FXML
     public Button deleteButton;
     @FXML
     public TableColumn payement;
@@ -54,12 +48,14 @@ public class PatientConsul implements Initializable {
     @FXML
     public TableColumn commentaire;
     @FXML
-    public Button finaliseButton;
-    @FXML
     public Label titleLabel;
     @FXML
     private javafx.scene.control.Button closeButton;
     ObservableList<Consultation> list = FXCollections.observableArrayList();
+
+    /**
+        PATIENT CONSUL ->  AFFICHAGE DE TOUTES LES CONSULTATIONS D'UN PATIENT PRECIS
+     */
 
 
     @Override
@@ -77,7 +73,7 @@ public class PatientConsul implements Initializable {
         buildtableview(HandlePatient.patient_id);
     }
     @FXML
-    private void handleDeletePerson() {
+    private void handleDeleteConsul() {
         // this gives the value in the selected cell:
         int consul_id = (int)idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
         try{
@@ -91,7 +87,7 @@ public class PatientConsul implements Initializable {
     }
     @FXML
     private void modifyButtonAction() throws IOException {
-        System.out.println((int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue());
+        // l'ID de la consultation qu'on va modifier prend la valeur de l'ID de la consul
         ModifyConsul.consultation_id =  (int ) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
         System.out.println(ModifyConsul.consultation_id);
         Parent root = FXMLLoader.load(Psy_Frame.class.getResource("../fxml/ModifyConsul.fxml"));

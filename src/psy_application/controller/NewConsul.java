@@ -76,10 +76,24 @@ public class NewConsul implements Initializable {
             "14h", "14h30", "15h", "15h30", "16h", "16h30", "17h", "17h30", "18h", "18h30", "19h", "19h30"};
     ArrayList<String> ListofHour = new ArrayList<String>();
 
+    /**
+     * NEW CONSUL -> FRAME PERMETTANT DE CREER UNE CONSULTATION EN DEUX ETAPES DISTINCTES MAIS NECESSAIRES POUR LA
+     * CREATION
+     * ETAPE n*1
+     * UNE VERIFICATION DE LA DATE ET UNE MISE A JOUR DES CRENEAUX HORRAIRES DISPONIBLES
+     * PUIS LA SELECTION DE L'HORRAIRE ET (FALCULTATIF) LA SAISIE DE LA RAISON
+     * ETAPE n*2
+     * LA SAISIE DES PATIENTS VIA ID, EMAIL OU NOM
+     */
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+
+    /**
+     * METHOD
+     */
 
     private boolean isSunday(Date Date) {
         Calendar c = Calendar.getInstance();
@@ -106,33 +120,34 @@ public class NewConsul implements Initializable {
         }
     }
 
-    // LA SAISIE D'UNE NOUVELLE CONSULTATION CE FAIT EN 2 ETAPES
-    // LA PREMIERE ETAPE CONTIENT UNE VERIFICATION DE LA DATE ET UNE MISE A JOUR DES CRENEAUX HORRAIRES DISPONIBLES
-        // PUIS LA SELECTION DE L'HORRAIRE ET (FALCULTATIF) LA SAISIE DE LA RAISON
-    // LA SECONDE ETAPE CORRESPOND A LA SAISIE DES PATIENTS VIA ID OU PAR EMAIL
-
-    private String getRange(){
-        if(couplebox.isSelected() && patient2field != null) return "Couple";
-        if(hommebox.isSelected() && !femmebox.isSelected()){
+    private String getRange() {
+        if (couplebox.isSelected() && patient2field != null) return "Couple";
+        if (hommebox.isSelected() && !femmebox.isSelected()) {
             return "Homme";
-        }else if (!hommebox.isSelected() && femmebox.isSelected()){
+        } else if (!hommebox.isSelected() && femmebox.isSelected()) {
             return "Femme";
         }
         return "0";
     }
 
+    /**
+     * FXML
+     */
+
     @FXML
     private void CheckDateButtonAction() throws SQLException {
-        try{
+        try {
             ListofHour.clear();
             Collections.addAll(ListofHour, List);
             date = Psy_Frame.convertJDatetoString(date_field);
             verifyDate = false;
+            // On va cherche la liste des consultations de la journée selectionnée dans la BDD
+
             String myQuery = "SELECT consul_hour FROM Consultations WHERE consul_date = TO_DATE('" + date + "', 'yyyy-MM-dd')";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             while (rset.next()) {
                 String str = rset.getString(1);
-                switch (str.length()){   //8 , 10 , 8.5 , 10.5
+                switch (str.length()) {   //8 , 10 , 8.5 , 10.5
                     case 1:
                     case 2:
                         str += "h";
@@ -140,7 +155,7 @@ public class NewConsul implements Initializable {
                     case 3:
                         str = str.substring(0, 1) + "h30";
                         break;
-                    case 4 :
+                    case 4:
                         str = str.substring(0, 2) + "h30";
                         break;
                 }
@@ -154,7 +169,7 @@ public class NewConsul implements Initializable {
                 datelabel.setText("Date de la consultation : √");
                 verifyDate = true;
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             Psy_Frame.showAlert("Vous devez selectionner une date avant !");
         }
     }
@@ -168,7 +183,7 @@ public class NewConsul implements Initializable {
         Step1Label.setText("ETAPE 1 :");
 
         heure = (String) heure_Box.getSelectionModel().getSelectedItem();
-        switch (heure.length()){
+        switch (heure.length()) {
             case 2:
                 heure = (String) heure.substring(0, 1);
                 break;
@@ -178,11 +193,11 @@ public class NewConsul implements Initializable {
             case 4:
                 heure = (String) heure.substring(0, 1) + ".5";
                 break;
-            case 5 :
+            case 5:
                 heure = (String) heure.substring(0, 2) + ".5";
                 break;
         }
-        // Trouvons dans la base de donnée la raison de la consultation et Testons la date
+        // Trouvons dans la base de donnée la raison de la consultation et testons la date
 
         try {
             date = Psy_Frame.convertJDatetoString(date_field);
@@ -209,9 +224,9 @@ public class NewConsul implements Initializable {
         // On vérifie l'existence des Patients
         // VERIFICATION DU PATIENT N1
         Patient1 = Consultation.findaddPatient(patient1field.getText());
-        if ( Patient1 == 0 ){
+        if (Patient1 == 0) {
             patient1label.setText("Patient n°1 *: Pas trouvé");
-        }else{
+        } else {
             patient1label.setText("Patient n°1 *: Trouvé");
         }
         // VERIFICATION DU PATIENT N2
@@ -317,41 +332,43 @@ public class NewConsul implements Initializable {
             }
         }*/
         range = getRange();
-        try{
-            if( range.equals("Couple") && Patient2 == 0 && Patient3 ==0){
+
+        // VERIFICATION DES RANGES POUR LA CONSULTATION
+        // SACHANT QUE ENFANT ET ADO N'ONT PAS BESOIN D'ETRE SELECTIONNE ILS SONT ATTRIBUE DIRECTEMENT
+        try {
+            if (range.equals("Couple") && Patient2 == 0 && Patient3 == 0) {
                 Psy_Frame.showAlert("Vous devez avoir plusieurs patients pour un couple");
                 range = "-1";
-            }else if ( range.equals("0")){
+            } else if (range.equals("0")) {
                 range = Consultation.findPatientRange(Patient1, range);
-                if(range.equals("-1")){
+                if (range.equals("-1")) {
                     Psy_Frame.showAlert("Vous devez cocher la case Homme ou Femme");
                 }
             }
-            System.out.println(range);
-        }catch (ParseException e){}
+        } catch (ParseException e) {
+        }
         if ((Patient1 != 0) && (Patient2 != -1) && (Patient3 != -1) && !range.equals("-1")) {
             verifyStep2 = true;
             Step2Label.setText("ETAPE 2 : √");
         }
     }
+
     @FXML
     private void AddConsulButtonAction() {
         if (verifyStep1 && verifyStep2) {
-            try{
+            try {
                 int Consul_id = getMaxID("CONSULTATIONS"); //On créer l'ID de la consultation
-                Consultation temp_consul = new Consultation( Consul_id, String.valueOf(Patient1),String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason) , range, null, 0, null);
-                System.out.println(temp_consul);
+                Consultation temp_consul = new Consultation(Consul_id, String.valueOf(Patient1), String.valueOf(Patient2), String.valueOf(Patient3), date, Double.valueOf(heure), String.valueOf(reason), range, null, 0, null);
                 temp_consul.addConsulDB();
-                System.out.println(String.valueOf(Patient2) + " , " + String.valueOf(Patient3));
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow();
+                Psy_Frame.showInfo("Ajout de la consultation avec succès");
                 primaryStage.close();
                 login.psyStage.show();
-                Psy_Frame.showInfo("Ajout de la consultation avec succès");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Erreur lors de l'ajout dans la base de donnée");
             }
-        } else{
+        } else {
             Psy_Frame.showAlert("Vous n'avez pas validée une ( ou les deux ) étapes !");
         }
     }

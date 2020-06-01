@@ -94,7 +94,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="reasonfield" layoutX="201.0" layoutY="421.0" />
-                  <Label fx:id="reasonLabel" layoutX="233.0" layoutY="392.0" text="Raison : ">
+                  <Label fx:id="reasonLabel" layoutX="233.0" layoutY="392.0" text="Motif :">
                      <font>
                         <Font size="23.0" />
                      </font>

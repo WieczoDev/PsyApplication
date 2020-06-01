@@ -29,16 +29,18 @@ public class login {
     public static Stage psyStage;
     public static Stage patientStage;
 
+    /**
+     * LOGIN PAGE -> PAGE DE CONNECTION DE LA PSY MAIS AUSSI DES FUTURS PATIENTS ( pas implémenté pour le moment )
+     */
+
     @FXML
     private void connection(ActionEvent event) throws SQLException, IOException {
-        if (pass_field.getText().equals("")) ;
-        else {
-            Main.database = new OracleDB(login_field.getText(), pass_field.getText()); // Ce sont les ;
+        if (!pass_field.getText().equals("")) {
+            Main.database = new OracleDB(login_field.getText(), pass_field.getText());
             String myQuery = "SELECT User_Login, User_pass FROM Users WHERE User_login='" + login_field.getText() + "' AND User_pass = \'" + pass_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {
-                String i = rset.getString(1);
-                System.out.println("Connection réussie en tant que " + i);
+                System.out.println("Connection réussie, Bienvenue " + rset.getString(1) + " !");
                 Parent root = FXMLLoader.load(getClass().getResource("../fxml/Psy_Frame_Home.fxml"));
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow(); //close login page
                 primaryStage.close();
@@ -56,7 +58,6 @@ public class login {
                     patientStage.initStyle(StageStyle.UNDECORATED);
                     patientStage.show();
                 }
-
             } else {
                 System.out.println("Erreur identifiants ou mot de passe éronnée");
             }

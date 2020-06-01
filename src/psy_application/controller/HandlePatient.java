@@ -58,6 +58,11 @@ public class HandlePatient implements Initializable {
     private ObservableList<Patient> list = FXCollections.observableArrayList();
     public static int patient_id;
 
+    /**
+     * HANDLE PATIENT ->  FRAME POSSEDANT LA LISTE COMPLETE DE TOUS LES PATIENTS
+     */
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         idCol.setCellValueFactory(new PropertyValueFactory<>("user_ID"));
@@ -73,7 +78,6 @@ public class HandlePatient implements Initializable {
 
     public ObservableList<Patient> getPatientList() {
         ObservableList<Patient> listPatient = FXCollections.observableArrayList();
-        String consul_text;
         try {
             String myQuery = "SELECT patient_ID, patient_surname , patient_name , patient_dob, patient_mailing, patient_how , patient_profession FROM PATIENTS";
             ResultSet rset1 = Main.database.stmt.executeQuery(myQuery);
@@ -95,7 +99,6 @@ public class HandlePatient implements Initializable {
         System.out.println(patient_id);
         try {
             // On appelle la procédure pour supprimer le PATIENT
-
             Main.database.RemovePatientstmt.setString(1, String.valueOf(patient_id));
             Main.database.RemovePatientstmt.execute();
             tableview.getItems().remove(tableview.getSelectionModel().getSelectedIndex()); // On le supprime aussi visuellement
@@ -112,9 +115,10 @@ public class HandlePatient implements Initializable {
         login.psyStage.show();
     }
 
+
     @FXML
     private void printConsulButtonAction() throws IOException {
-        // this gives the value in the selected cell:
+        // Pour voir tous les rdv d'un patient en particulier
         try {
             patient_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
             Parent root = FXMLLoader.load(getClass().getResource("../fxml/PatientConsul.fxml"));
@@ -129,7 +133,9 @@ public class HandlePatient implements Initializable {
 
     @FXML
     private void modifyButtonAction() throws IOException {
-        // this gives the value in the selected cell:
+        // Pour modifier le patient nous allons ouvrir AddPatient en disant que l'ID n'est pas -1 mais celui du patient
+        // qu'on va modifier
+        // cela nous permet de ne pas faire 2 fenetres qui se ressemble
         try {
             AddPatient.patient_id = patient_id = (int) idCol.getCellObservableValue(tableview.getItems().get(tableview.getSelectionModel().getSelectedIndex())).getValue();
             System.out.println(AddPatient.patient_id);
