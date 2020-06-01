@@ -23,10 +23,6 @@ import java.util.ResourceBundle;
 
 public class PatientFrame implements Initializable {
     @FXML
-    public static BorderPane home;
-    @FXML
-    public Label homepageLabel;
-    @FXML
     public TableView tableview;
     @FXML
     public TableColumn heureCol;

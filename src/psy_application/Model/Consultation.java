@@ -145,6 +145,10 @@ public class Consultation {
         return Comment;
     }
 
+    public int getConsul_ID() {
+        return consul_ID;
+    }
+
     public String getConsul_date() {
         return consul_date;
     }

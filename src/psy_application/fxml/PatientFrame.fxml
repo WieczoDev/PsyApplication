@@ -34,9 +34,9 @@
                     <Label layoutX="628.0" layoutY="14.0" />
                     <TableView fx:id="tableview" layoutX="62.0" layoutY="72.0" prefHeight="312.0" prefWidth="677.0">
                         <columns>
+                            <TableColumn fx:id="idCol" prefWidth="75.0" text="N°" />
                             <TableColumn fx:id="dateCol" prefWidth="75.0" text="Date" />
                             <TableColumn fx:id="heureCol" prefWidth="75.0" text="Heure" />
-                            <TableColumn fx:id="idCol" prefWidth="75.0" text="N°" />
                             <TableColumn fx:id="patient1Col" prefWidth="91.0" text="Patient n*1" />
                             <TableColumn fx:id="patient2Col" prefWidth="116.0" text="Patient *2" />
                             <TableColumn fx:id="patient3Col" prefWidth="109.0" text="Patient *3" />

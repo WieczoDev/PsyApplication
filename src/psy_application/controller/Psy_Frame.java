@@ -137,7 +137,6 @@ public class Psy_Frame implements Initializable {
             String myQuery2 = "SELECT consul_ID FROM PATIENT_CONSUL WHERE patient_ID = " + patient_id;
             ResultSet rset2 = Main.database.stmt2.executeQuery(myQuery2);
             while (rset2.next()) {
-                System.out.println("Consultation numero : " + rset2.getInt(1));
                 listPatient.clear();
                 String myQuery1 = "SELECT patient_ID FROM PATIENT_CONSUL WHERE CONSUL_ID = " + rset2.getInt(1);
                 ResultSet rset1 = Main.database.stmt.executeQuery(myQuery1);
@@ -147,7 +146,6 @@ public class Psy_Frame implements Initializable {
                 while (listPatient.size() < 3) {
                     listPatient.add(0);
                 }
-                System.out.println("Liste des patient pour la consul "+ listPatient);
                 String myQuery = "SELECT CONSUL_DATE , consul_hour, consul_reason, consul_text, consul_price, consultation_how FROM Consultations WHERE CONSUL_ID =" + rset2.getInt(1);
                 rset1 = Main.database.stmt.executeQuery(myQuery);
                 rset1.next();
