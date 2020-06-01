@@ -37,7 +37,7 @@ public class login {
     @FXML
     private void connection(ActionEvent event) throws SQLException, IOException {
         if (!pass_field.getText().equals("")) {
-            Main.database = new OracleDB("admin", "oracle");
+            Main.database = new OracleDB("admin", "admin");
             String myQuery = "SELECT User_Login, User_pass, User_ID FROM Users WHERE User_login='" + login_field.getText() + "' AND User_pass = \'" + pass_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {

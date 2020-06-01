@@ -1,4 +1,25 @@
-DROP TABLE Users;
+/**
+    LORS DE LA CREATION DE LA BASE DE DONNE IL FAUT DES LE DEPART CREER LE USER admin admin QUI A TOUT LES DROITS
+    à faire en console après être identifier comme le createur de la base de donnée
+*/
+
+--1
+alter session set "_ORACLE_SCRIPT"=true;
+--2
+CREATE USER admin IDENTIFIED BY admin;
+--3
+GRANT ALL PRIVILEGES TO admin;
+
+//** CODE A LANCER POUR CREER UN ECHANTILLON DE BASE */
+
+DROP TABLE PATIENT_CONSUL;
+DROP TABLE HOW;
+DROP TABLE PAYMENT;
+DROP TABLE REASONS;
+DROP TABLE CONSULTATIONS;
+DROP TABLE PATIENTS;
+DROP TABLE USERS;
+DROP TABLE PROFESSIONS;
 
 CREATE TABLE Users
 (
@@ -45,8 +66,8 @@ ALTER TABLE Patients
 CREATE TABLE Consultations
 (
     consul_ID        int PRIMARY KEY not NULL,
-    consul_date      date,
-    consul_hour      float,
+    consul_date      date NOT NULL,
+    consul_hour      float NOT NULL,
     consul_reason    int,
     CONSTRAINT FK_consul_reason FOREIGN KEY (consul_reason) REFERENCES Reasons (reason_ID),
     Consultation_how int,
@@ -76,9 +97,6 @@ ALTER TABLE Patient_Consul
 ALTER TABLE Patient_Consul
     ADD CONSTRAINT FK_consul_P_ID FOREIGN KEY (consul_ID) REFERENCES Consultations (consul_ID);
 
-SELECT *
-from Users;
-
 /* INSERT */
 
 INSERT INTO Users
@@ -92,27 +110,6 @@ VALUES (4, 'anto@gmail.com', 'anto');
 INSERT INTO Users
 VALUES (5, 'laulau@gmail.com', 'laulau');
 
-INSERT INTO PATIENTS
-VALUES (2, 'Guillaume', 'Thomas', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 2, 6);
-INSERT INTO PATIENTS
-VALUES (3, 'Fourcauld', 'Guilhem', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 2,2);
-INSERT INTO PATIENTS
-VALUES (4, 'Wieczorek', 'Antonin', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 1, 3);
-INSERT INTO PATIENTS
-VALUES (5, 'Forestier', 'Laurine', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 3,5);
-
-INSERT INTO HOW
-VALUES (0, null);
-INSERT INTO HOW
-VALUES (1, 'Facebook');
-INSERT INTO HOW
-VALUES (2, 'Amis');
-INSERT INTO HOW
-VALUES (3, 'Courrier');
-INSERT INTO HOW
-VALUES (4, 'Mail');
-INSERT INTO HOW
-VALUES (5, 'Mairie');
 
 INSERT INTO PROFESSIONS
 VALUES (0, null);
@@ -149,6 +146,29 @@ VALUES (2, 'Violence');
 INSERT INTO REASONS
 VALUES (3, 'Suicide');
 
+
+INSERT INTO HOW
+VALUES (0, null);
+INSERT INTO HOW
+VALUES (1, 'Facebook');
+INSERT INTO HOW
+VALUES (2, 'Amis');
+INSERT INTO HOW
+VALUES (3, 'Courrier');
+INSERT INTO HOW
+VALUES (4, 'Mail');
+INSERT INTO HOW
+VALUES (5, 'Mairie');
+
+INSERT INTO PATIENTS
+VALUES (2, 'Guillaume', 'Thomas', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 2, 1);
+INSERT INTO PATIENTS
+VALUES (3, 'Fourcauld', 'Guilhem', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 2,2);
+INSERT INTO PATIENTS
+VALUES (4, 'Wieczorek', 'Antonin', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 1, 3);
+INSERT INTO PATIENTS
+VALUES (5, 'Forestier', 'Laurine', TO_DATE('17-06-1987', 'dd-mm-yyyy'), 'Ivry', 3,5);
+
 INSERT INTO CONSULTATIONS VALUES ( 4,  TO_DATE('2020-05-30', 'yyyy-MM-dd'), 10,  2 ,null , null ,null ,  null);
 INSERT INTO Patient_Consul VALUES (3, 4 );
 INSERT INTO CONSULTATIONS VALUES ( 5,  TO_DATE('2020-05-30', 'yyyy-MM-dd'), 10.5,  2 ,null, null ,null ,  null);
@@ -179,3 +199,4 @@ BEGIN
     COMMIT;
 END;
 
+/** FIN DU CODE A LANCER */
