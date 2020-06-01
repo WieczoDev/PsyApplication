@@ -232,21 +232,23 @@ public class NewConsul implements Initializable {
         // VERIFICATION DU PATIENT N2
         if (!(patient2field.getText().equals(""))) {
             Patient2 = Consultation.findaddPatient(patient2field.getText());
-            if (Patient2 == 0) {
+            if (Patient2 == Patient1 ){
+                Patient2 = 0;
+            }
+            if (Patient2 == 0 ) {
                 patient2label.setText("Patient n°2 *: Pas trouvé");
                 Patient2 = -1;
-            } else {
-                patient2label.setText("Patient n°2 *: Trouvé");
             }
         }
         // VERIFICATION DU PATIENT N3
         if (!(patient3field.getText().equals(""))) {
             Patient3 = Consultation.findaddPatient(patient3field.getText());
+            if (Patient3 == Patient1 || Patient3 == Patient2 ){
+                Patient3 = 0;
+            }
             if (Patient3 == 0) {
                 patient3label.setText("Patient n°3 *: Pas trouvé");
                 Patient3 = -1;
-            } else {
-                patient3label.setText("Patient n°3 *: Trouvé");
             }
         }
         /*
