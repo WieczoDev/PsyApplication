@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import psy_application.Main;
+import psy_application.Model.User.Patient;
 import psy_application.Model.User.Psy;
 import psy_application.Model.User.User;
 
@@ -36,27 +37,30 @@ public class login {
     @FXML
     private void connection(ActionEvent event) throws SQLException, IOException {
         if (!pass_field.getText().equals("")) {
-            Main.database = new OracleDB(login_field.getText(), pass_field.getText());
-            String myQuery = "SELECT User_Login, User_pass FROM Users WHERE User_login='" + login_field.getText() + "' AND User_pass = \'" + pass_field.getText() + "'";
+            Main.database = new OracleDB("admin", "oracle");
+            String myQuery = "SELECT User_Login, User_pass, User_ID FROM Users WHERE User_login='" + login_field.getText() + "' AND User_pass = \'" + pass_field.getText() + "'";
             ResultSet rset = Main.database.stmt.executeQuery(myQuery);
             if (rset.next()) {
+                int ID = rset.getInt(3);
                 System.out.println("Connection réussie, Bienvenue " + rset.getString(1) + " !");
-                Parent root = FXMLLoader.load(getClass().getResource("../fxml/Psy_Frame_Home.fxml"));
                 Stage primaryStage = (Stage) closeButton.getScene().getWindow(); //close login page
                 primaryStage.close();
                 if (login_field.getText().equals("admin")) {
                     Current_User = new Psy(login_field.getText(), pass_field.getText());
+                    Parent root = FXMLLoader.load(getClass().getResource("../fxml/Psy_Frame_Home.fxml"));
                     psyStage = new Stage();
                     psyStage.setScene(new Scene(root));
                     primaryStage.setResizable(false);
                     psyStage.initStyle(StageStyle.UNDECORATED);
                     psyStage.show();
                 } else {
-                    patientStage = new Stage();
-                    patientStage.setScene(new Scene(root));
+                    Current_User = new Patient(login_field.getText(), pass_field.getText(), ID);
+                    Parent root = FXMLLoader.load(getClass().getResource("../fxml/PatientFrame.fxml"));
+                    psyStage = new Stage();
+                    psyStage.setScene(new Scene(root));
                     primaryStage.setResizable(false);
-                    patientStage.initStyle(StageStyle.UNDECORATED);
-                    patientStage.show();
+                    psyStage.initStyle(StageStyle.UNDECORATED);
+                    psyStage.show();
                 }
             } else {
                 System.out.println("Erreur identifiants ou mot de passe éronnée");

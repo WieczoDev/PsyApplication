@@ -17,6 +17,8 @@ public class Patient extends User {
     String patient_how;
     String patient_profession;
 
+
+
     /**
      * GETTER
      **/
@@ -90,6 +92,19 @@ public class Patient extends User {
     /**
      * CONSTRUCTORS
      **/
+
+    public Patient(String text, String text1, int ID) throws SQLException {
+        Patient tmp_P = getPatientFromDB(ID);
+        this.user_login = tmp_P.user_login;
+        this.user_password = tmp_P.user_password;
+        this.user_ID = tmp_P.user_ID;
+        this.patient_surname = tmp_P.patient_surname;
+        this.patient_name = tmp_P.patient_name;
+        this.patient_DOB = tmp_P.patient_DOB;
+        this.patient_mailing = tmp_P.patient_mailing;
+        this.patient_how = tmp_P.patient_how;
+        this.patient_profession = tmp_P.patient_profession;
+    }
 
     // L'utilisation d'un contructeur ou un autre et pour mettre un affichage plus concret pour la psy
     public Patient(int user_ID, String user_login, String user_password, String patient_surname, String patient_name, String patient_DOB, String patient_mailing, String patient_how, String patient_profession) throws SQLException {

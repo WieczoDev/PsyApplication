@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="460.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psy_application.controller.PatientFrame">
+    <BorderPane fx:id="home" prefHeight="400.0" prefWidth="783.0">
+        <top>
+                <Pane layoutY="5.0" prefHeight="66.0" prefWidth="863.0" style="-fx-background-color: #CB4335;">
+                    <children>
+                        <Label fx:id="consultationHP" layoutX="226.0" layoutY="9.0" prefHeight="48.0" prefWidth="331.0" text="Bienvenue dans l'application" textFill="WHITE">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="exitButton" layoutX="694.0" layoutY="19.0" mnemonicParsing="false" onAction="#exitButtonAction" prefHeight="28.0" prefWidth="34.0" text="Exit" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                            <font>
+                                <Font name="System Italic" size="11.0" />
+                            </font>
+                        </Button>
+                    <Button fx:id="modifyButton" layoutX="42.0" layoutY="17.0" mnemonicParsing="false" onAction="#modifyButtonAction" prefHeight="32.0" prefWidth="153.0" text="Modifier votre profil" textAlignment="CENTER" />
+                    </children>
+                </Pane>
+        </top>
+        <center>
+            <Pane prefHeight="374.0" prefWidth="783.0" style="-fx-background-color: rgba(0,0,0,0);" BorderPane.alignment="CENTER">
+                <children>
+                    <Label alignment="CENTER" layoutX="263.0" layoutY="5.0" text="Bienvenue dans votre application de gestion &#10;des Rendez-Vous !" textAlignment="CENTER">
+                        <font>
+                            <Font size="17.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="628.0" layoutY="14.0" />
+                    <TableView fx:id="tableview" layoutX="62.0" layoutY="72.0" prefHeight="312.0" prefWidth="677.0">
+                        <columns>
+                            <TableColumn fx:id="dateCol" prefWidth="75.0" text="Date" />
+                            <TableColumn fx:id="heureCol" prefWidth="75.0" text="Heure" />
+                            <TableColumn fx:id="idCol" prefWidth="75.0" text="N°" />
+                            <TableColumn fx:id="patient1Col" prefWidth="91.0" text="Patient n*1" />
+                            <TableColumn fx:id="patient2Col" prefWidth="116.0" text="Patient *2" />
+                            <TableColumn fx:id="patient3Col" prefWidth="109.0" text="Patient *3" />
+                            <TableColumn fx:id="reasonCol" prefWidth="85.0" text="Motif" />
+                            <TableColumn fx:id="rangeCol" prefWidth="77.0" text="Range" />
+                        </columns>
+                    </TableView>
+                </children>
+            </Pane>
+        </center>
+    </BorderPane>
+</AnchorPane>

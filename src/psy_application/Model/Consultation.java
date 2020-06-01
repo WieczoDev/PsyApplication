@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class Consultation {
     /**
-     * VARIABLE
+     * VARIABLES
      */
 
     int consul_ID;

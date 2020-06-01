@@ -20,10 +20,6 @@ public class menu {
     @FXML
     Hyperlink consultationHP;
     @FXML
-    private Button addButton;
-    @FXML
-    private ImageView exit;
-    @FXML
     private javafx.scene.control.Button closeButton;
 
     /**

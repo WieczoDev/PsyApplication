@@ -48,7 +48,6 @@ public class AddPatient implements Initializable {
     /**
      * PAGE D'AJOUT DE PATIENT MAIS AUSSI DE MOFICATION DES PATIENTS DEJA EXISTANTS SI OUVERTE VIA LE BUTTON MODIFIER LE
      * PATIENT
-     * <p>
      * SI L'ON OUVRE VIA ADD -> PATIENT_ID = -1
      * SINON = L'ID DU PATIENT QU'ON VA MODIFIER
      */
@@ -168,11 +167,21 @@ public class AddPatient implements Initializable {
 
         if (patient_id != -1) {
             patient_id = -1;
-            Parent root = FXMLLoader.load(getClass().getResource("../fxml/HandlePatient.fxml"));
-            Psy_Frame.HandlePatient = new Stage();
-            Psy_Frame.HandlePatient.setScene(new Scene(root));
-            Psy_Frame.HandlePatient.initStyle(StageStyle.UNDECORATED);
-            Psy_Frame.HandlePatient.show();
+            if(login.Current_User.getClass().getName().equals("psy_application.Model.User.Patient")){
+                Parent root = FXMLLoader.load(getClass().getResource("../fxml/PatientFrame.fxml"));
+                login.psyStage = new Stage();
+                login.psyStage.setScene(new Scene(root));
+                login.psyStage.initStyle(StageStyle.UNDECORATED);
+                login.psyStage.show();
+            }else{
+                Parent root = FXMLLoader.load(getClass().getResource("../fxml/HandlePatient.fxml"));
+                Psy_Frame.HandlePatient = new Stage();
+                Psy_Frame.HandlePatient.setScene(new Scene(root));
+                Psy_Frame.HandlePatient.initStyle(StageStyle.UNDECORATED);
+                Psy_Frame.HandlePatient.show();
+            }
+
+
         } else {
             login.psyStage.show();
         }
@@ -181,7 +190,7 @@ public class AddPatient implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         /** ON PRE REMPLIS LES CHAMPS SI ON EST EN MODIFICATION */
-
+        System.out.println(patient_id);
         if (patient_id != -1) {
             try {
                 A = Patient.getPatientFromDB(patient_id);

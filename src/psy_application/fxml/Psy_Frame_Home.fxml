@@ -19,7 +19,7 @@
                             <TableColumn fx:id="patient1Col" prefWidth="75.0" text="Patient n*1" />
                             <TableColumn fx:id="patient2Col" prefWidth="75.0" text="Patient *2" />
                             <TableColumn fx:id="patient3Col" prefWidth="75.0" text="Patient *3" />
-                            <TableColumn fx:id="reasonCol" prefWidth="68.0" text="Raison" />
+                            <TableColumn fx:id="reasonCol" prefWidth="68.0" text="Motif" />
                             <TableColumn fx:id="rangeCol" prefWidth="84.0" text="Range" />
                         </columns>
                     </TableView>

@@ -57,7 +57,6 @@ public class PatientConsul implements Initializable {
         PATIENT CONSUL ->  AFFICHAGE DE TOUTES LES CONSULTATIONS D'UN PATIENT PRECIS
      */
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         heureCol.setCellValueFactory(new PropertyValueFactory<>("consul_hour"));
